@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package io.github.christiangaertner.moebelplaner.graphics;
 
 /**
@@ -10,4 +6,12 @@ package io.github.christiangaertner.moebelplaner.graphics;
  */
 public class Renderer {
     
+    /**
+     * Der pixel Array
+     */
+    public int[] pixels;
+
+    public Renderer(int w, int h) {
+        pixels = new int[w * h];
+    }
 }
