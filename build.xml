@@ -1,4 +1,4 @@
-<project name="PROJECT_NAME_HERE" default="main">
+<project name="Moebelplaner" default="main">
 	<property environment="env"/>
 	<!-- Properties -->
 
@@ -17,8 +17,8 @@
 	<property name="main-class"  value="MAIN_CLASS_HERE"/>
 	
 	<path id="classpath">
-        <fileset dir="${lib.dir}" includes="**/*.jar"/>
-    </path>
+        	<fileset dir="${lib.dir}" includes="**/*.jar"/>
+    	</path>
 	
 	<!-- Targets -->
 
@@ -34,15 +34,19 @@
 		<delete dir="${build.dir}"/>
 		<delete dir="${dist.dir}"/>
 	</target>
+	<!-- Prepare (creating dirs) -->
+	<target name="prepare">
+		<mkdir dir="${lib.dir}"/>
+	</target>
 
 
-	<target name="compile">
+	<target name="compile" depends="prepare">
 
 		<mkdir dir="${classes.dir}"/>
 		<delete includeemptydirs="true">
 			<fileset dir="${classes.dir}" includes="**/*"/>
 		</delete>
-		
+
 		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" includeantruntime="false" />
 		
 	</target>
