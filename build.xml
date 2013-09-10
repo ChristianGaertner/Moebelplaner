@@ -1,0 +1,91 @@
+<project name="PROJECT_NAME_HERE" default="main">
+	<property environment="env"/>
+	<!-- Properties -->
+
+	<property file="build_number.properties" prefix="build_number"/>
+	
+	<property name="build.dir" value="build"/>
+	<property name="src.dir" value="src"/>
+	
+	<property name="lib.dir" value="res/libs"/>
+
+
+	<property name="classes.dir" value="${build.dir}/classes"/>
+	<property name="dist.dir" value="dist"/>
+	<property name="jar.file.name" value="${dist.dir}/${ant.project.name}-${build_number.build_number}.jar"/>
+
+	<property name="main-class"  value="MAIN_CLASS_HERE"/>
+	
+	<path id="classpath">
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+    </path>
+	
+	<!-- Targets -->
+
+	<!-- Increment Build Number -->
+	<target name="increment_build_number">
+		<propertyfile file="build_number.properties">
+			<entry key="build_number" type="int" operation="+" default="1"/>
+		</propertyfile>
+	</target>
+	
+	<!-- Clear build directory -->
+	<target name="clean">
+		<delete dir="${build.dir}"/>
+		<delete dir="${dist.dir}"/>
+	</target>
+
+
+	<target name="compile">
+
+		<mkdir dir="${classes.dir}"/>
+		<delete includeemptydirs="true">
+			<fileset dir="${classes.dir}" includes="**/*"/>
+		</delete>
+		
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" includeantruntime="false" />
+		
+	</target>
+
+
+	<!-- Package the compiled files -->
+	<target name="package" depends="compile">
+
+		<antcall target="increment_build_number" />
+		
+		<mkdir dir="${dist.dir}"/>
+		<delete includeemptydirs="true">
+			<fileset dir="${dist.dir}" includes="**/*"/>
+		</delete>
+		
+		<jar destfile="${jar.file.name}" basedir="${classes.dir}">
+			<manifest>
+                <attribute name="Main-Class" value="${main-class}"/>
+            </manifest>
+            <fileset dir="${classes.dir}" includes="**/*.class" />
+            <zipgroupfileset dir="${lib.dir}" includes="**/*.jar" />
+        </jar>
+
+	</target>
+	
+	<target name="run">
+		<java fork="true" classname="${main-class}">
+            <classpath>
+                <path refid="classpath"/>
+                <path location="${dist.dir}/${ant.project.name}.jar"/>
+            </classpath>
+        </java>
+	</target>
+	
+	<target name="run-jar">
+		<java jar="${jar.file.name}" fork="true"/>
+	</target>
+
+	<target name="clean-build" depends="clean,package"/>
+	<!-- Default target to run -->
+	<target name="main" depends="package"/>
+
+	<!-- For netbeans "Clean and Build Project" -->
+	<target name="jar" depends="package"></target>
+	
+</project>
