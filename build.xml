@@ -1,3 +1,7 @@
+<!--
+AntBuildFile by Christian Gärtner <christiangaertner.film@googlemail.com>
+https://github.com/ChristianGaertner/AntBuildFile
+-->
 <project name="Moebelplaner" default="main">
 	<property environment="env"/>
 	<!-- Properties -->
