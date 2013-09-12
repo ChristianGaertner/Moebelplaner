@@ -1,6 +1,7 @@
 package io.github.christiangaertner.moebelplaner;
 
 import io.github.christiangaertner.moebelplaner.graphics.Renderer;
+import io.github.christiangaertner.moebelplaner.grid.Grid;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -222,8 +223,14 @@ public final class Moebelplaner extends Canvas implements Runnable {
             return;
         }
         
+        renderer.clear();
+        
         // Einfach das Grpahics object bekommen
         Graphics g = bs.getDrawGraphics();
+        
+        
+        renderer.render(new Grid());
+        
         
         // Wir nehmen jetzt den int[] den der Renderer
         // verwaltet hat und kopieren ihn in das BufferdImage
@@ -241,7 +248,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
         
         // Das ist jetzt nur zum Testen
         // etwas text
-        g.setColor(Color.WHITE);
+        g.setColor(Color.RED);
         g.setFont(new Font("Verdana", 0, 50));
         g.drawString("Debug", 50, 50);
         
