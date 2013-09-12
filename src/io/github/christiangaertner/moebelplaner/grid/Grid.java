@@ -49,8 +49,20 @@ public class Grid implements IRenderable, IUpdateable {
         sprite = new Sprite("/images/grid.png");
     }
 
+    /**
+     * Fügt eine neue Entity der Grid hinzu.
+     * @param e 
+     */
     public void add(AbstractEntity e) {
         entities.add(e);
+    }
+    
+    /**
+     * Fügt ein neues Möbelstück der Grid hinzu.
+     * @param e 
+     */
+    public void add(AbstractMoebel e) {
+        moebel.add(e);
     }
 
     /**
