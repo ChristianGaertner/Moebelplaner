@@ -7,12 +7,21 @@ package io.github.christiangaertner.moebelplaner.moebel;
 public class Schrank extends AbstractMoebel {
     
     /**
-     * Neuer Schrank vpn Bild "schrank.png"
+     * Neuer Schrank von Bild "schrank.png"
+     * @param x Die X-Koordinate
+     * @param y Die Y-Koordinate
      */ 
-    public Schrank() {
+    public Schrank(int x, int y) {
         super("/images/moebel/schrank.png");
-        x = 50;
-        y = 60;
+        this.x = x;
+        this.y = y;
+    }
+    
+    /**
+     * Neuer Schrank an (0/0)
+     */
+    public Schrank() {
+        this(0,0);
     }
     
     @Override

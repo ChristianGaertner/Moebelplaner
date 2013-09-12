@@ -103,7 +103,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
         renderer = new Renderer(WIDTH, HEIGHT);
         frame = new JFrame();
         grid = new Grid();
-        grid.add(new Schrank());
+        grid.add(new Schrank(50, 50));
     }
     
     
@@ -262,7 +262,10 @@ public final class Moebelplaner extends Canvas implements Runnable {
         // etwas text
         g.setColor(Color.RED);
         g.setFont(new Font("Verdana", 0, 50));
-        g.drawString("Debug", 50, 50);
+        
+        if (DEBUG) {
+            g.drawString("DEBUG MODE", 50, 50);
+        }
         
         
         // Jetzt das GraphicsObject "packen"
@@ -276,7 +279,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
      */
     public static void main(String[] args) {
         
-        Moebelplaner planer = new Moebelplaner();
+        Moebelplaner planer = new Moebelplaner(true);
         
         // Sonst wird es schwieriger mit den Graphiken
         planer.frame.setResizable(false);
