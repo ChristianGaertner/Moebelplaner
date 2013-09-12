@@ -111,9 +111,9 @@ public final class Moebelplaner extends Canvas implements Runnable {
         
         renderer = new Renderer(WIDTH, HEIGHT);
         frame = new JFrame();
-        grid = new Grid();
         mouse = new Mouse();
         
+        grid = new Grid(mouse);
         
         
         addMouseListener(mouse);

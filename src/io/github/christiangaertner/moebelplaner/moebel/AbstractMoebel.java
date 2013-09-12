@@ -3,12 +3,13 @@ package io.github.christiangaertner.moebelplaner.moebel;
 import io.github.christiangaertner.moebelplaner.graphics.Renderer;
 import io.github.christiangaertner.moebelplaner.graphics.Sprite;
 import io.github.christiangaertner.moebelplaner.grid.AbstractEntity;
+import io.github.christiangaertner.moebelplaner.grid.IMoveable;
 
 /**
  *
  * @author Christian
  */
-abstract public class AbstractMoebel extends AbstractEntity {
+abstract public class AbstractMoebel extends AbstractEntity implements IMoveable {
 
     /**
      * Die Sprite für dieses Möbelstück
