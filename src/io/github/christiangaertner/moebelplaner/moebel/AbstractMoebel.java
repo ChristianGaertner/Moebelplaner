@@ -57,4 +57,10 @@ abstract public class AbstractMoebel extends AbstractEntity implements IMoveable
         return y;
     }
     
+    @Override
+    public void move(int x, int y) {
+        x += x;
+        y += y;
+    }
+    
 }

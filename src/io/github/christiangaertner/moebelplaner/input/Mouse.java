@@ -15,14 +15,17 @@ public final class Mouse implements MouseListener, MouseMotionListener {
      */
     private int x, y;
     
-    private int button = -1;
+    private int buttonClicked = -1;
+    private int buttonHold = -1;
     
     /**
-     * Gibt zurück welche Taste gerade gedrückt wird
+     * Gibt zurück welche Taste gerade gedrückt wurde
      * auf der Maus
      */ 
-    public int clicked() {
-        return button;
+    public int click() {
+        int r = buttonClicked;
+        buttonClicked = -1;
+        return r;
     }
     
     /**
@@ -30,7 +33,11 @@ public final class Mouse implements MouseListener, MouseMotionListener {
      * @return 
      */
     public boolean leftClick() {
-        return (clicked() == 1);
+        return (click() == 1);
+    }
+    
+    public int hold() {
+        return buttonHold;
     }
     
     
@@ -52,16 +59,17 @@ public final class Mouse implements MouseListener, MouseMotionListener {
     
     @Override
     public void mouseClicked(MouseEvent me) {
+        buttonClicked = me.getButton();
     }
 
     @Override
     public void mousePressed(MouseEvent me) {
-        button = me.getButton();
+        buttonHold = me.getButton();
     }
 
     @Override
     public void mouseReleased(MouseEvent me) {
-        button = -1;
+        buttonHold = -1;
     }
 
     @Override

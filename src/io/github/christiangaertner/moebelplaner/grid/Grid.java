@@ -103,6 +103,7 @@ public class Grid implements IRenderable, IUpdateable {
 
     @Override
     public void update() {
+        // Alle Möbel & Entities updaten
         for (AbstractMoebel e : moebel) {
             e.update();
         }
@@ -110,5 +111,14 @@ public class Grid implements IRenderable, IUpdateable {
         for (AbstractEntity e : entities) {
             e.update();
         }
+    }
+    
+    public void clearAll() {
+        entities.clear();
+        moebel.clear();
+    }
+    
+    public int entityCount() {
+        return entities.size() + moebel.size();
     }
 }

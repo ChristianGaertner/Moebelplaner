@@ -26,6 +26,5 @@ public class Schrank extends AbstractMoebel {
     
     @Override
     public void update() {
-    }
-    
+    }    
 }

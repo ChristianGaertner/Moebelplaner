@@ -3,6 +3,7 @@ package io.github.christiangaertner.moebelplaner;
 import io.github.christiangaertner.moebelplaner.graphics.Renderer;
 import io.github.christiangaertner.moebelplaner.grid.Grid;
 import io.github.christiangaertner.moebelplaner.input.Mouse;
+import io.github.christiangaertner.moebelplaner.moebel.Schrank;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -113,6 +114,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
         
         addMouseListener(mouse);
         addMouseMotionListener(mouse);
+        requestFocus();
     }
     
     
@@ -226,6 +228,16 @@ public final class Moebelplaner extends Canvas implements Runnable {
      */
     public void update() {
         grid.update();
+        
+        if (DEBUG) {
+            if (mouse.leftClick()) {
+                grid.add(new Schrank(mouse.x(), mouse.y()));
+            }
+            if (mouse.hold() == 2) {
+                grid.clearAll();
+            }
+        }
+        
     }
     
     /**
@@ -267,32 +279,34 @@ public final class Moebelplaner extends Canvas implements Runnable {
         // Jetzt füllen wir unserern canvas mit dem BufferedImage
         g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
         
-        // Das ist jetzt nur zum Testen
-        // etwas text
-        g.setColor(Color.RED);
-        g.setFont(new Font("Verdana", 0, 50));
+
         
         if (DEBUG) {
-            g.drawString("DEBUG MODE", 50, 50);
+            int fontSize = 20;
+            g.setColor(Color.RED);
+            g.setFont(new Font("Verdana", 0, fontSize));
+            
+            g.drawString("DEBUG MODE", 50, fontSize);
+            g.drawString("Entities: " + grid.entityCount(), 50, fontSize * 2);
             
             String display;
             
-            switch(mouse.clicked()) {
+            switch(mouse.hold()) {
                 case 1:
-                    display = "LEFT CLICK";
+                    display = "LEFT HOLD";
                     break;
                 case 2:
-                    display = "MIDDLE CLICK";
+                    display = "MIDDLE HOLD";
                     break;
                 case 3:
-                    display = "RIGHT CLICK";
+                    display = "RIGHT HOLD";
                     break;
                 default:
-                    display = "OTHER BUTTON. ID: " + mouse.clicked();
+                    display = "OTHER BUTTON. ID: " + mouse.click();
             }
             
-            if (mouse.clicked() != -1) {
-                g.drawString(display, 50, 100);
+            if (mouse.hold() != -1) {
+                g.drawString(display, 50, fontSize * 3);
             }
         }
         
