@@ -3,12 +3,16 @@ package io.github.christiangaertner.moebelplaner;
 import io.github.christiangaertner.moebelplaner.graphics.IRenderable;
 import io.github.christiangaertner.moebelplaner.graphics.Renderer;
 import io.github.christiangaertner.moebelplaner.grid.Grid;
+import io.github.christiangaertner.moebelplaner.input.Mouse;
 import io.github.christiangaertner.moebelplaner.moebel.Schrank;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.PointerInfo;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
@@ -54,6 +58,11 @@ public final class Moebelplaner extends Canvas implements Runnable {
      * Die JFrame instanze
      */
     private JFrame frame;
+    
+    /**
+     * Der MouseListener
+     */
+    private Mouse mouse;
     
     /**
      * Fenster Breite
@@ -103,7 +112,12 @@ public final class Moebelplaner extends Canvas implements Runnable {
         renderer = new Renderer(WIDTH, HEIGHT);
         frame = new JFrame();
         grid = new Grid();
-        grid.add(new Schrank(50, 50));
+        mouse = new Mouse();
+        
+        
+        
+        addMouseListener(mouse);
+        addMouseMotionListener(mouse);
     }
     
     
@@ -265,6 +279,26 @@ public final class Moebelplaner extends Canvas implements Runnable {
         
         if (DEBUG) {
             g.drawString("DEBUG MODE", 50, 50);
+            
+            String display;
+            
+            switch(mouse.clicked()) {
+                case 1:
+                    display = "LEFT CLICK";
+                    break;
+                case 2:
+                    display = "MIDDLE CLICK";
+                    break;
+                case 3:
+                    display = "RIGHT CLICK";
+                    break;
+                default:
+                    display = "OTHER BUTTON. ID: " + mouse.clicked();
+            }
+            
+            if (mouse.clicked() != -1) {
+                g.drawString(display, 50, 100);
+            }
         }
         
         
