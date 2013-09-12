@@ -19,13 +19,7 @@ public class Sprite {
      * - Größe: 16x16
      */ 
     public static final Sprite ERROR = new Sprite(16, 0xFF0000);
-    
-    /**
-     * Hintergrund Sprite "Grid" aka "Raster".
-     * - Farbe: ~IMAGE
-     * - Größe: ~IMAGE
-     */
-    public static final Sprite GRID = new Sprite("/images/grid.png");
+
     /**
      * X-Y Koordinaten auf der Grid
      */

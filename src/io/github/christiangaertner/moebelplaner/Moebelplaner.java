@@ -1,7 +1,9 @@
 package io.github.christiangaertner.moebelplaner;
 
+import io.github.christiangaertner.moebelplaner.graphics.IRenderable;
 import io.github.christiangaertner.moebelplaner.graphics.Renderer;
 import io.github.christiangaertner.moebelplaner.grid.Grid;
+import io.github.christiangaertner.moebelplaner.moebel.Schrank;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -75,6 +77,11 @@ public final class Moebelplaner extends Canvas implements Runnable {
      */
     private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
     
+    /**
+     * Die Haupt Grid
+     */
+    private Grid grid;
+    
     
     /**
      * Neuer Planer nicht im Debug-Mode
@@ -95,6 +102,8 @@ public final class Moebelplaner extends Canvas implements Runnable {
         
         renderer = new Renderer(WIDTH, HEIGHT);
         frame = new JFrame();
+        grid = new Grid();
+        grid.add(new Schrank());
     }
     
     
@@ -207,6 +216,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
      * Updated alles im Programm
      */
     public void update() {
+        grid.update();
     }
     
     /**
@@ -223,13 +233,15 @@ public final class Moebelplaner extends Canvas implements Runnable {
             return;
         }
         
+        // Wir müssen erstmal wieder alles zurücksetzten,
+        // sonst könnten "echos" auftreten
         renderer.clear();
         
         // Einfach das Grpahics object bekommen
         Graphics g = bs.getDrawGraphics();
         
-        
-        renderer.render(new Grid());
+        // Wir renderen unserer Grid
+        renderer.render(grid);
         
         
         // Wir nehmen jetzt den int[] den der Renderer

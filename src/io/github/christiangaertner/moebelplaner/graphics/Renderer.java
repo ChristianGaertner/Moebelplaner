@@ -6,6 +6,8 @@ package io.github.christiangaertner.moebelplaner.graphics;
  */
 public class Renderer {
     
+    public static final int IGNORE_COLOR = 0xFFFF00FF;
+    
     /**
      * Der pixel Array
      */
@@ -38,7 +40,7 @@ public class Renderer {
      * @param r
      */
     public void render(IRenderable r, int xp, int yp) {
-        
+
         Sprite sprite = r.getSprite();
         
         for (int y = 0; y < sprite.getHeight(); y++) {
@@ -47,7 +49,13 @@ public class Renderer {
                 int xa = x + xp;
                 if (xa < 0 || xa >= width || ya < 0 || ya >= height) continue;
                 
-                pixels[xa + ya * width] = sprite.pixels[x + y * sprite.getWidth()];
+                int color = sprite.pixels[x + y * sprite.getWidth()];
+                
+                if (color == IGNORE_COLOR) {
+                    continue;
+                }
+                
+                pixels[xa + ya * width] = color;
             }
         }
     }
