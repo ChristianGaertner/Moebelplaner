@@ -15,4 +15,10 @@ public interface IFocusable {
      * Wird aufgerufen, wenn der Fokus aufgehoben wird.
      */
     public void unFocus();
+    
+    /**
+     * Ist das Objekt fokussiert?
+     * @return 
+     */
+    public boolean isFocused();
 }

@@ -65,7 +65,8 @@ public class Grid implements IRenderable, IUpdateable {
 
     /**
      * Löscht eine Entity
-     * @param e 
+     *
+     * @param e
      */
     public void delete(AbstractEntity e) {
         entities.remove(e);
@@ -106,11 +107,14 @@ public class Grid implements IRenderable, IUpdateable {
     @Override
     public void update() {
 
+        // Wenn Links-Klick versuchen eine Entity zu fokusieren
         if (mouse.hold() == 1) {
-            AbstractEntity e = getEntity(mouse.x(), mouse.y());
-            if (e == null) {
-                unFocusAll();
+            AbstractEntity e = getEntity(mouse.x(), mouse.y());           
+            if(e.isFocused()) {
+                unFocus(e);
             } else {
+                // Erstmal alles defokussieren
+                unFocusAll();
                 focus(e);
             }
         }
@@ -138,28 +142,49 @@ public class Grid implements IRenderable, IUpdateable {
         focus.clear();
     }
 
+    /**
+     * Die Anzahl aller Entities
+     *
+     * @return entities.size()
+     */
     public int entityCount() {
         return entities.size();
     }
 
+    /**
+     * Die Anzahl aller fokussierten Entities
+     *
+     * @return focus.size()
+     */
     public int focusCount() {
         return focus.size();
     }
 
+    /**
+     * Fokussiert eine Entity
+     * @param e
+     */ 
     private void focus(AbstractEntity e) {
         if (!focus.contains(e)) {
             focus.add(e);
             e.focus();
         }
     }
-    
+
+    /**
+     * Defokussiert eine Entity
+     * @param e 
+     */
     private void unFocus(AbstractEntity e) {
         if (focus.contains(e)) {
             focus.remove(e);
             e.unFocus();
         }
     }
-    
+
+    /**
+     * Entfernt alle Entities aus der focus list und ruft "unFocus()" bei den Objekten auf
+     */
     private void unFocusAll() {
         for (Iterator<AbstractEntity> it = focus.iterator(); it.hasNext();) {
             AbstractEntity e = it.next();
@@ -168,13 +193,12 @@ public class Grid implements IRenderable, IUpdateable {
         }
     }
 
-
     /**
      * Gibt die Entity an einer bestimmten Koordiante zurück
      *
      * @param x
      * @param y
-     * @return
+     * @return Die Entity an den gegebenen Koordinaten
      */
     private AbstractEntity getEntity(int x, int y) {
         Shape bounds;

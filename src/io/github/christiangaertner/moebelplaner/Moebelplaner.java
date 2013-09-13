@@ -113,6 +113,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
         grid = new Grid(this, mouse);
         
         grid.add(new Schrank(50, 50));
+        grid.add(new Schrank(200, 50));
         
         addMouseListener(mouse);
         addMouseMotionListener(mouse);
