@@ -62,7 +62,7 @@ public class Grid implements IRenderable, IUpdateable {
     public void add(AbstractEntity e) {
         entities.add(e);
     }
-    
+
     /**
      * Löscht eine Entity
      * @param e 
@@ -116,8 +116,11 @@ public class Grid implements IRenderable, IUpdateable {
         }
 
         if (mouse.hold() == 2) {
-            for (AbstractEntity e : focus) {
-                delete(e);
+            for (Iterator<AbstractEntity> it = focus.iterator(); it.hasNext();) {
+                // Löschen von der Entities Liste
+                delete(it.next());
+                // Löschen von der Focus Liste
+                it.remove();
             }
         }
 
@@ -151,13 +154,17 @@ public class Grid implements IRenderable, IUpdateable {
     }
     
     private void unFocus(AbstractEntity e) {
-        focus.remove(e);
-        e.unFocus();
+        if (focus.contains(e)) {
+            focus.remove(e);
+            e.unFocus();
+        }
     }
     
     private void unFocusAll() {
         for (Iterator<AbstractEntity> it = focus.iterator(); it.hasNext();) {
-            unFocus(it.next());
+            AbstractEntity e = it.next();
+            it.remove();
+            e.unFocus();
         }
     }
 
