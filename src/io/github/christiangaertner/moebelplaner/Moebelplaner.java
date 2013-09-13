@@ -8,11 +8,12 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -109,8 +110,9 @@ public final class Moebelplaner extends Canvas implements Runnable {
         frame = new JFrame();
         mouse = new Mouse();
         
-        grid = new Grid(mouse);
+        grid = new Grid(this, mouse);
         
+        grid.add(new Schrank(50, 50));
         
         addMouseListener(mouse);
         addMouseMotionListener(mouse);
@@ -193,7 +195,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
             // als 1 ist, dies kann bei SEHR langsamen Rechner passieren
             while (delta >= 1) {
                 // Updaten wir alles...
-                update();
+                update(now);
                 // Notieren den update
                 updates++;
                 // und ziehen 1 von delta ab, damit es wieder
@@ -226,18 +228,14 @@ public final class Moebelplaner extends Canvas implements Runnable {
     /**
      * Updated alles im Programm
      */
-    public void update() {
+    public void update(long now) {
         grid.update();
-        
+
         if (DEBUG) {
-            if (mouse.leftClick()) {
-                grid.add(new Schrank(mouse.x(), mouse.y()));
-            }
             if (mouse.hold() == 2) {
                 grid.clearAll();
             }
         }
-        
     }
     
     /**
@@ -259,7 +257,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
         renderer.clear();
         
         // Einfach das Grpahics object bekommen
-        Graphics g = bs.getDrawGraphics();
+        Graphics2D g = (Graphics2D) bs.getDrawGraphics();
         
         // Wir renderen unserer Grid
         renderer.render(grid);
@@ -278,7 +276,6 @@ public final class Moebelplaner extends Canvas implements Runnable {
         
         // Jetzt füllen wir unserern canvas mit dem BufferedImage
         g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-        
 
         
         if (DEBUG) {
@@ -302,7 +299,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
                     display = "RIGHT HOLD";
                     break;
                 default:
-                    display = "OTHER BUTTON. ID: " + mouse.click();
+                    display = "OTHER BUTTON. ID: " + mouse.hold();
             }
             
             if (mouse.hold() != -1) {
@@ -315,6 +312,15 @@ public final class Moebelplaner extends Canvas implements Runnable {
         g.dispose();
         // Und das Bild zeigen.
         bs.show();
+    }
+    
+    /**
+     * Zeigt eine Fehlermeldung and
+     * @param msg Die Meldung
+     * @param loc Wird im Fenstertitle stehen
+     */ 
+    public void showError(String msg, String loc) {
+        JOptionPane.showMessageDialog(null, msg, "Error: " + loc, JOptionPane.ERROR_MESSAGE);
     }
     
     /**

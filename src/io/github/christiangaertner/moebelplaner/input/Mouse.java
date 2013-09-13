@@ -8,63 +8,62 @@ import java.awt.event.MouseMotionListener;
  *
  * @author Christian
  */
-public final class Mouse implements MouseListener, MouseMotionListener {
+public class Mouse implements MouseListener, MouseMotionListener {
 
     /**
      * Mouse Koordianten
      */
-    private int x, y;
-    
-    private int buttonClicked = -1;
-    private int buttonHold = -1;
+    protected int x, y;
     
     /**
-     * Gibt zurück welche Taste gerade gedrückt wurde
-     * auf der Maus
-     */ 
-    public int click() {
-        int r = buttonClicked;
-        buttonClicked = -1;
-        return r;
-    }
+     * Die vorherige Mouse Position
+     */
+    protected int preX, preY;
     
+    protected int buttonHold = -1;
+
+
+
     /**
      * Gibt zurück ob die linke MausTaste gedrückt ist
-     * @return 
+     *
+     * @return
      */
-    public boolean leftClick() {
-        return (click() == 1);
+    public boolean leftHold() {
+        return (hold() == 1);
     }
-    
+
     public int hold() {
         return buttonHold;
     }
-    
-    
+
     /**
      * X-Koordinate
-     * @return 
+     *
+     * @return
      */
     public int x() {
         return x;
     }
-    
+
     /**
      * Y-Koordinate
-     * @return 
+     *
+     * @return
      */
     public int y() {
         return y;
     }
-    
+
     @Override
     public void mouseClicked(MouseEvent me) {
-        buttonClicked = me.getButton();
     }
 
     @Override
     public void mousePressed(MouseEvent me) {
         buttonHold = me.getButton();
+        preX = x - me.getX();
+        preY = y - me.getY();
     }
 
     @Override
@@ -82,8 +81,6 @@ public final class Mouse implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseDragged(MouseEvent me) {
-        x = me.getX();
-        y = me.getY();
     }
 
     @Override

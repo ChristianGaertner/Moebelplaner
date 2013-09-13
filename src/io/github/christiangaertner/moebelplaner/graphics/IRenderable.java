@@ -1,5 +1,7 @@
 package io.github.christiangaertner.moebelplaner.graphics;
 
+import java.awt.Shape;
+
 /**
  *
  * @author Christian
@@ -29,5 +31,11 @@ public interface IRenderable {
      * @return 
      */
     public int y();
+    
+    /**
+     * Gibt den Bereich wieder, der von der Entity genutzt wird
+     * @return 
+     */
+    public Shape getBounds();
     
 }
