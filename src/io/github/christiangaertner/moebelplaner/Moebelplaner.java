@@ -232,9 +232,6 @@ public final class Moebelplaner extends Canvas implements Runnable {
         grid.update();
 
         if (DEBUG) {
-            if (mouse.hold() == 2) {
-                grid.clearAll();
-            }
         }
     }
     
@@ -285,6 +282,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
             
             g.drawString("DEBUG MODE", 50, fontSize);
             g.drawString("Entities: " + grid.entityCount(), 50, fontSize * 2);
+            g.drawString("Focused: " + grid.focusCount(), 50, fontSize * 3);
             
             String display;
             
@@ -303,7 +301,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
             }
             
             if (mouse.hold() != -1) {
-                g.drawString(display, 50, fontSize * 3);
+                g.drawString(display, 50, fontSize * 4);
             }
         }
         

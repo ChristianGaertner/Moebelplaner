@@ -10,12 +10,17 @@ import java.awt.geom.Rectangle2D;
  *
  * @author Christian
  */
-abstract public class AbstractEntity implements IRenderable, IUpdateable {
+abstract public class AbstractEntity implements IRenderable, IUpdateable, IFocusable {
 
     /**
      * Die Sprite für dieses Möbelstück
      */
     protected Sprite sprite;
+    /**
+     * Die Sprite für dieses Möbelstück, wenn es fokussiert ist
+     */
+    protected Sprite focusSprite;
+    protected boolean focused = false;
     /**
      * Die X-Y Koordinate auf der Grid
      */
@@ -28,7 +33,11 @@ abstract public class AbstractEntity implements IRenderable, IUpdateable {
 
     @Override
     public Sprite getSprite() {
-        return sprite;
+        if (focused) {
+            return focusSprite;
+        } else {
+            return sprite;
+        }
     }
 
     @Override
@@ -42,7 +51,21 @@ abstract public class AbstractEntity implements IRenderable, IUpdateable {
     }
 
     @Override
-    public Shape getBounds() {
+    public Shape getBoundaries() {
         return new Rectangle2D.Double(x, y, sprite.getWidth(), sprite.getHeight());
+    }
+
+    @Override
+    public void update() {
+    }
+
+    @Override
+    public void focus() {
+        focused = true;
+    }
+
+    @Override
+    public void unFocus() {
+        focused = false;
     }
 }

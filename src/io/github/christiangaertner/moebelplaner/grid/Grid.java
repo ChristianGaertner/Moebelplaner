@@ -9,6 +9,7 @@ import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
@@ -36,6 +37,10 @@ public class Grid implements IRenderable, IUpdateable {
      * Alle Entities
      */
     protected List<AbstractEntity> entities = new ArrayList<AbstractEntity>();
+    /**
+     * Die gerade "markierten" Entities
+     */
+    protected List<AbstractEntity> focus = new ArrayList<AbstractEntity>();
 
     public Grid(Moebelplaner planer, Mouse mouse) {
         this();
@@ -56,6 +61,14 @@ public class Grid implements IRenderable, IUpdateable {
      */
     public void add(AbstractEntity e) {
         entities.add(e);
+    }
+    
+    /**
+     * Löscht eine Entity
+     * @param e 
+     */
+    public void delete(AbstractEntity e) {
+        entities.remove(e);
     }
 
     /**
@@ -94,7 +107,18 @@ public class Grid implements IRenderable, IUpdateable {
     public void update() {
 
         if (mouse.hold() == 1) {
-            entities.remove(getEntity(mouse.x(), mouse.y()));
+            AbstractEntity e = getEntity(mouse.x(), mouse.y());
+            if (e == null) {
+                unFocusAll();
+            } else {
+                focus(e);
+            }
+        }
+
+        if (mouse.hold() == 2) {
+            for (AbstractEntity e : focus) {
+                delete(e);
+            }
         }
 
         // Alle Entities updaten       
@@ -103,38 +127,62 @@ public class Grid implements IRenderable, IUpdateable {
         }
     }
 
+    /**
+     * Löscht alle Entities. In folgenden Listen: entities, focus
+     */
     public void clearAll() {
         entities.clear();
+        focus.clear();
     }
 
     public int entityCount() {
         return entities.size();
     }
 
+    public int focusCount() {
+        return focus.size();
+    }
+
+    private void focus(AbstractEntity e) {
+        if (!focus.contains(e)) {
+            focus.add(e);
+            e.focus();
+        }
+    }
+    
+    private void unFocus(AbstractEntity e) {
+        focus.remove(e);
+        e.unFocus();
+    }
+    
+    private void unFocusAll() {
+        for (Iterator<AbstractEntity> it = focus.iterator(); it.hasNext();) {
+            unFocus(it.next());
+        }
+    }
+
+
     /**
      * Gibt die Entity an einer bestimmten Koordiante zurück
+     *
      * @param x
      * @param y
-     * @return 
+     * @return
      */
     private AbstractEntity getEntity(int x, int y) {
         Shape bounds;
         for (AbstractEntity e : entities) {
-            bounds = e.getBounds();
-            if (bounds instanceof Rectangle2D) {
-                bounds = (Rectangle2D) bounds;
-                if (bounds.contains(x, y)) {
-                    return e;
-                }
-            } else {
-                planer.showError("Nur Rechtecke sind zur Zeit unterstützt.", "Main-Grid");
+            bounds = e.getBoundaries().getBounds();
+            if (bounds.contains(x, y)) {
+                return e;
             }
+
         }
         return null;
     }
 
     @Override
-    public Shape getBounds() {
+    public Shape getBoundaries() {
         return new Rectangle2D.Double(0, 0, sprite.getWidth(), sprite.getHeight());
     }
 }

@@ -16,7 +16,8 @@ abstract public class AbstractMoebel extends AbstractEntity implements IMoveable
      * @param path
      */
     public AbstractMoebel(String path) {
-        sprite = new Sprite(path);
+        sprite = new Sprite(path);       
+        focusSprite = new Sprite(sprite.getWidth(), sprite.getHeight(), 0x000000);
     }
 
     /**

@@ -36,6 +36,6 @@ public interface IRenderable {
      * Gibt den Bereich wieder, der von der Entity genutzt wird
      * @return 
      */
-    public Shape getBounds();
+    public Shape getBoundaries();
     
 }
