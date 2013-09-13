@@ -231,7 +231,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
      */
     public void update(long now) {
         grid.update();
-
+        mouse.update();
         if (DEBUG) {
         }
     }

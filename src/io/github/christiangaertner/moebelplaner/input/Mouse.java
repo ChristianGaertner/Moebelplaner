@@ -20,9 +20,21 @@ public class Mouse implements MouseListener, MouseMotionListener {
      */
     protected int preX, preY;
     
+    protected int buttonClick = -1;
     protected int buttonHold = -1;
 
 
+    public void update() {
+        buttonClick = -1;
+    }
+    
+    public boolean leftClick() {
+        return (click() == 1);
+    }
+    
+    public int click() {
+        return buttonClick;
+    }
 
     /**
      * Gibt zurück ob die linke MausTaste gedrückt ist
@@ -62,6 +74,7 @@ public class Mouse implements MouseListener, MouseMotionListener {
     @Override
     public void mousePressed(MouseEvent me) {
         buttonHold = me.getButton();
+        buttonClick = me.getButton();
         preX = x - me.getX();
         preY = y - me.getY();
     }
@@ -69,6 +82,7 @@ public class Mouse implements MouseListener, MouseMotionListener {
     @Override
     public void mouseReleased(MouseEvent me) {
         buttonHold = -1;
+        buttonClick = -1;
     }
 
     @Override

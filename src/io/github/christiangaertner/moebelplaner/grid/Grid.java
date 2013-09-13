@@ -108,7 +108,7 @@ public class Grid implements IRenderable, IUpdateable {
     public void update() {
 
         // Wenn Links-Klick versuchen eine Entity zu fokusieren
-        if (mouse.hold() == 1) {
+        if (mouse.leftClick()) {
             AbstractEntity e = getEntity(mouse.x(), mouse.y());           
             if (e == null) {
                 unFocus();
@@ -120,7 +120,7 @@ public class Grid implements IRenderable, IUpdateable {
             }
         }
 
-        if (mouse.hold() == 2) {
+        if (mouse.click() == 2) {
             for (Iterator<AbstractEntity> it = focus.iterator(); it.hasNext();) {
                 // Löschen von der Entities Liste
                 delete(it.next());
