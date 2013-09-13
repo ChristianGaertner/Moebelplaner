@@ -11,17 +11,16 @@ import java.awt.geom.Rectangle2D;
  * @author Christian
  */
 abstract public class AbstractEntity implements IRenderable, IUpdateable {
-    
+
     /**
      * Die Sprite für dieses Möbelstück
      */
     protected Sprite sprite;
-    
     /**
      * Die X-Y Koordinate auf der Grid
      */
     protected int x, y;
-    
+
     @Override
     public void render(Renderer renderer) {
         renderer.render(this, x, y);
@@ -41,7 +40,7 @@ abstract public class AbstractEntity implements IRenderable, IUpdateable {
     public int y() {
         return y;
     }
-    
+
     @Override
     public Shape getBounds() {
         return new Rectangle2D.Double(x, y, sprite.getWidth(), sprite.getHeight());
