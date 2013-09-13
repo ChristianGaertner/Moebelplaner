@@ -68,7 +68,7 @@ abstract public class AbstractEntity implements IRenderable, IUpdateable, IFocus
     public void unFocus() {
         focused = false;
     }
-    
+
     @Override
     public boolean isFocused() {
         return focused;

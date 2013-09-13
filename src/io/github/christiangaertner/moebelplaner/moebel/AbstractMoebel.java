@@ -16,17 +16,18 @@ abstract public class AbstractMoebel extends AbstractEntity implements IMoveable
      * @param path
      */
     public AbstractMoebel(String path) {
-        sprite = new Sprite(path);       
-        focusSprite = new Sprite(sprite.getWidth(), sprite.getHeight(), 0x000000);
+        this(new Sprite(path));
+
     }
 
     /**
      * Erstellt ein Möbelstück mit einer Sprite
      *
-     * @param sprite
+     * @param s
      */
-    public AbstractMoebel(Sprite sprite) {
-        this.sprite = sprite;
+    public AbstractMoebel(Sprite s) {
+        sprite = s;
+        focusSprite = new Sprite(sprite.getWidth(), sprite.getHeight(), 0x000000);
     }
 
     @Override
@@ -34,7 +35,7 @@ abstract public class AbstractMoebel extends AbstractEntity implements IMoveable
         this.x += x;
         this.y += y;
     }
-    
+
     @Override
     public void moveTo(int x, int y) {
         this.x = x;

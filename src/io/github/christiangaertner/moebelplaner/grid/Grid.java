@@ -110,16 +110,25 @@ public class Grid implements IRenderable, IUpdateable {
         // Wenn Links-Klick versuchen eine Entity zu fokusieren
         if (mouse.leftClick()) {
             AbstractEntity e = getEntity(mouse.x(), mouse.y());           
+            
+            // Wenn e null ist, dann haben wir ins Leere geklickt
+            // also alles defokussieren
             if (e == null) {
                 unFocus();
             } else if(e.isFocused()) {
+                // Wenn die Entity schon fokussiert ist, dann
+                // defokussieren
                 unFocus(e);
             } else {
+                // jetzt wurde auf eine nicht fokussierte Entity geklickt
+                // Also alles andere defokusieren und jene fokussieren
                 unFocus();
                 focus(e);
             }
         }
 
+        // Rechts klick. Löscht die fokussierten Entities
+        // nur temporär.
         if (mouse.click() == 2) {
             for (Iterator<AbstractEntity> it = focus.iterator(); it.hasNext();) {
                 // Löschen von der Entities Liste
@@ -202,8 +211,13 @@ public class Grid implements IRenderable, IUpdateable {
      * @return Die Entity an den gegebenen Koordinaten
      */
     private AbstractEntity getEntity(int x, int y) {
+        // Man muss das ja nicht in jeder Iteration
+        // neu deklarieren...
         Shape bounds;
         for (AbstractEntity e : entities) {
+            
+            // Die Boundaries gekommen und erstmal das Rechteck davon
+            // später werden evtl. mehr Bounding-Boxes implementiert
             bounds = e.getBoundaries().getBounds();
             if (bounds.contains(x, y)) {
                 return e;

@@ -14,24 +14,40 @@ public class Mouse implements MouseListener, MouseMotionListener {
      * Mouse Koordianten
      */
     protected int x, y;
-    
     /**
      * Die vorherige Mouse Position
      */
     protected int preX, preY;
-    
+    /**
+     * Positiv bei einem Klick (ein Update lang). -1: Kein 1: Links 2: Mittlerer 3: Rechts
+     */
     protected int buttonClick = -1;
+    /**
+     * Positiv solange wie ein Button gedrückt ist. -1: Kein 1: Links 2: Mittlerer 3: Rechts
+     */
     protected int buttonHold = -1;
 
-
+    /**
+     * Updated den MouseListener. Wird gebraucht, um einfache Klicks zu erfassen
+     */
     public void update() {
         buttonClick = -1;
     }
-    
+
+    /**
+     * Links KLICK
+     *
+     * @return
+     */
     public boolean leftClick() {
         return (click() == 1);
     }
-    
+
+    /**
+     * Gibt zurück welche Taste geklickt ist
+     *
+     * @return
+     */
     public int click() {
         return buttonClick;
     }
@@ -45,6 +61,11 @@ public class Mouse implements MouseListener, MouseMotionListener {
         return (hold() == 1);
     }
 
+    /**
+     * Gibt zurück welche Taste gedrückt ist
+     *
+     * @return
+     */
     public int hold() {
         return buttonHold;
     }
