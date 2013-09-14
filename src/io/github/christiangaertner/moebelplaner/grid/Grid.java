@@ -5,6 +5,7 @@ import io.github.christiangaertner.moebelplaner.graphics.IRenderable;
 import io.github.christiangaertner.moebelplaner.graphics.Renderer;
 import io.github.christiangaertner.moebelplaner.graphics.Sprite;
 import io.github.christiangaertner.moebelplaner.input.Mouse;
+import io.github.christiangaertner.moebelplaner.util.Reversed;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
@@ -138,10 +139,10 @@ public class Grid implements IRenderable, IUpdateable {
             }
         }
 
-        // Alle Entities updaten       
-        for (AbstractEntity e : entities) {
-            e.update();
-        }
+//        // Alle Entities updaten       
+//        for (AbstractEntity e : entities) {
+//            e.update();
+//        }
     }
 
     /**
@@ -214,7 +215,7 @@ public class Grid implements IRenderable, IUpdateable {
         // Man muss das ja nicht in jeder Iteration
         // neu deklarieren...
         Shape bounds;
-        for (AbstractEntity e : entities) {
+        for (AbstractEntity e : Reversed.reversed(entities)) {
             
             // Die Boundaries gekommen und erstmal das Rechteck davon
             // später werden evtl. mehr Bounding-Boxes implementiert
