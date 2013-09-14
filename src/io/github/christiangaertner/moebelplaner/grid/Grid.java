@@ -6,6 +6,7 @@ import io.github.christiangaertner.moebelplaner.graphics.Renderer;
 import io.github.christiangaertner.moebelplaner.graphics.Sprite;
 import io.github.christiangaertner.moebelplaner.input.Keyboard;
 import io.github.christiangaertner.moebelplaner.input.Mouse;
+import io.github.christiangaertner.moebelplaner.moebel.AbstractMoebel;
 import io.github.christiangaertner.moebelplaner.util.Reversed;
 import java.awt.Shape;
 import java.awt.Toolkit;
@@ -123,6 +124,12 @@ public class Grid implements IRenderable, IUpdateable {
     @Override
     public void update() {
 
+        // Wenn Linke-Taste gehalten ist Möbel bewegen
+        if (mouse.leftHold() && getEntity(mouse.x(), mouse.y()) != null) {
+            moveFocused(mouse.x() - mouse.preX(), mouse.y() - mouse.preY());
+        }
+        
+        
         // Wenn Links-Klick versuchen eine Entity zu fokusieren
         if (mouse.leftClick()) {
             AbstractEntity e = getEntity(mouse.x(), mouse.y());
@@ -249,11 +256,22 @@ public class Grid implements IRenderable, IUpdateable {
         return null;
     }
 
+    private void moveFocused(int x, int y) {
+        AbstractMoebel m;
+        for (Iterator<AbstractEntity> it = focus.iterator(); it.hasNext();) {
+            AbstractEntity e = it.next();
+            if (e instanceof AbstractMoebel) {
+                m = (AbstractMoebel) e;
+                m.move(x, y);
+            }
+        }
+    }
+
     @Override
     public Shape getBoundaries() {
         return new Rectangle2D.Double(0, 0, sprite.getWidth(), sprite.getHeight());
     }
-    
+
     @Override
     public Sprite getSprite() {
         return sprite;

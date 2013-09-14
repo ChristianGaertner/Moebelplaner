@@ -326,10 +326,13 @@ public final class Moebelplaner extends Canvas implements Runnable {
             g.setColor(Color.RED);
             g.setFont(new Font("Verdana", 0, fontSize));
 
-            g.drawString("DEBUG MODE", 50, fontSize);
-            g.drawString("Entities: " + grid.entityCount(), 50, fontSize * 2);
-            g.drawString("Focused: " + grid.focusCount(), 50, fontSize * 3);
+            g.drawString("DEBUG MODE", 0, fontSize);
+            g.drawString("Entities: " + grid.entityCount(), 0, fontSize * 2);
+            g.drawString("Focused: " + grid.focusCount(), 0, fontSize * 3);
 
+            g.drawString("Mouse: X: " + mouse.x() + "; Y: " + mouse.y() + "; preX: " + mouse.preX() + "; preY: " + mouse.preY(), 0, fontSize * 4);
+            g.drawString("Drag: " + (mouse.x() - mouse.preX()) + " / " + (mouse.y() - mouse.preY()), 0, fontSize * 5);
+            
             String display;
 
             switch (mouse.hold()) {
@@ -347,7 +350,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
             }
 
             if (mouse.hold() != -1) {
-                g.drawString(display, 50, fontSize * 4);
+                g.drawString(display, 0, fontSize * 6);
             }
         }
 

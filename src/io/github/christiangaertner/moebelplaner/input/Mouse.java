@@ -28,10 +28,12 @@ public class Mouse implements MouseListener, MouseMotionListener {
     protected int buttonHold = -1;
 
     /**
-     * Updated den MouseListener. Wird gebraucht, um einfache Klicks zu erfassen
+     * Updated den MouseListener. Wird gebraucht, um einfache Klicks zu erfassen und Drag
      */
     public void update() {
         buttonClick = -1;
+        preX = x;
+        preY = y;
     }
 
     /**
@@ -87,6 +89,24 @@ public class Mouse implements MouseListener, MouseMotionListener {
     public int y() {
         return y;
     }
+    
+    /**
+     * Die vorherige X-Koordinate
+     *
+     * @return
+     */
+    public int preX() {
+        return preX;
+    }
+
+    /**
+     * Die vorherige Y-Koordinate
+     *
+     * @return
+     */
+    public int preY() {
+        return preY;
+    }
 
     @Override
     public void mouseClicked(MouseEvent me) {
@@ -96,8 +116,6 @@ public class Mouse implements MouseListener, MouseMotionListener {
     public void mousePressed(MouseEvent me) {
         buttonHold = me.getButton();
         buttonClick = me.getButton();
-        preX = x - me.getX();
-        preY = y - me.getY();
     }
 
     @Override
@@ -116,6 +134,8 @@ public class Mouse implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseDragged(MouseEvent me) {
+        x = me.getX();
+        y = me.getY();
     }
 
     @Override
