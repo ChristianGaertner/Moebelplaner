@@ -155,9 +155,6 @@ public final class Moebelplaner extends Canvas implements Runnable {
         // Zählt bei wie vielen updates wir gerade sind
         int updates = 0;
 
-        // Sonst muss man erstmal einmal klicken...
-        requestFocus();
-
         // Nur die Deklaration (muss ja nicht jeden frame neu passieren)
         long now;
 
