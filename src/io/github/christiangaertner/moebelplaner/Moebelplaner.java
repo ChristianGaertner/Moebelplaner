@@ -2,6 +2,7 @@ package io.github.christiangaertner.moebelplaner;
 
 import io.github.christiangaertner.moebelplaner.graphics.Renderer;
 import io.github.christiangaertner.moebelplaner.grid.Grid;
+import io.github.christiangaertner.moebelplaner.input.Keyboard;
 import io.github.christiangaertner.moebelplaner.input.Mouse;
 import io.github.christiangaertner.moebelplaner.moebel.Schrank;
 import java.awt.Canvas;
@@ -9,11 +10,19 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 
 /**
  *
@@ -53,6 +62,10 @@ public final class Moebelplaner extends Canvas implements Runnable {
      * Der MouseListener
      */
     private Mouse mouse;
+    /**
+     * Der Key(board)Listener
+     */
+    private Keyboard key;
     /**
      * Fenster Breite
      */
@@ -95,15 +108,42 @@ public final class Moebelplaner extends Canvas implements Runnable {
         renderer = new Renderer(WIDTH, HEIGHT);
         frame = new JFrame();
         mouse = new Mouse();
+        key = new Keyboard();
 
-        grid = new Grid(this, mouse);
+        grid = new Grid(this, mouse, key);
 
         grid.add(new Schrank(50, 50));
         grid.add(new Schrank(200, 50));
 
+        addKeyListener(key);
         addMouseListener(mouse);
         addMouseMotionListener(mouse);
         requestFocus();
+
+        JMenuBar menuBar = new JMenuBar();
+        JMenu editMenu = new JMenu("Edit");
+
+
+        menuBar.add(editMenu);
+
+        JMenuItem edit_SelectAll = new JMenuItem("Select All");
+        edit_SelectAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        edit_SelectAll.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                grid.focus();
+            }
+            
+        });
+
+
+
+        editMenu.add(edit_SelectAll);
+
+        frame.setJMenuBar(menuBar);
+
     }
 
     /**
@@ -323,6 +363,12 @@ public final class Moebelplaner extends Canvas implements Runnable {
      */
     public static void main(String[] args) {
 
+        // Damit die MenuBar auf dem Mac richtig angezeigt wird.
+        if (System.getProperty("os.name").contains("Mac")) {
+            System.setProperty("apple.laf.useScreenMenuBar", "true");
+        }
+
+        // Unseren Moebelplaner erstellen (im Debug mode)
         Moebelplaner planer = new Moebelplaner(true);
 
         // Sonst wird es schwieriger mit den Graphiken

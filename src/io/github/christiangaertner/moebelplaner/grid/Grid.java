@@ -4,13 +4,17 @@ import io.github.christiangaertner.moebelplaner.Moebelplaner;
 import io.github.christiangaertner.moebelplaner.graphics.IRenderable;
 import io.github.christiangaertner.moebelplaner.graphics.Renderer;
 import io.github.christiangaertner.moebelplaner.graphics.Sprite;
+import io.github.christiangaertner.moebelplaner.input.Keyboard;
 import io.github.christiangaertner.moebelplaner.input.Mouse;
 import io.github.christiangaertner.moebelplaner.util.Reversed;
 import java.awt.Shape;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
+import javax.swing.KeyStroke;
 
 /**
  *
@@ -31,6 +35,10 @@ public class Grid implements IRenderable, IUpdateable {
      */
     protected Mouse mouse;
     /**
+     * Der KeyListener.
+     */
+    protected Keyboard key;
+    /**
      * Die Moebelplaner Instanz
      */
     protected Moebelplaner planer;
@@ -43,9 +51,10 @@ public class Grid implements IRenderable, IUpdateable {
      */
     protected List<AbstractEntity> focus = new ArrayList<AbstractEntity>();
 
-    public Grid(Moebelplaner planer, Mouse mouse) {
+    public Grid(Moebelplaner planer, Mouse mouse, Keyboard key) {
         this();
         this.mouse = mouse;
+        this.key = key;
         this.planer = planer;
     }
 
@@ -107,7 +116,7 @@ public class Grid implements IRenderable, IUpdateable {
 
     @Override
     public void update() {
-
+        
         // Wenn Links-Klick versuchen eine Entity zu fokusieren
         if (mouse.leftClick()) {
             AbstractEntity e = getEntity(mouse.x(), mouse.y());           
@@ -120,6 +129,9 @@ public class Grid implements IRenderable, IUpdateable {
                 // Wenn die Entity schon fokussiert ist, dann
                 // defokussieren
                 unFocus(e);
+            } else if(key.isKeyDown("shift")) {
+                // Wenn man shift drückt, möchte man mehrere fokussieren
+                focus(e);
             } else {
                 // jetzt wurde auf eine nicht fokussierte Entity geklickt
                 // Also alles andere defokusieren und jene fokussieren
@@ -128,7 +140,7 @@ public class Grid implements IRenderable, IUpdateable {
             }
         }
 
-        // Rechts klick. Löscht die fokussierten Entities
+        // Mittel klick. Löscht die fokussierten Entities
         // nur temporär.
         if (mouse.click() == 2) {
             for (Iterator<AbstractEntity> it = focus.iterator(); it.hasNext();) {
@@ -169,6 +181,17 @@ public class Grid implements IRenderable, IUpdateable {
      */
     public int focusCount() {
         return focus.size();
+    }
+    
+    /**
+     * Fokussiert alle Entities
+     * @param e
+     */ 
+    public void focus() {
+        unFocus();
+        for (AbstractEntity e : entities) {
+            focus(e);
+        }
     }
 
     /**
