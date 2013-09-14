@@ -121,21 +121,6 @@ public class Grid implements IRenderable, IUpdateable {
     }
 
     @Override
-    public Sprite getSprite() {
-        return sprite;
-    }
-
-    @Override
-    public int x() {
-        return x;
-    }
-
-    @Override
-    public int y() {
-        return y;
-    }
-
-    @Override
     public void update() {
 
         // Wenn Links-Klick versuchen eine Entity zu fokusieren
@@ -146,12 +131,13 @@ public class Grid implements IRenderable, IUpdateable {
             // also alles defokussieren
             if (e == null) {
                 unFocus();
-            } else if (e.isFocused()) {
-                // Wenn die Entity schon fokussiert ist, dann
-                // defokussieren
-                unFocus(e);
             } else if (key.isKeyDown("shift")) {
                 // Wenn man shift drückt, möchte man mehrere fokussieren
+                focus(e);
+            } else if (e.isFocused()) {
+                // Wenn die Entity schon fokussiert ist, dann
+                // defokussieren alle anderen
+                unFocus();
                 focus(e);
             } else {
                 // jetzt wurde auf eine nicht fokussierte Entity geklickt
@@ -266,5 +252,20 @@ public class Grid implements IRenderable, IUpdateable {
     @Override
     public Shape getBoundaries() {
         return new Rectangle2D.Double(0, 0, sprite.getWidth(), sprite.getHeight());
+    }
+    
+    @Override
+    public Sprite getSprite() {
+        return sprite;
+    }
+
+    @Override
+    public int x() {
+        return x;
+    }
+
+    @Override
+    public int y() {
+        return y;
     }
 }
