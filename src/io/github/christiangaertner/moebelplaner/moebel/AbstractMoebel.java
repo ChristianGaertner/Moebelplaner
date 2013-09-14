@@ -27,7 +27,7 @@ abstract public class AbstractMoebel extends AbstractEntity implements IMoveable
      */
     public AbstractMoebel(Sprite s) {
         sprite = s;
-        focusSprite = new Sprite(sprite.getWidth(), sprite.getHeight(), 0x000000);
+        focusSprite = new Sprite(sprite);
     }
 
     @Override
