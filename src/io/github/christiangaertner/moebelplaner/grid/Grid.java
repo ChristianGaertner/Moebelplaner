@@ -52,6 +52,8 @@ public class Grid implements IRenderable, IUpdateable {
      */
     protected List<AbstractEntity> focus = new ArrayList<AbstractEntity>();
 
+    protected boolean translatingEntity = false;
+    
     public Grid(Moebelplaner planer, Mouse mouse, Keyboard key) {
         this();
         this.mouse = mouse;
@@ -123,9 +125,16 @@ public class Grid implements IRenderable, IUpdateable {
 
     @Override
     public void update() {
-
+        
+        // Wenn wir nichts mehr drücken,
+        // dann bewegen wir auch nichts mehr
+        if (mouse.hold() == -1) {
+            translatingEntity = false;
+        }
+        
         // Wenn Linke-Taste gehalten ist Möbel bewegen
-        if (mouse.leftHold() && getEntity(mouse.x(), mouse.y()) != null) {
+        if ((mouse.leftHold() && getEntity(mouse.x(), mouse.y()) != null) || translatingEntity) {
+            translatingEntity = true;
             moveFocused(mouse.x() - mouse.preX(), mouse.y() - mouse.preY());
         }
         
