@@ -152,8 +152,10 @@ public class Grid implements IRenderable, IUpdateable {
                 focus(e);
             } else if (e.isFocused()) {
                 // Wenn die Entity schon fokussiert ist, dann
-                // defokussieren alle anderen
-                unFocus();
+                // defokussieren alle anderen (außer wenn wir sie bewegen)
+                if (!translatingEntity) {
+                    unFocus();
+                }
                 focus(e);
             } else {
                 // jetzt wurde auf eine nicht fokussierte Entity geklickt
