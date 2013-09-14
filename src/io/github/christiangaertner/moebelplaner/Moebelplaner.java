@@ -4,6 +4,7 @@ import io.github.christiangaertner.moebelplaner.graphics.Renderer;
 import io.github.christiangaertner.moebelplaner.grid.Grid;
 import io.github.christiangaertner.moebelplaner.input.Keyboard;
 import io.github.christiangaertner.moebelplaner.input.Mouse;
+import io.github.christiangaertner.moebelplaner.moebel.Bett;
 import io.github.christiangaertner.moebelplaner.moebel.Schrank;
 import java.awt.Canvas;
 import java.awt.Color;
@@ -271,7 +272,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
 
         if (DEBUG) {
             if (mouse.click() == 3) {
-                grid.add(new Schrank(mouse.x(), mouse.y()));
+                grid.add(new Bett(mouse.x(), mouse.y()));
             }
         }
 
