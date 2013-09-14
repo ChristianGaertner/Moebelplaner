@@ -18,7 +18,7 @@ https://github.com/ChristianGaertner/AntBuildFile
 	<property name="dist.dir" value="dist"/>
 	<property name="jar.file.name" value="${dist.dir}/${ant.project.name}-${build_number.build_number}.jar"/>
 
-	<property name="main-class"  value="MAIN_CLASS_HERE"/>
+	<property name="main-class"  value="io.github.christiangaertner.moebelplaner.Moebelplaner"/>
 	
 	<path id="classpath">
         	<fileset dir="${lib.dir}" includes="**/*.jar"/>
