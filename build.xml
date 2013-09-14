@@ -1,6 +1,7 @@
 <!--
 AntBuildFile by Christian Gärtner <christiangaertner.film@googlemail.com>
 https://github.com/ChristianGaertner/AntBuildFile
+LICENSE: MIT
 -->
 <project name="Moebelplaner" default="main">
 	<property environment="env"/>
@@ -10,8 +11,8 @@ https://github.com/ChristianGaertner/AntBuildFile
 	
 	<property name="build.dir" value="build"/>
 	<property name="src.dir" value="src"/>
-	
-	<property name="lib.dir" value="res/libs"/>
+	<property name="res.dir" value="res"/>
+	<property name="lib.dir" value="${res.dir}/libs"/>
 
 
 	<property name="classes.dir" value="${build.dir}/classes"/>
@@ -21,16 +22,17 @@ https://github.com/ChristianGaertner/AntBuildFile
 	<property name="main-class"  value="io.github.christiangaertner.moebelplaner.Moebelplaner"/>
 	
 	<path id="classpath">
-        	<fileset dir="${lib.dir}" includes="**/*.jar"/>
-    	</path>
+    	<fileset dir="${res.dir}/libs" includes="**/*.jar"/>
+	</path>
 	
 	<!-- Targets -->
 
 	<!-- Increment Build Number -->
 	<target name="increment_build_number">
 		<propertyfile file="build_number.properties">
-			<entry key="build_number" type="int" operation="+" default="1"/>
+			<entry key="build_number" type="int" operation="+" default="0"/>
 		</propertyfile>
+		<property name="jar.file.name" value="${dist.dir}/${ant.project.name}-${build_number.build_number}.jar"/>
 	</target>
 	
 	<!-- Clear build directory -->
@@ -40,7 +42,11 @@ https://github.com/ChristianGaertner/AntBuildFile
 	</target>
 	<!-- Prepare (creating dirs) -->
 	<target name="prepare">
+		<!-- Create lib dir if it doesn' t exists -->
 		<mkdir dir="${lib.dir}"/>
+
+		<!-- Download build_number file if it doesn' t exists-->
+		<get src="https://raw.github.com/ChristianGaertner/AntBuildFile/master/build_number.properties" dest="build_number.properties" skipexisting="true"/>
 	</target>
 
 
@@ -71,21 +77,13 @@ https://github.com/ChristianGaertner/AntBuildFile
                 <attribute name="Main-Class" value="${main-class}"/>
             </manifest>
             <fileset dir="${classes.dir}" includes="**/*.class" />
+            <fileset dir="${res.dir}" includes="**/*.png" />
             <zipgroupfileset dir="${lib.dir}" includes="**/*.jar" />
         </jar>
 
 	</target>
 	
 	<target name="run">
-		<java fork="true" classname="${main-class}">
-            <classpath>
-                <path refid="classpath"/>
-                <path location="${dist.dir}/${ant.project.name}.jar"/>
-            </classpath>
-        </java>
-	</target>
-	
-	<target name="run-jar">
 		<java jar="${jar.file.name}" fork="true"/>
 	</target>
 
