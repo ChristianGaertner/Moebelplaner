@@ -83,6 +83,27 @@ public class Grid implements IRenderable, IUpdateable {
     }
 
     /**
+     * Fokussiert alle Entities
+     *
+     * @param e
+     */
+    public void focus() {
+        unFocus();
+        for (AbstractEntity e : entities) {
+            focus(e);
+        }
+    }
+
+    public void deleteFocused() {
+        for (Iterator<AbstractEntity> it = focus.iterator(); it.hasNext();) {
+            // Löschen von der Entities Liste
+            delete(it.next());
+            // Löschen von der Focus Liste
+            it.remove();
+        }
+    }
+
+    /**
      * Rendered diese Grid und alle sich darauf befindenden Entities.
      *
      * @param renderer
@@ -116,20 +137,20 @@ public class Grid implements IRenderable, IUpdateable {
 
     @Override
     public void update() {
-        
+
         // Wenn Links-Klick versuchen eine Entity zu fokusieren
         if (mouse.leftClick()) {
-            AbstractEntity e = getEntity(mouse.x(), mouse.y());           
-            
+            AbstractEntity e = getEntity(mouse.x(), mouse.y());
+
             // Wenn e null ist, dann haben wir ins Leere geklickt
             // also alles defokussieren
             if (e == null) {
                 unFocus();
-            } else if(e.isFocused()) {
+            } else if (e.isFocused()) {
                 // Wenn die Entity schon fokussiert ist, dann
                 // defokussieren
                 unFocus(e);
-            } else if(key.isKeyDown("shift")) {
+            } else if (key.isKeyDown("shift")) {
                 // Wenn man shift drückt, möchte man mehrere fokussieren
                 focus(e);
             } else {
@@ -182,22 +203,12 @@ public class Grid implements IRenderable, IUpdateable {
     public int focusCount() {
         return focus.size();
     }
-    
-    /**
-     * Fokussiert alle Entities
-     * @param e
-     */ 
-    public void focus() {
-        unFocus();
-        for (AbstractEntity e : entities) {
-            focus(e);
-        }
-    }
 
     /**
      * Fokussiert eine Entity
+     *
      * @param e
-     */ 
+     */
     private void focus(AbstractEntity e) {
         if (!focus.contains(e)) {
             e.focus();
@@ -207,7 +218,8 @@ public class Grid implements IRenderable, IUpdateable {
 
     /**
      * Defokussiert eine Entity
-     * @param e 
+     *
+     * @param e
      */
     private void unFocus(AbstractEntity e) {
         if (focus.contains(e)) {
@@ -239,7 +251,7 @@ public class Grid implements IRenderable, IUpdateable {
         // neu deklarieren...
         Shape bounds;
         for (AbstractEntity e : Reversed.reversed(entities)) {
-            
+
             // Die Boundaries gekommen und erstmal das Rechteck davon
             // später werden evtl. mehr Bounding-Boxes implementiert
             bounds = e.getBoundaries().getBounds();
