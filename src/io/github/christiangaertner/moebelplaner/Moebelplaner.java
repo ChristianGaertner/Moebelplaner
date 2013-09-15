@@ -270,6 +270,8 @@ public final class Moebelplaner extends Canvas implements Runnable {
         if (DEBUG) {
             if (mouse.click() == 3) {
                 grid.add(new Badewanne(mouse.x(), mouse.y()));
+            } else if (mouse.click() == 2) {
+                grid.add(new Bett(mouse.x(), mouse.y()));
             }
         }
 

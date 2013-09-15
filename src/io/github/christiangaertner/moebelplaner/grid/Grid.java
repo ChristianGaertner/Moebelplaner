@@ -89,7 +89,8 @@ public class Grid implements IRenderable, IUpdateable {
      */
     public void focus() {
         unFocus();
-        for (AbstractEntity e : entities) {
+        for (Iterator<AbstractEntity> it = entities.iterator(); it.hasNext();) {
+            AbstractEntity e = it.next();
             focus(e);
         }
     }
@@ -133,6 +134,24 @@ public class Grid implements IRenderable, IUpdateable {
             moveFocused(mouse.x() - mouse.preX(), mouse.y() - mouse.preY());
         }
 
+        // Wenn Pfeiltasten gedrückt sind Möbel bewegen
+        int acc = 0;
+        if (key.isKeyDown("shift")) {
+            acc = 2;
+        }
+        if (key.isKeyDown("up")) {
+            moveFocused(0, -1 - acc);
+        }
+        if (key.isKeyDown("down")) {
+            moveFocused(0, 1 + acc);
+        }
+        if (key.isKeyDown("right")) {
+            moveFocused(1 + acc, 0);
+        }
+        if (key.isKeyDown("left")) {
+            moveFocused(-1 - acc, 0);
+        }
+
 
         // Wenn Links-Klick versuchen eine Entity zu fokusieren
         if (mouse.leftClick()) {
@@ -159,7 +178,7 @@ public class Grid implements IRenderable, IUpdateable {
                 focus(e);
             }
         }
-        
+
         List<AbstractEntity> colliding = new ArrayList<AbstractEntity>();
 
         // Jetzt checken wir noch Collisions
@@ -179,8 +198,8 @@ public class Grid implements IRenderable, IUpdateable {
                 }
             }
         }
-        
-        for(Iterator<AbstractEntity> it = entities.iterator(); it.hasNext();) {
+
+        for (Iterator<AbstractEntity> it = entities.iterator(); it.hasNext();) {
             AbstractEntity e = it.next();
             if (!colliding.contains(e)) {
                 e.unAlert();
