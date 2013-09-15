@@ -118,39 +118,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
         addMouseMotionListener(mouse);
         requestFocus();
 
-        JMenuBar menuBar = new JMenuBar();
-        JMenu editMenu = new JMenu("Edit");
-
-
-        menuBar.add(editMenu);
-
-        JMenuItem edit_SelectAll = new JMenuItem("Select All");
-        edit_SelectAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        edit_SelectAll.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                grid.focus();
-            }
-        });
-
-
-        JMenuItem edit_Delete = new JMenuItem("Delete");
-        edit_Delete.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0));
-        edit_Delete.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                grid.deleteFocused();
-            }
-        });
-
-
-
-        editMenu.add(edit_SelectAll);
-        editMenu.add(edit_Delete);
-
-        frame.setJMenuBar(menuBar);
-
+        frame.setJMenuBar(MenuBar.getMenuBar(grid));
     }
 
     /**
