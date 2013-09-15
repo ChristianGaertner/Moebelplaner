@@ -10,17 +10,28 @@ import java.awt.geom.Rectangle2D;
  *
  * @author Christian
  */
-abstract public class AbstractEntity implements IRenderable, IUpdateable, IFocusable {
+abstract public class AbstractEntity implements IRenderable, IUpdateable, IFocusable, IAlertable {
 
     /**
-     * Die Sprite für dieses Möbelstück
+     * Die Sprite für diese Entity
      */
     protected Sprite sprite;
     /**
-     * Die Sprite für dieses Möbelstück, wenn es fokussiert ist
+     * Die Sprite für diese Entity, wenn sie fokussiert ist
      */
     protected Sprite focusSprite;
+    /**
+     * Die Sprite für diese Entity, wenn sie alamiert ist
+     */
+    protected Sprite alertSprite;
+    /**
+     * Zeigt an, ob die Entity fokussiert ist
+     */
     protected boolean focused = false;
+    /**
+     * Zeigt an, ob die Entity alamiert worden ist
+     */
+    protected boolean alerted = false;
     /**
      * Die X-Y Koordinate auf der Grid
      */
@@ -35,6 +46,8 @@ abstract public class AbstractEntity implements IRenderable, IUpdateable, IFocus
     public Sprite getSprite() {
         if (focused) {
             return focusSprite;
+        } else if(alerted) {
+            return alertSprite;
         } else {
             return sprite;
         }
@@ -72,5 +85,20 @@ abstract public class AbstractEntity implements IRenderable, IUpdateable, IFocus
     @Override
     public boolean isFocused() {
         return focused;
+    }
+
+    @Override
+    public void alert() {
+        alerted = true;
+    }
+
+    @Override
+    public void unAlert() {
+        alerted = false;
+    }
+
+    @Override
+    public boolean isAlerted() {
+        return alerted;
     }
 }

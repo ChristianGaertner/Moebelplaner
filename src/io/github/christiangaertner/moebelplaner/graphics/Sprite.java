@@ -14,6 +14,10 @@ import javax.imageio.ImageIO;
  */
 public class Sprite {
 
+    public enum Overlay {
+
+        FOCUS, ALERT
+    }
     /**
      * Dieses Sprite kann für Fehler genutzt werden (Programm Fehler). - Farbe: rot - Größe: 16x16
      */
@@ -60,12 +64,26 @@ public class Sprite {
         setColor(color);
     }
 
-    public Sprite(Sprite sprite) {
+    public Sprite(Sprite sprite, Overlay o) {
         pixels = new int[sprite.getWidth() * sprite.getHeight()];
         width = sprite.getWidth();
         height = sprite.getHeight();
+        
+        String p;
+        
+        switch(o) {
+            case FOCUS:
+                p = "/images/focus.png";
+                break;
+            default:
+                /* Falls through */
+            case ALERT:
+                p = "/images/alert.png";
+                break;
+        }
+        
         try {
-            loadImage(overlayImages(getImage(sprite), getImage("/images/focus.png")));
+            loadImage(overlayImages(getImage(sprite), getImage(p)));
         } catch (IOException ex) {
             Logger.getLogger(Sprite.class.getName()).log(Level.SEVERE, null, ex);
         }

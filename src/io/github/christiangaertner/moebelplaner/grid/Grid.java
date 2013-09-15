@@ -8,14 +8,12 @@ import io.github.christiangaertner.moebelplaner.input.Keyboard;
 import io.github.christiangaertner.moebelplaner.input.Mouse;
 import io.github.christiangaertner.moebelplaner.moebel.AbstractMoebel;
 import io.github.christiangaertner.moebelplaner.util.Reversed;
+import java.awt.Rectangle;
 import java.awt.Shape;
-import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
-import javax.swing.KeyStroke;
 
 /**
  *
@@ -51,9 +49,8 @@ public class Grid implements IRenderable, IUpdateable {
      * Die gerade "markierten" Entities
      */
     protected List<AbstractEntity> focus = new ArrayList<AbstractEntity>();
-
     protected boolean translatingEntity = false;
-    
+
     public Grid(Moebelplaner planer, Mouse mouse, Keyboard key) {
         this();
         this.mouse = mouse;
@@ -125,20 +122,20 @@ public class Grid implements IRenderable, IUpdateable {
 
     @Override
     public void update() {
-        
+
         // Wenn wir nichts mehr drücken,
         // dann bewegen wir auch nichts mehr
         if (mouse.hold() == -1) {
             translatingEntity = false;
         }
-        
+
         // Wenn Linke-Taste gehalten ist Möbel bewegen
         if ((mouse.leftHold() && getEntity(mouse.x(), mouse.y()) != null) || translatingEntity) {
             translatingEntity = true;
             moveFocused(mouse.x() - mouse.preX(), mouse.y() - mouse.preY());
         }
-        
-        
+
+
         // Wenn Links-Klick versuchen eine Entity zu fokusieren
         if (mouse.leftClick()) {
             AbstractEntity e = getEntity(mouse.x(), mouse.y());
@@ -164,6 +161,22 @@ public class Grid implements IRenderable, IUpdateable {
                 focus(e);
             }
         }
+
+        // Jetzt checken wir noch Collisions
+        for (Iterator<AbstractEntity> it = entities.iterator(); it.hasNext();) {
+            AbstractEntity e1 = it.next();
+            for (Iterator<AbstractEntity> i = entities.iterator(); i.hasNext();) {
+                AbstractEntity e2 = i.next();
+                if (colliding(e1, e2) && !e2.equals(e1)) {
+                    e1.alert();
+                    e2.alert();
+                } else if (!e2.equals(e1)) {
+                    e1.unAlert();
+                    e2.unAlert();
+                }
+            }
+        }
+
 
 //        // Alle Entities updaten       
 //        for (AbstractEntity e : entities) {
@@ -264,6 +277,17 @@ public class Grid implements IRenderable, IUpdateable {
                 m = (AbstractMoebel) e;
                 m.move(x, y);
             }
+        }
+    }
+
+    private boolean colliding(AbstractEntity e1, AbstractEntity e2) {
+        Rectangle bounds1 = e1.getBoundaries().getBounds();
+        Rectangle bounds2 = e2.getBoundaries().getBounds();
+
+        if (bounds1.intersects(bounds2)) {
+            return true;
+        } else {
+            return false;
         }
     }
 

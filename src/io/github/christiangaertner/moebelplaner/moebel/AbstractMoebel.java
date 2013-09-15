@@ -1,6 +1,7 @@
 package io.github.christiangaertner.moebelplaner.moebel;
 
 import io.github.christiangaertner.moebelplaner.graphics.Sprite;
+import io.github.christiangaertner.moebelplaner.graphics.Sprite.Overlay;
 import io.github.christiangaertner.moebelplaner.grid.AbstractEntity;
 import io.github.christiangaertner.moebelplaner.grid.IMoveable;
 
@@ -27,7 +28,8 @@ abstract public class AbstractMoebel extends AbstractEntity implements IMoveable
      */
     public AbstractMoebel(Sprite s) {
         sprite = s;
-        focusSprite = new Sprite(sprite);
+        focusSprite = new Sprite(sprite, Overlay.FOCUS);
+        alertSprite = new Sprite(sprite, Overlay.ALERT);
     }
 
     @Override
