@@ -165,17 +165,6 @@ public class Grid implements IRenderable, IUpdateable {
             }
         }
 
-        // Mittel klick. Löscht die fokussierten Entities
-        // nur temporär.
-        if (mouse.click() == 2) {
-            for (Iterator<AbstractEntity> it = focus.iterator(); it.hasNext();) {
-                // Löschen von der Entities Liste
-                delete(it.next());
-                // Löschen von der Focus Liste
-                it.remove();
-            }
-        }
-
 //        // Alle Entities updaten       
 //        for (AbstractEntity e : entities) {
 //            e.update();
