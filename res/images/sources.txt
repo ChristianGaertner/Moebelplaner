@@ -10,3 +10,7 @@ Owners:
 	turbosquid.com
 	- bett.png (http://preview.turbosquid.com/Preview/2010/12/03__03_36_00/bed_top.jpg6c654bfb-e7c3-4947-ac7c-6251876beb77Larger.jpg)
 	- bett.psd
+
+	furnitursite.com
+	- toilette.png (http://furnitursite.com/wp-content/uploads/2011/02/modern-minimalist-wall-hung-lavatory-system-top-view-6.jpg)
+	- waschbecken.png (http://furnitursite.com/wp-content/uploads/2011/02/modern-minimalist-wall-hung-lavatory-system-top-view-6.jpg)
