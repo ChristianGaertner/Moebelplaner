@@ -161,6 +161,8 @@ public class Grid implements IRenderable, IUpdateable {
                 focus(e);
             }
         }
+        
+        List<AbstractEntity> colliding = new ArrayList<AbstractEntity>();
 
         // Jetzt checken wir noch Collisions
         for (Iterator<AbstractEntity> it = entities.iterator(); it.hasNext();) {
@@ -170,10 +172,20 @@ public class Grid implements IRenderable, IUpdateable {
                 if (colliding(e1, e2) && !e2.equals(e1)) {
                     e1.alert();
                     e2.alert();
-                } else if (!e2.equals(e1)) {
-                    e1.unAlert();
-                    e2.unAlert();
+                    if (!colliding.contains(e1)) {
+                        colliding.add(e1);
+                    }
+                    if (!colliding.contains(e2)) {
+                        colliding.add(e2);
+                    }
                 }
+            }
+        }
+        
+        for(Iterator<AbstractEntity> it = entities.iterator(); it.hasNext();) {
+            AbstractEntity e = it.next();
+            if (!colliding.contains(e)) {
+                e.unAlert();
             }
         }
 
