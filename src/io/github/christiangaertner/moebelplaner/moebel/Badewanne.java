@@ -4,24 +4,24 @@ package io.github.christiangaertner.moebelplaner.moebel;
  *
  * @author Christian
  */
-public class Bett extends AbstractMoebel {
+public class Badewanne extends AbstractMoebel {
 
     /**
-     * Neues Bett von Bild "bett.png"
+     * Neue Badewanne von Bild "bett.png"
      *
      * @param x Die X-Koordinate
      * @param y Die Y-Koordinate
      */
-    public Bett(int x, int y) {
-        super("/images/moebel/bett.png");
+    public Badewanne(int x, int y) {
+        super("/images/moebel/badewanne.png");
         this.x = x;
         this.y = y;
     }
 
     /**
-     * Neues Bett an (0/0)
+     * Neue Badewann an (0/0)
      */
-    public Bett() {
+    public Badewanne() {
         this(0, 0);
     }
 }

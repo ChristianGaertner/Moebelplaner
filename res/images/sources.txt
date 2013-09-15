@@ -6,7 +6,6 @@ Owners:
 
 	Bad-Kunz.de
 	- badewanne.png (http://www.bad-kunz.de/shop/media/images/popup/elegance_chrom_oben.jpg)
-	- badewanne.psd
 
 	turbosquid.com
 	- bett.png (http://preview.turbosquid.com/Preview/2010/12/03__03_36_00/bed_top.jpg6c654bfb-e7c3-4947-ac7c-6251876beb77Larger.jpg)
