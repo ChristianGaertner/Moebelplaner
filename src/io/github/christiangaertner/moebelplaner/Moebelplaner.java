@@ -5,7 +5,6 @@ import io.github.christiangaertner.moebelplaner.grid.Grid;
 import io.github.christiangaertner.moebelplaner.input.Keyboard;
 import io.github.christiangaertner.moebelplaner.input.Mouse;
 import io.github.christiangaertner.moebelplaner.moebel.Bett;
-import io.github.christiangaertner.moebelplaner.moebel.Schrank;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -113,9 +112,6 @@ public final class Moebelplaner extends Canvas implements Runnable {
 
         grid = new Grid(this, mouse, key);
 
-        grid.add(new Schrank(50, 50));
-        grid.add(new Schrank(200, 50));
-
         addKeyListener(key);
         addMouseListener(mouse);
         addMouseMotionListener(mouse);
@@ -136,8 +132,8 @@ public final class Moebelplaner extends Canvas implements Runnable {
                 grid.focus();
             }
         });
-        
-        
+
+
         JMenuItem edit_Delete = new JMenuItem("Delete");
         edit_Delete.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0));
         edit_Delete.addActionListener(new ActionListener() {
@@ -332,7 +328,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
 
             g.drawString("Mouse: X: " + mouse.x() + "; Y: " + mouse.y() + "; preX: " + mouse.preX() + "; preY: " + mouse.preY(), 0, fontSize * 4);
             g.drawString("Drag: " + (mouse.x() - mouse.preX()) + " / " + (mouse.y() - mouse.preY()), 0, fontSize * 5);
-            
+
             String display;
 
             switch (mouse.hold()) {
