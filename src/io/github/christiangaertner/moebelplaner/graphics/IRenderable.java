@@ -9,13 +9,6 @@ import java.awt.Shape;
 public interface IRenderable {
 
     /**
-     * Rendererd das Bild
-     *
-     * @param renderer
-     */
-    public void render(Renderer renderer);
-
-    /**
      * Gibt einfach nur die Sprite zurück
      *
      * @return

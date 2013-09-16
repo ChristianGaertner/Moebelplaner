@@ -26,22 +26,20 @@ public class Renderer {
     
     
     /**
-     * Schnelle Möglichkeit ein Objekt zu rendern
-     * Der eigentliche render Vorgang sollte im Objekt
-     * selber geschehen.
+     * Rendered
      * @param r
      */
     public void render(IRenderable r) {
-        r.render(this);
+        render(r.getSprite(), r.x(), r.y());
     }
     
     /**
-     * Rendered ein Objekt an einer bestimmten Koordinate
-     * @param r
+     * Rendered eine Sprite an einer bestimmten Koordinate
+     * @param sprite
+     * @param xp
+     * @param yp 
      */
-    public void render(IRenderable r, int xp, int yp) {
-
-        Sprite sprite = r.getSprite();
+    public void render(Sprite sprite, int xp, int yp) {
         
         for (int y = 0; y < sprite.getHeight(); y++) {
             int ya = y + yp;

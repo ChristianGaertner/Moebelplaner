@@ -38,11 +38,6 @@ abstract public class AbstractEntity implements IRenderable, IUpdateable, IFocus
     protected int x, y;
 
     @Override
-    public void render(Renderer renderer) {
-        renderer.render(this, x, y);
-    }
-
-    @Override
     public Sprite getSprite() {
         if (focused) {
             return focusSprite;

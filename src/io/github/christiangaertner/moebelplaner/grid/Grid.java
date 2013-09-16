@@ -109,13 +109,12 @@ public class Grid implements IRenderable, IUpdateable {
      *
      * @param renderer
      */
-    @Override
     public void render(Renderer renderer) {
         // Erstmal die Grid selber rendern
-        renderer.render(this, x, y);
+        renderer.render(this);
         for (Iterator<AbstractEntity> it = entities.iterator(); it.hasNext();) {
             AbstractEntity e = it.next();
-            e.render(renderer);
+            renderer.render(e);
         }
     }
 
