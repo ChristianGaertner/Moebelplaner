@@ -179,32 +179,8 @@ public class Grid implements IRenderable, IUpdateable {
             }
         }
 
-        List<AbstractEntity> colliding = new ArrayList<AbstractEntity>();
-
         // Jetzt checken wir noch Collisions
-        for (Iterator<AbstractEntity> it = entities.iterator(); it.hasNext();) {
-            AbstractEntity e1 = it.next();
-            for (Iterator<AbstractEntity> i = entities.iterator(); i.hasNext();) {
-                AbstractEntity e2 = i.next();
-                if (colliding(e1, e2) && !e2.equals(e1)) {
-                    e1.alert();
-                    e2.alert();
-                    if (!colliding.contains(e1)) {
-                        colliding.add(e1);
-                    }
-                    if (!colliding.contains(e2)) {
-                        colliding.add(e2);
-                    }
-                }
-            }
-        }
-
-        for (Iterator<AbstractEntity> it = entities.iterator(); it.hasNext();) {
-            AbstractEntity e = it.next();
-            if (!colliding.contains(e)) {
-                e.unAlert();
-            }
-        }
+        calculateCollisions();
 
 
 //        // Alle Entities updaten       
@@ -305,6 +281,33 @@ public class Grid implements IRenderable, IUpdateable {
             if (e instanceof AbstractMoebel) {
                 m = (AbstractMoebel) e;
                 m.move(x, y);
+            }
+        }
+    }
+    
+    private void calculateCollisions() {
+        List<AbstractEntity> colliding = new ArrayList<AbstractEntity>();
+        for (Iterator<AbstractEntity> it = entities.iterator(); it.hasNext();) {
+            AbstractEntity e1 = it.next();
+            for (Iterator<AbstractEntity> i = entities.iterator(); i.hasNext();) {
+                AbstractEntity e2 = i.next();
+                if (colliding(e1, e2) && !e2.equals(e1)) {
+                    e1.alert();
+                    e2.alert();
+                    if (!colliding.contains(e1)) {
+                        colliding.add(e1);
+                    }
+                    if (!colliding.contains(e2)) {
+                        colliding.add(e2);
+                    }
+                }
+            }
+        }
+
+        for (Iterator<AbstractEntity> it = entities.iterator(); it.hasNext();) {
+            AbstractEntity e = it.next();
+            if (!colliding.contains(e)) {
+                e.unAlert();
             }
         }
     }
