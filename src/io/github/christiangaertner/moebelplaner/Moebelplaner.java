@@ -270,7 +270,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
         Graphics2D g = (Graphics2D) bs.getDrawGraphics();
 
         // Wir renderen unserer Grid
-        renderer.render(grid);
+        grid.render(renderer);
 
 
         // Wir nehmen jetzt den int[] den der Renderer
@@ -349,7 +349,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
         }
 
         // Unseren Moebelplaner erstellen (im Debug mode)
-        Moebelplaner planer = new Moebelplaner();
+        Moebelplaner planer = new Moebelplaner(true);
 
         // Sonst wird es schwieriger mit den Graphiken
         planer.frame.setResizable(false);

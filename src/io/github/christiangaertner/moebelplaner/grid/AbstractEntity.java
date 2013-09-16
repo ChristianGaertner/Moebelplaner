@@ -1,7 +1,6 @@
 package io.github.christiangaertner.moebelplaner.grid;
 
 import io.github.christiangaertner.moebelplaner.graphics.IRenderable;
-import io.github.christiangaertner.moebelplaner.graphics.Renderer;
 import io.github.christiangaertner.moebelplaner.graphics.Sprite;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
