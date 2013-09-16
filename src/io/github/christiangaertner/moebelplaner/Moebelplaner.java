@@ -118,7 +118,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
         addMouseMotionListener(mouse);
         requestFocus();
 
-        frame.setJMenuBar(MenuBar.getMenuBar(grid));
+        frame.setJMenuBar(new MenuBar(grid).getMenuBar());
     }
 
     /**
