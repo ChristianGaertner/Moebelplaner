@@ -131,10 +131,19 @@ public class MenuBar {
             }
         });
         
+        JMenuItem MoebelMenu_Desk = new JMenuItem("Desk");
+        MoebelMenu_Desk.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                grid.add(new Schreibtisch());
+            }
+        });
+        
         MoebelMenu.add(MoebelMenu_Bett);
         MoebelMenu.add(MoebelMenu_Badewanne);
         MoebelMenu.add(MoebelMenu_Toilette);
         MoebelMenu.add(MoebelMenu_Sink);
+        MoebelMenu.add(MoebelMenu_Desk);
         
         items.add(MoebelMenu);
         
