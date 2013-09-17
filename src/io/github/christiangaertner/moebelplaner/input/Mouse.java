@@ -1,5 +1,6 @@
 package io.github.christiangaertner.moebelplaner.input;
 
+import io.github.christiangaertner.moebelplaner.grid.IUpdateable;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -8,7 +9,7 @@ import java.awt.event.MouseMotionListener;
  *
  * @author Christian
  */
-public class Mouse implements MouseListener, MouseMotionListener {
+public class Mouse implements MouseListener, MouseMotionListener, IUpdateable {
 
     /**
      * Mouse Koordianten

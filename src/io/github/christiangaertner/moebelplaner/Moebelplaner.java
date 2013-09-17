@@ -253,6 +253,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
         // Jetzt den MouseListener, nur so können wir einfache
         // Klicks feststellen
         mouse.update();
+        key.update();
     }
 
     /**

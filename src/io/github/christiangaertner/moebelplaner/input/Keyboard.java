@@ -1,5 +1,6 @@
 package io.github.christiangaertner.moebelplaner.input;
 
+import io.github.christiangaertner.moebelplaner.grid.IUpdateable;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
@@ -10,7 +11,7 @@ import java.util.Map;
  *
  * @author Christian
  */
-public class Keyboard implements KeyListener {
+public class Keyboard implements KeyListener, IUpdateable {
 
     /*
      * Copyright (c) 2002-2008 LWJGL Project
@@ -254,6 +255,10 @@ public class Keyboard implements KeyListener {
         keyCodeMap = new HashMap<String, Integer>();
         initKeys();
     }
+    
+    public void update() {
+        lastKey = null;
+    }
 
     public boolean isKeyDown(int key) {
         boolean r = keyDown[key] || keyLatched[key];
@@ -273,10 +278,16 @@ public class Keyboard implements KeyListener {
             return false;
         }
     }
+    
+    public boolean keyHit(String key) {
+        return getKey().equalsIgnoreCase(key);
+    }
 
-    public synchronized String getKey() {
+    public String getKey() {
         String r = lastKey;
-        lastKey = null; //Reset it
+        if (r == null) {
+            r = "NON_KEY";
+        }
         return r;
     }
 

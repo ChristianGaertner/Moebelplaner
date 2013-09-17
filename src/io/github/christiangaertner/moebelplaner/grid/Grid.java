@@ -138,16 +138,16 @@ public class Grid implements IRenderable, IUpdateable {
         if (key.isKeyDown("shift")) {
             acc = 2;
         }
-        if (key.isKeyDown("up")) {
+        if (key.keyHit("up")) {
             moveFocused(0, -1 - acc);
         }
-        if (key.isKeyDown("down")) {
+        if (key.keyHit("down")) {
             moveFocused(0, 1 + acc);
         }
-        if (key.isKeyDown("right")) {
+        if (key.keyHit("right")) {
             moveFocused(1 + acc, 0);
         }
-        if (key.isKeyDown("left")) {
+        if (key.keyHit("left")) {
             moveFocused(-1 - acc, 0);
         }
 
