@@ -138,8 +138,12 @@ public class MenuBar {
             public void actionPerformed(ActionEvent ae) {
                 try {
                     grid.add((AbstractMoebel) Class.forName(fullClassName).newInstance());
-                } catch (Exception ex) {
-                    Logger.getLogger(Moebelplaner.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Moebelplaner.LOGGER.log(Level.SEVERE, null, ex);
+                } catch (InstantiationException ex) {
+                    Moebelplaner.LOGGER.log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Moebelplaner.LOGGER.log(Level.SEVERE, null, ex);
                 }
             }
         });
