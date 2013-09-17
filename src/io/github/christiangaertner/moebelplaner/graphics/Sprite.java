@@ -1,5 +1,6 @@
 package io.github.christiangaertner.moebelplaner.graphics;
 
+import io.github.christiangaertner.moebelplaner.Moebelplaner;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
@@ -85,7 +86,7 @@ public class Sprite {
         try {
             loadImage(overlayImages(getImage(sprite), getImage(p)));
         } catch (IOException ex) {
-            Logger.getLogger(Sprite.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Moebelplaner.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -146,7 +147,7 @@ public class Sprite {
             loadImage(image);
 
         } catch (IOException ex) {
-            Logger.getLogger(Sprite.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Moebelplaner.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -175,7 +176,7 @@ public class Sprite {
             return combined;
 
         } catch (IOException ex) {
-            Logger.getLogger(Sprite.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Moebelplaner.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return null;
