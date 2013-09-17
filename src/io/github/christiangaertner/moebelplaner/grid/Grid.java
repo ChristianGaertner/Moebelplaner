@@ -274,11 +274,11 @@ public class Grid implements IRenderable, IUpdateable {
     }
 
     private void moveFocused(int x, int y) {
-        AbstractMoebel m;
+        IMoveable m;
         for (Iterator<AbstractEntity> it = focus.iterator(); it.hasNext();) {
             AbstractEntity e = it.next();
-            if (e instanceof AbstractMoebel) {
-                m = (AbstractMoebel) e;
+            if (e instanceof IMoveable) {
+                m = (IMoveable) e;
                 m.move(x, y);
             }
         }
