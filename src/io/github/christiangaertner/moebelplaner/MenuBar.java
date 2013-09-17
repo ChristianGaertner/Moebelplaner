@@ -9,7 +9,6 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -139,9 +138,9 @@ public class MenuBar {
                 try {
                     grid.add((AbstractMoebel) Class.forName(fullClassName).newInstance());
                 } catch (ClassNotFoundException ex) {
-                    Moebelplaner.LOGGER.log(Level.SEVERE, null, ex);
+                    Moebelplaner.LOGGER.log(Level.SEVERE, "Klasse nicht gefunden", ex);
                 } catch (InstantiationException ex) {
-                    Moebelplaner.LOGGER.log(Level.SEVERE, null, ex);
+                    Moebelplaner.LOGGER.log(Level.SEVERE, "Neues Objekt konnte nicht erstellt werden", ex);
                 } catch (IllegalAccessException ex) {
                     Moebelplaner.LOGGER.log(Level.SEVERE, null, ex);
                 }

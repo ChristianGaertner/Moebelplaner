@@ -6,7 +6,6 @@ import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.io.IOException;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 /**
@@ -86,7 +85,7 @@ public class Sprite {
         try {
             loadImage(overlayImages(getImage(sprite), getImage(p)));
         } catch (IOException ex) {
-            Logger.getLogger(Moebelplaner.class.getName()).log(Level.SEVERE, null, ex);
+            Moebelplaner.LOGGER.log(Level.SEVERE, "Bild konnte nicht geladen werden", ex);
         }
 
     }
@@ -147,7 +146,7 @@ public class Sprite {
             loadImage(image);
 
         } catch (IOException ex) {
-            Logger.getLogger(Moebelplaner.class.getName()).log(Level.SEVERE, null, ex);
+            Moebelplaner.LOGGER.log(Level.SEVERE, "Bild konnte nicht geladen werden", ex);
         }
     }
 
@@ -176,7 +175,7 @@ public class Sprite {
             return combined;
 
         } catch (IOException ex) {
-            Logger.getLogger(Moebelplaner.class.getName()).log(Level.SEVERE, null, ex);
+            Moebelplaner.LOGGER.log(Level.SEVERE, "Bild konnte nicht geladen werden", ex);
         }
 
         return null;

@@ -1,5 +1,6 @@
 package io.github.christiangaertner.moebelplaner;
 
+import io.github.christiangaertner.moebelplaner.error.ExceptionHandler;
 import io.github.christiangaertner.moebelplaner.graphics.Renderer;
 import io.github.christiangaertner.moebelplaner.grid.Grid;
 import io.github.christiangaertner.moebelplaner.input.Keyboard;
@@ -11,19 +12,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.KeyStroke;
 
 /**
  *
@@ -31,6 +25,11 @@ import javax.swing.KeyStroke;
  */
 public final class Moebelplaner extends Canvas implements Runnable {
 
+    /**
+     * Der Logger dieses Programmes
+     */
+    public final static Logger LOGGER = Logger.getLogger(Moebelplaner.class.getName());
+    
     /**
      * Zeigt an ob debug info angezeigt werden soll
      */
@@ -102,6 +101,14 @@ public final class Moebelplaner extends Canvas implements Runnable {
      */
     public Moebelplaner(boolean debug) {
         DEBUG = debug;
+        
+        if (DEBUG) {
+            LOGGER.setLevel(Level.FINEST);
+        } else {
+            LOGGER.setLevel(Level.INFO);
+        }
+        
+        LOGGER.addHandler(new ExceptionHandler());
 
         // Für den Canvas
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -329,16 +336,6 @@ public final class Moebelplaner extends Canvas implements Runnable {
     }
 
     /**
-     * Zeigt eine Fehlermeldung and
-     *
-     * @param msg Die Meldung
-     * @param loc Wird im Fenstertitle stehen
-     */
-    public void showError(String msg, String loc) {
-        JOptionPane.showMessageDialog(null, msg, "Error: " + loc, JOptionPane.ERROR_MESSAGE);
-    }
-
-    /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
@@ -349,7 +346,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
         }
 
         // Unseren Moebelplaner erstellen (im Debug mode)
-        Moebelplaner planer = new Moebelplaner(true);
+        Moebelplaner planer = new Moebelplaner();
 
         // Sonst wird es schwieriger mit den Graphiken
         planer.frame.setResizable(false);
