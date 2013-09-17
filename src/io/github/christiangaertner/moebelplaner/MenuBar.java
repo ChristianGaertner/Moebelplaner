@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -20,54 +22,64 @@ import javax.swing.KeyStroke;
 public class MenuBar {
 
     private final Grid grid;
-    
-    public MenuBar(Grid g) {
+    private final Moebelplaner planer;
+    private final List<String> furnities = new ArrayList<String>();
+
+    public MenuBar(Moebelplaner p, Grid g) {
         grid = g;
+        planer = p;
+
+        furnities.add("Badewanne");
+        furnities.add("Bett");
+        furnities.add("Schreibtisch");
+        furnities.add("Toilette");
+        furnities.add("Waschbecken");
+
     }
-    
+
     public JMenuBar getMenuBar() {
 
         JMenuBar menuBar = new JMenuBar();
 
-        for(JMenu menu : getMenus()) {
+        for (JMenu menu : getMenus()) {
             menuBar.add(menu);
         }
 
 
 
-        
+
 
         return menuBar;
     }
-    
+
     private List<JMenu> getMenus() {
-        
+
         List<JMenu> menus = new ArrayList<JMenu>();
-        
-        
+
+
         JMenu edit = new JMenu("Edit");
         JMenu add = new JMenu("Add");
-        
+
         for (JMenuItem i : getMenuItemsEdit()) {
             edit.add(i);
         }
-        
+
         for (JMenuItem i : getMenuItemsAdd()) {
             add.add(i);
         }
-        
-        
+
+
         menus.add(edit);
-        menus.add(add);   
-        
+        menus.add(add);
+
         return menus;
     }
-    
+
     private List<JMenuItem> getMenuItemsEdit() {
         List<JMenuItem> items = new ArrayList<JMenuItem>();
-        
-        
-        
+
+
+
         JMenuItem selectAll = new JMenuItem("Select All");
         selectAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
                 Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
@@ -87,66 +99,51 @@ public class MenuBar {
                 grid.deleteFocused();
             }
         });
-        
+
         items.add(delete);
         items.add(selectAll);
 
         return items;
     }
-    
+
     private List<JMenuItem> getMenuItemsAdd() {
         List<JMenuItem> items = new ArrayList<JMenuItem>();
 
         JMenuItem MoebelMenu = new JMenu("Furniture");
 
-        JMenuItem MoebelMenu_Bett = new JMenuItem("Bed");
-        MoebelMenu_Bett.addActionListener(new ActionListener() {
+        for (String s : furnities) {
+            MoebelMenu.add(createItem(s));
+        }
+
+        items.add(MoebelMenu);
+
+        return items;
+    }
+
+    private JMenuItem createItem(String className) {
+
+        // Das ist etwas komisch aber ganz logisch!
+        // Erstmal das jetzige package bekommen:
+        // this.getClass().getPackage() -> io.github.christiangaertner.moebelplaner
+        // Dann liegen alle Möbel im Möbel sub-package
+        // .mobel.
+        // Und jetzt noch den Klassennamen hinzufügen und schließlich noch die ersten 8 chars wegschneiden:
+        // Die ersten 8 sind "package "
+        final String fullClassName = (this.getClass().getPackage() + ".moebel." + className).substring(8);
+
+        JMenuItem item = new JMenuItem(className);
+
+        item.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                grid.add(new Bett());
+                try {
+                    grid.add((AbstractMoebel) Class.forName(fullClassName).newInstance());
+                } catch (Exception ex) {
+                    Logger.getLogger(Moebelplaner.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
 
-        JMenuItem MoebelMenu_Badewanne = new JMenuItem("Bathtub");
-        MoebelMenu_Badewanne.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                grid.add(new Badewanne());
-            }
-        });
-        
-        JMenuItem MoebelMenu_Toilette = new JMenuItem("Toilet");
-        MoebelMenu_Toilette.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                grid.add(new Toilette());
-            }
-        });
-        
-        JMenuItem MoebelMenu_Sink = new JMenuItem("Sink");
-        MoebelMenu_Sink.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                grid.add(new Waschbecken());
-            }
-        });
-        
-        JMenuItem MoebelMenu_Desk = new JMenuItem("Desk");
-        MoebelMenu_Desk.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                grid.add(new Schreibtisch());
-            }
-        });
-        
-        MoebelMenu.add(MoebelMenu_Bett);
-        MoebelMenu.add(MoebelMenu_Badewanne);
-        MoebelMenu.add(MoebelMenu_Toilette);
-        MoebelMenu.add(MoebelMenu_Sink);
-        MoebelMenu.add(MoebelMenu_Desk);
-        
-        items.add(MoebelMenu);
-        
-        return items;
+        return item;
     }
 }
