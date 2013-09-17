@@ -28,11 +28,12 @@ public class MenuBar {
         grid = g;
         planer = p;
 
-        furnities.add("Badewanne");
         furnities.add("Bett");
         furnities.add("Schreibtisch");
+        furnities.add("Sofa");
         furnities.add("Toilette");
         furnities.add("Waschbecken");
+        furnities.add("Badewanne");
 
     }
 

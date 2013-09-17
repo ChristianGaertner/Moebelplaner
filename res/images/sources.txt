@@ -17,3 +17,6 @@ Owners:
 
 	customgunsafe.com:
 	- schreibtisch.png (http://customgunsafe.com/wp-content/gallery/desks/DeskTop_0076.jpg)
+
+	trends4ever.com:
+	- sofa.png (http://trends4ever.com/wp-content/uploads/2013/07/top-view-sofa-set-2.jpg)
