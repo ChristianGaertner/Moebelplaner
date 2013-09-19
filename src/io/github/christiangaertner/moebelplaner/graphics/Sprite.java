@@ -1,9 +1,7 @@
 package io.github.christiangaertner.moebelplaner.graphics;
 
 import io.github.christiangaertner.moebelplaner.Moebelplaner;
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.awt.image.WritableRaster;
 import java.io.IOException;
 import java.util.logging.Level;
 import javax.imageio.ImageIO;
@@ -14,10 +12,6 @@ import javax.imageio.ImageIO;
  */
 public class Sprite {
 
-    public enum Overlay {
-
-        FOCUS, ALERT
-    }
     /**
      * Dieses Sprite kann für Fehler genutzt werden (Programm Fehler). - Farbe: rot - Größe: 16x16
      */
@@ -62,32 +56,6 @@ public class Sprite {
         height = h;
         pixels = new int[w * h];
         setColor(color);
-    }
-
-    public Sprite(Sprite sprite, Overlay o) {
-        pixels = new int[sprite.getWidth() * sprite.getHeight()];
-        width = sprite.getWidth();
-        height = sprite.getHeight();
-        
-        String p;
-        
-        switch(o) {
-            case FOCUS:
-                p = "/images/focus.png";
-                break;
-            default:
-                /* Falls through */
-            case ALERT:
-                p = "/images/alert.png";
-                break;
-        }
-        
-        try {
-            loadImage(overlayImages(getImage(sprite), getImage(p)));
-        } catch (IOException ex) {
-            Moebelplaner.LOGGER.log(Level.SEVERE, "Bild konnte nicht geladen werden", ex);
-        }
-
     }
 
     public int getWidth() {
@@ -150,42 +118,7 @@ public class Sprite {
         }
     }
 
-    private BufferedImage overlayImages(String bg, String fg) throws IOException {
-        // Erstmal beide Bilder laden
-        BufferedImage image = getImage(bg);
-        BufferedImage overlay_raw = getImage(fg);
-
-        return overlayImages(image, overlay_raw);
-    }
-
-    private BufferedImage overlayImages(BufferedImage bg, BufferedImage fg) {
-        BufferedImage overlay = new BufferedImage(bg.getWidth(), bg.getHeight(), BufferedImage.TYPE_INT_ARGB);
-
-        Graphics tmpG = overlay.getGraphics();
-
-        tmpG.drawImage(fg, 0, 0, bg.getWidth(), bg.getHeight(), null);
-
-        // Neues Bild erstellen
-        int w = Math.max(bg.getWidth(), overlay.getWidth());
-        int h = Math.max(bg.getHeight(), overlay.getHeight());
-        BufferedImage combined = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-
-        // paint both images, preserving the alpha channels
-        Graphics g = combined.getGraphics();
-        g.drawImage(bg, 0, 0, null);
-        g.drawImage(overlay, 0, 0, null);
-
-        return combined;
-    }
-
     private BufferedImage getImage(String path) throws IOException {
         return ImageIO.read(Sprite.class.getResource(path));
-    }
-
-    private BufferedImage getImage(Sprite sprite) throws IOException {
-        BufferedImage image = new BufferedImage(sprite.getWidth(), sprite.getHeight(), BufferedImage.TYPE_INT_RGB);
-        WritableRaster raster = (WritableRaster) image.getRaster();
-        raster.getPixels(0, 0, sprite.getWidth(), sprite.getHeight(), sprite.getPixels());
-        return image;
     }
 }

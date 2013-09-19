@@ -16,14 +16,6 @@ abstract public class AbstractEntity implements IRenderable, IUpdateable, IFocus
      */
     protected Sprite sprite;
     /**
-     * Die Sprite für diese Entity, wenn sie fokussiert ist
-     */
-    protected Sprite focusSprite;
-    /**
-     * Die Sprite für diese Entity, wenn sie alamiert ist
-     */
-    protected Sprite alertSprite;
-    /**
      * Zeigt an, ob die Entity fokussiert ist
      */
     protected boolean focused = false;
@@ -38,13 +30,7 @@ abstract public class AbstractEntity implements IRenderable, IUpdateable, IFocus
 
     @Override
     public Sprite getSprite() {
-        if (focused) {
-            return focusSprite;
-        } else if(alerted) {
-            return alertSprite;
-        } else {
-            return sprite;
-        }
+        return sprite;
     }
 
     @Override
