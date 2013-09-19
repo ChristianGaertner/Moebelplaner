@@ -6,14 +6,15 @@ import io.github.christiangaertner.moebelplaner.graphics.Renderer;
 import io.github.christiangaertner.moebelplaner.graphics.Sprite;
 import io.github.christiangaertner.moebelplaner.input.Keyboard;
 import io.github.christiangaertner.moebelplaner.input.Mouse;
-import io.github.christiangaertner.moebelplaner.moebel.AbstractMoebel;
 import io.github.christiangaertner.moebelplaner.util.Reversed;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  *
@@ -45,6 +46,10 @@ public class Grid implements IRenderable, IUpdateable {
      * Alle Entities
      */
     protected List<AbstractEntity> entities = new ArrayList<AbstractEntity>();
+    /**
+     * Alle Highlights für entites
+     */
+    protected HashMap<Map<AbstractEntity, Highlight.Type>, Highlight> highlights = new HashMap<Map<AbstractEntity, Highlight.Type>, Highlight>();
     /**
      * Die gerade "markierten" Entities
      */
@@ -92,15 +97,18 @@ public class Grid implements IRenderable, IUpdateable {
         for (Iterator<AbstractEntity> it = entities.iterator(); it.hasNext();) {
             AbstractEntity e = it.next();
             focus(e);
+            highlight(e, Highlight.Type.FOCUS);
         }
     }
 
     public void deleteFocused() {
         for (Iterator<AbstractEntity> it = focus.iterator(); it.hasNext();) {
+            AbstractEntity e = it.next();
             // Löschen von der Entities Liste
-            delete(it.next());
+            delete(e);
             // Löschen von der Focus Liste
             it.remove();
+            unhighlight(e, Highlight.Type.FOCUS);
         }
     }
 
@@ -115,6 +123,10 @@ public class Grid implements IRenderable, IUpdateable {
         for (Iterator<AbstractEntity> it = entities.iterator(); it.hasNext();) {
             AbstractEntity e = it.next();
             renderer.render(e);
+        }
+        for (Iterator<Map.Entry<Map<AbstractEntity, Highlight.Type>,Highlight>> it = highlights.entrySet().iterator(); it.hasNext();) {
+            Highlight h = it.next().getValue();
+            renderer.render(h);
         }
     }
 
@@ -194,6 +206,7 @@ public class Grid implements IRenderable, IUpdateable {
     public void clearAll() {
         entities.clear();
         focus.clear();
+        highlights.clear();
     }
 
     /**
@@ -213,6 +226,15 @@ public class Grid implements IRenderable, IUpdateable {
     public int focusCount() {
         return focus.size();
     }
+    
+    /**
+     * Die Anzahl aller fokussierten Entities
+     *
+     * @return focus.size()
+     */
+    public int highlightCount() {
+        return highlights.size();
+    }
 
     /**
      * Fokussiert eine Entity
@@ -223,6 +245,7 @@ public class Grid implements IRenderable, IUpdateable {
         if (!focus.contains(e)) {
             e.focus();
             focus.add(e);
+            highlight(e, Highlight.Type.FOCUS);
         }
     }
 
@@ -235,6 +258,7 @@ public class Grid implements IRenderable, IUpdateable {
         if (focus.contains(e)) {
             focus.remove(e);
             e.unFocus();
+            unhighlight(e, Highlight.Type.FOCUS);
         }
     }
 
@@ -246,6 +270,7 @@ public class Grid implements IRenderable, IUpdateable {
             AbstractEntity e = it.next();
             it.remove();
             e.unFocus();
+            unhighlight(e, Highlight.Type.FOCUS);
         }
     }
 
@@ -283,16 +308,18 @@ public class Grid implements IRenderable, IUpdateable {
             }
         }
     }
-    
+
     private void calculateCollisions() {
         List<AbstractEntity> colliding = new ArrayList<AbstractEntity>();
         for (Iterator<AbstractEntity> it = entities.iterator(); it.hasNext();) {
             AbstractEntity e1 = it.next();
+            e1.unAlert();
+            unhighlight(e1, Highlight.Type.ALERT);
             for (Iterator<AbstractEntity> i = entities.iterator(); i.hasNext();) {
                 AbstractEntity e2 = i.next();
+                e2.unAlert();
+                unhighlight(e2, Highlight.Type.ALERT);
                 if (colliding(e1, e2) && !e2.equals(e1)) {
-                    e1.alert();
-                    e2.alert();
                     if (!colliding.contains(e1)) {
                         colliding.add(e1);
                     }
@@ -305,8 +332,9 @@ public class Grid implements IRenderable, IUpdateable {
 
         for (Iterator<AbstractEntity> it = entities.iterator(); it.hasNext();) {
             AbstractEntity e = it.next();
-            if (!colliding.contains(e)) {
-                e.unAlert();
+            if (colliding.contains(e)) {
+                e.alert();
+                highlight(e, Highlight.Type.ALERT);
             }
         }
     }
@@ -320,6 +348,19 @@ public class Grid implements IRenderable, IUpdateable {
         } else {
             return false;
         }
+    }
+
+    private void highlight(AbstractEntity e, Highlight.Type type) {
+        Highlight h = new Highlight(type, e.x(), e.y(), (int) e.getBoundaries().getBounds2D().getHeight(), (int) e.getBoundaries().getBounds2D().getWidth());
+        Map<AbstractEntity, Highlight.Type> key = new HashMap<AbstractEntity, Highlight.Type>();
+        key.put(e, type);
+        highlights.put(key, h);
+    }
+
+    private void unhighlight(AbstractEntity e, Highlight.Type type) {
+        Map<AbstractEntity, Highlight.Type> key = new HashMap<AbstractEntity, Highlight.Type>();
+        key.put(e, type);
+        highlights.remove(key);
     }
 
     @Override

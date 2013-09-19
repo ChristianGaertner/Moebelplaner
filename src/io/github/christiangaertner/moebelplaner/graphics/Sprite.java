@@ -57,6 +57,9 @@ public class Sprite {
         pixels = new int[w * h];
         setColor(color);
     }
+    
+    public void resize(int xs, int ys) {
+    }
 
     public int getWidth() {
         return width;
