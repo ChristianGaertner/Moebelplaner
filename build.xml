@@ -45,6 +45,9 @@ LICENSE: MIT
 		<!-- Create lib dir if it doesn' t exists -->
 		<mkdir dir="${lib.dir}"/>
 
+		<!-- Download Libs -->
+		<get src="https://thumbnailator.googlecode.com/files/thumbnailator-0.4.6-all.jar" dest="${lib.dir}/thumbnailator.jar" skipexisting="true"/>
+
 		<!-- Download build_number file if it doesn' t exists-->
 		<get src="https://raw.github.com/ChristianGaertner/AntBuildFile/master/build_number.properties" dest="build_number.properties" skipexisting="true"/>
 	</target>

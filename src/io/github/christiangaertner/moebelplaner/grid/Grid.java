@@ -305,6 +305,8 @@ public class Grid implements IRenderable, IUpdateable {
             if (e instanceof IMoveable) {
                 m = (IMoveable) e;
                 m.move(x, y);
+                getHighlight((AbstractEntity) m, Highlight.Type.FOCUS).move(x, y);
+                getHighlight((AbstractEntity) m, Highlight.Type.ALERT).move(x, y);
             }
         }
     }
@@ -351,7 +353,7 @@ public class Grid implements IRenderable, IUpdateable {
     }
 
     private void highlight(AbstractEntity e, Highlight.Type type) {
-        Highlight h = new Highlight(type, e.x(), e.y(), (int) e.getBoundaries().getBounds2D().getHeight(), (int) e.getBoundaries().getBounds2D().getWidth());
+        Highlight h = new Highlight(type, e.x(), e.y(), (int) e.getBoundaries().getBounds().getWidth(), (int) e.getBoundaries().getBounds().getHeight());
         Map<AbstractEntity, Highlight.Type> key = new HashMap<AbstractEntity, Highlight.Type>();
         key.put(e, type);
         highlights.put(key, h);
@@ -361,6 +363,13 @@ public class Grid implements IRenderable, IUpdateable {
         Map<AbstractEntity, Highlight.Type> key = new HashMap<AbstractEntity, Highlight.Type>();
         key.put(e, type);
         highlights.remove(key);
+    }
+    
+    private Highlight getHighlight(AbstractEntity e, Highlight.Type type) {
+        Map<AbstractEntity, Highlight.Type> key = new HashMap<AbstractEntity, Highlight.Type>();
+        key.put(e, type);
+        
+        return highlights.get(key);  
     }
 
     @Override

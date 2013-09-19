@@ -1,10 +1,13 @@
 package io.github.christiangaertner.moebelplaner.graphics;
 
 import io.github.christiangaertner.moebelplaner.Moebelplaner;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
 import java.io.IOException;
 import java.util.logging.Level;
 import javax.imageio.ImageIO;
+import net.coobird.thumbnailator.Thumbnails;
 
 /**
  *
@@ -57,8 +60,20 @@ public class Sprite {
         pixels = new int[w * h];
         setColor(color);
     }
-    
-    public void resize(int xs, int ys) {
+
+    public void resize(int xs, int ys) throws IOException {
+        BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+        
+        int i = 0;
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                image.setRGB(x, y, pixels[i]);
+                i++;
+            }
+        }
+        
+        image = Thumbnails.of(image).forceSize(xs, ys).asBufferedImage();
+        loadImage(image);
     }
 
     public int getWidth() {
