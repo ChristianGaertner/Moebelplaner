@@ -150,35 +150,12 @@ public class Sprite {
         }
     }
 
-    private BufferedImage overlayImages(String bg, String fg) {
-        try {
-            // Erstmal beide Bilder laden
-            BufferedImage image = getImage(bg);
-            BufferedImage overlay_raw = getImage(fg);
+    private BufferedImage overlayImages(String bg, String fg) throws IOException {
+        // Erstmal beide Bilder laden
+        BufferedImage image = getImage(bg);
+        BufferedImage overlay_raw = getImage(fg);
 
-            BufferedImage overlay = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
-
-            Graphics tmpG = overlay.getGraphics();
-
-            tmpG.drawImage(overlay_raw, 0, 0, image.getWidth(), image.getHeight(), null);
-
-            // Neues Bild erstellen
-            int w = Math.max(image.getWidth(), overlay.getWidth());
-            int h = Math.max(image.getHeight(), overlay.getHeight());
-            BufferedImage combined = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-
-            // paint both images, preserving the alpha channels
-            Graphics g = combined.getGraphics();
-            g.drawImage(image, 0, 0, null);
-            g.drawImage(overlay, 0, 0, null);
-
-            return combined;
-
-        } catch (IOException ex) {
-            Moebelplaner.LOGGER.log(Level.SEVERE, "Bild konnte nicht geladen werden", ex);
-        }
-
-        return null;
+        return overlayImages(image, overlay_raw);
     }
 
     private BufferedImage overlayImages(BufferedImage bg, BufferedImage fg) {
@@ -206,13 +183,9 @@ public class Sprite {
     }
 
     private BufferedImage getImage(Sprite sprite) throws IOException {
-        if (sprite.getPath() != null) {
-            return getImage(sprite.getPath());
-        } else {
-            BufferedImage image = new BufferedImage(sprite.getWidth(), sprite.getHeight(), BufferedImage.TYPE_INT_RGB);
-            WritableRaster raster = (WritableRaster) image.getRaster();
-            raster.getPixels(0, 0, sprite.getWidth(), sprite.getHeight(), sprite.getPixels());
-            return image;
-        }
+        BufferedImage image = new BufferedImage(sprite.getWidth(), sprite.getHeight(), BufferedImage.TYPE_INT_RGB);
+        WritableRaster raster = (WritableRaster) image.getRaster();
+        raster.getPixels(0, 0, sprite.getWidth(), sprite.getHeight(), sprite.getPixels());
+        return image;
     }
 }
