@@ -4,6 +4,7 @@ import io.github.christiangaertner.moebelplaner.Moebelplaner;
 import io.github.christiangaertner.moebelplaner.graphics.IRenderable;
 import io.github.christiangaertner.moebelplaner.graphics.Renderer;
 import io.github.christiangaertner.moebelplaner.graphics.Sprite;
+import io.github.christiangaertner.moebelplaner.graphics.blending.BlendingMode;
 import io.github.christiangaertner.moebelplaner.input.Keyboard;
 import io.github.christiangaertner.moebelplaner.input.Mouse;
 import io.github.christiangaertner.moebelplaner.util.Reversed;
@@ -126,7 +127,7 @@ public class Grid implements IRenderable, IUpdateable {
         }
         for (Iterator<Map.Entry<Map<AbstractEntity, Highlight.Type>,Highlight>> it = highlights.entrySet().iterator(); it.hasNext();) {
             Highlight h = it.next().getValue();
-            renderer.render(h);
+            renderer.render(BlendingMode.MULITPLY, h);
         }
     }
 
@@ -306,7 +307,7 @@ public class Grid implements IRenderable, IUpdateable {
                 m = (IMoveable) e;
                 m.move(x, y);
                 getHighlight((AbstractEntity) m, Highlight.Type.FOCUS).move(x, y);
-                getHighlight((AbstractEntity) m, Highlight.Type.ALERT).move(x, y);
+//                getHighlight((AbstractEntity) m, Highlight.Type.ALERT).move(x, y);
             }
         }
     }
