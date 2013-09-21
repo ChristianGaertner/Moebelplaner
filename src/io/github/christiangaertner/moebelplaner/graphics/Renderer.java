@@ -1,6 +1,7 @@
 package io.github.christiangaertner.moebelplaner.graphics;
 
 import io.github.christiangaertner.moebelplaner.graphics.blending.BlendingMode;
+import io.github.christiangaertner.moebelplaner.graphics.blending.IColorBlender;
 
 /**
  *
@@ -8,6 +9,7 @@ import io.github.christiangaertner.moebelplaner.graphics.blending.BlendingMode;
  */
 public class Renderer {
 
+    private final IColorBlender blender;
     public static final int IGNORE_COLOR = 0xFFFF00FF;
     /**
      * Der pixel Array
@@ -18,7 +20,8 @@ public class Renderer {
      */
     private int width, height;
 
-    public Renderer(int w, int h) {
+    public Renderer(int w, int h, IColorBlender blender) {
+        this.blender = blender;
         width = w;
         height = h;
         pixels = new int[w * h];
@@ -77,7 +80,25 @@ public class Renderer {
                     continue;
                 }
 
-                pixels[xa + ya * width] = color;
+                switch (mode) {
+                    default:
+                    /* Falls through */
+                    case NORMAL:
+                        pixels[xa + ya * width] = blender.normal(pixels[xa + ya * width], color);
+                        break;
+                    case AVERAGE:
+                        pixels[xa + ya * width] = blender.average(pixels[xa + ya * width], color);
+                        break;
+                    case ADD:
+                        pixels[xa + ya * width] = blender.add(pixels[xa + ya * width], color);
+                        break;
+                    case SUBTRACT:
+                        pixels[xa + ya * width] = blender.subtract(pixels[xa + ya * width], color);
+                        break;
+                    case MULITPLY:
+                        pixels[xa + ya * width] = blender.subtract(pixels[xa + ya * width], color);
+                        break;
+                }
             }
         }
     }

@@ -2,6 +2,7 @@ package io.github.christiangaertner.moebelplaner;
 
 import io.github.christiangaertner.moebelplaner.error.ExceptionHandler;
 import io.github.christiangaertner.moebelplaner.graphics.Renderer;
+import io.github.christiangaertner.moebelplaner.graphics.blending.DefaultColorBlender;
 import io.github.christiangaertner.moebelplaner.grid.Grid;
 import io.github.christiangaertner.moebelplaner.input.Keyboard;
 import io.github.christiangaertner.moebelplaner.input.Mouse;
@@ -113,7 +114,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
         // Für den Canvas
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
 
-        renderer = new Renderer(WIDTH, HEIGHT);
+        renderer = new Renderer(WIDTH, HEIGHT, new DefaultColorBlender());
         frame = new JFrame();
         mouse = new Mouse();
         key = new Keyboard();

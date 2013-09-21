@@ -8,6 +8,8 @@ public interface IColorBlender {
 
     public int normal(int a, int b);
     
+    public int average(int a, int b);
+    
     public int add(int a, int b);
     
     public int subtract(int a, int b);
@@ -29,4 +31,6 @@ public interface IColorBlender {
     public int hardlight(int a, int b);
     
     public int softlight(int a, int b);
+    
+    public int colorburn(int a, int b);
 }

@@ -7,6 +7,7 @@ package io.github.christiangaertner.moebelplaner.graphics.blending;
 public enum BlendingMode {
 
     NORMAL,
+    AVERAGE,
     ADD,
     SUBTRACT,
     MULITPLY,
