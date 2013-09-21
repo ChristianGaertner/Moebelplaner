@@ -1,9 +1,6 @@
 package io.github.christiangaertner.moebelplaner.grid;
 
-import io.github.christiangaertner.moebelplaner.Moebelplaner;
 import io.github.christiangaertner.moebelplaner.graphics.Sprite;
-import java.io.IOException;
-import java.util.logging.Level;
 
 /**
  *
@@ -37,23 +34,18 @@ class Highlight extends AbstractEntity implements IMoveable {
     }
 
     private Sprite getSpriteForType(Type type, int xs, int ys) {
-        Sprite sprite;
+        Sprite s;
         switch (type) {
             case FOCUS:
-                sprite = new Sprite("/images/focus.png");
+                s = new Sprite(xs, ys, 0xFF00FF00);
                 break;
             default:
             /* Falls through */
             case ALERT:
-                sprite = new Sprite("/images/alert.png");
+                s = new Sprite(xs, ys, 0xFFFF0000);
                 break;
         }
-        try {
-            sprite.resize(xs, ys);
-        } catch (IOException ex) {
-            Moebelplaner.LOGGER.log(Level.SEVERE, "Fehler beim Resizen des Highlight Bildes", ex);
-        }
-        return sprite;
+        return s;
     }
     
     @Override
