@@ -34,7 +34,7 @@ public class Renderer {
      * @param r
      */
     public void render(IRenderable r) {
-        render(BlendingMode.NORMAL, r.getSprite(), r.x(), r.y());
+        render(BlendingMode.NORMAL, r.getSprite(), r.x(), r.y(), 0);
     }
 
     /**
@@ -46,7 +46,7 @@ public class Renderer {
      */
     public void render(Sprite sprite, int xp, int yp) {
 
-        render(BlendingMode.NORMAL, sprite, xp, yp);
+        render(BlendingMode.NORMAL, sprite, xp, yp, 100);
     }
 
     /**
@@ -55,7 +55,7 @@ public class Renderer {
      * @param r
      */
     public void render(BlendingMode mode, IRenderable r) {
-        render(mode, r.getSprite(), r.x(), r.y());
+        render(mode, r.getSprite(), r.x(), r.y(), 100);
     }
 
     /**
@@ -64,8 +64,9 @@ public class Renderer {
      * @param sprite
      * @param xp
      * @param yp
+     * @param o Opacity
      */
-    public void render(BlendingMode mode, Sprite sprite, int xp, int yp) {
+    public void render(BlendingMode mode, Sprite sprite, int xp, int yp, int o) {
 
         for (int y = 0; y < sprite.getHeight(); y++) {
             int ya = y + yp;
