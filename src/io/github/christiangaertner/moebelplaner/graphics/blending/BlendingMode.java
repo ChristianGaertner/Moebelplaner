@@ -18,5 +18,6 @@ public enum BlendingMode {
     SCREEN,
     OVERLAY,
     HARDLIGHT,
-    SOFTLIGHT
+    SOFTLIGHT,
+    COLORBURN
 }

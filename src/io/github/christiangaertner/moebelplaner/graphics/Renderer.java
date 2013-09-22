@@ -2,7 +2,6 @@ package io.github.christiangaertner.moebelplaner.graphics;
 
 import io.github.christiangaertner.moebelplaner.graphics.blending.BlendingMode;
 import io.github.christiangaertner.moebelplaner.graphics.blending.IColorBlender;
-import java.awt.Color;
 
 /**
  *
@@ -99,6 +98,33 @@ public class Renderer {
                         break;
                     case MULITPLY:
                         pixels[xa + ya * width] = blender.subtract(pixels[xa + ya * width], color);
+                        break;
+                    case DIVIDE:
+                        pixels[xa + ya * width] = blender.divide(pixels[xa + ya * width], color);
+                        break;
+                    case DIFFERENCE:
+                        pixels[xa + ya * width] = blender.difference(pixels[xa + ya * width], color);
+                        break;
+                    case DARKENONLY:
+                        pixels[xa + ya * width] = blender.darkenonly(pixels[xa + ya * width], color);
+                        break;
+                    case LIGHTENONLY:
+                        pixels[xa + ya * width] = blender.lightenonly(pixels[xa + ya * width], color);
+                        break;
+                    case SCREEN:
+                        pixels[xa + ya * width] = blender.screen(pixels[xa + ya * width], color);
+                        break;
+                    case OVERLAY:
+                        pixels[xa + ya * width] = blender.overlay(pixels[xa + ya * width], color);
+                        break;
+                    case HARDLIGHT:
+                        pixels[xa + ya * width] = blender.hardlight(pixels[xa + ya * width], color);
+                        break;
+                    case SOFTLIGHT:
+                        pixels[xa + ya * width] = blender.softlight(pixels[xa + ya * width], color);
+                        break;
+                    case COLORBURN:
+                        pixels[xa + ya * width] = blender.colorburn(pixels[xa + ya * width], color);
                         break;
                 }
             }
