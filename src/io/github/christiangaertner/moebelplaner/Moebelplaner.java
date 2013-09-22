@@ -348,8 +348,8 @@ public final class Moebelplaner extends Canvas implements Runnable {
             System.setProperty("apple.laf.useScreenMenuBar", "true");
         }
 
-        // Unseren Moebelplaner erstellen (im Debug mode)
-        Moebelplaner planer = new Moebelplaner(true);
+        // Unseren Moebelplaner erstellen
+        Moebelplaner planer = new Moebelplaner();
 
         // Sonst wird es schwieriger mit den Graphiken
         planer.frame.setResizable(false);
