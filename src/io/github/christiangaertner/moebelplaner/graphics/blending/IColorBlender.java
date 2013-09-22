@@ -6,31 +6,31 @@ package io.github.christiangaertner.moebelplaner.graphics.blending;
  */
 public interface IColorBlender {
 
-    public int normal(int a, int b);
+    public int normal(int a, int b, int o);
     
-    public int average(int a, int b);
+    public int average(int a, int b, int o);
     
-    public int add(int a, int b);
+    public int add(int a, int b, int o);
     
-    public int subtract(int a, int b);
+    public int subtract(int a, int b, int o);
     
-    public int multiply(int a, int b);
+    public int multiply(int a, int b, int o);
     
-    public int divide(int a, int b);
+    public int divide(int a, int b, int o);
     
-    public int difference(int a, int b);
+    public int difference(int a, int b, int o);
     
-    public int darkenonly(int a, int b);
+    public int darkenonly(int a, int b, int o);
     
-    public int lightenonly(int a, int b);
+    public int lightenonly(int a, int b, int o);
     
-    public int screen(int a, int b);
+    public int screen(int a, int b, int o);
     
-    public int overlay(int a, int b);
+    public int overlay(int a, int b, int o);
     
-    public int hardlight(int a, int b);
+    public int hardlight(int a, int b, int o);
     
-    public int softlight(int a, int b);
+    public int softlight(int a, int b, int o);
     
-    public int colorburn(int a, int b);
+    public int colorburn(int a, int b, int o);
 }

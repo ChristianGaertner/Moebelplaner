@@ -2,6 +2,7 @@ package io.github.christiangaertner.moebelplaner.graphics;
 
 import io.github.christiangaertner.moebelplaner.graphics.blending.BlendingMode;
 import io.github.christiangaertner.moebelplaner.graphics.blending.IColorBlender;
+import java.awt.Color;
 
 /**
  *
@@ -33,7 +34,16 @@ public class Renderer {
      * @param r
      */
     public void render(IRenderable r) {
-        render(BlendingMode.NORMAL, r.getSprite(), r.x(), r.y(), 0);
+        render(r, 100);
+    }
+
+    /**
+     * Rendered im Normal Mode
+     *
+     * @param r
+     */
+    public void render(IRenderable r, int o) {
+        render(BlendingMode.NORMAL, r.getSprite(), r.x(), r.y(), o);
     }
 
     /**
@@ -45,7 +55,19 @@ public class Renderer {
      */
     public void render(Sprite sprite, int xp, int yp) {
 
-        render(BlendingMode.NORMAL, sprite, xp, yp, 100);
+        render(sprite, xp, yp, 100);
+    }
+
+    /**
+     * Rendered eine Sprite an einer bestimmten Koordinate (Normal Mode)
+     *
+     * @param sprite
+     * @param xp
+     * @param yp
+     */
+    public void render(Sprite sprite, int xp, int yp, int o) {
+
+        render(BlendingMode.NORMAL, sprite, xp, yp, o);
     }
 
     /**
@@ -55,6 +77,15 @@ public class Renderer {
      */
     public void render(BlendingMode mode, IRenderable r) {
         render(mode, r.getSprite(), r.x(), r.y(), 100);
+    }
+
+    /**
+     * Rendered im bestimmten Mode
+     *
+     * @param r
+     */
+    public void render(BlendingMode mode, IRenderable r, int o) {
+        render(mode, r.getSprite(), r.x(), r.y(), o);
     }
 
     /**
@@ -80,51 +111,51 @@ public class Renderer {
                 if (color == IGNORE_COLOR) {
                     continue;
                 }
-                
+
                 switch (mode) {
                     default:
                     /* Falls through */
                     case NORMAL:
-                        pixels[xa + ya * width] = blender.normal(pixels[xa + ya * width], color);
+                        pixels[xa + ya * width] = blender.normal(pixels[xa + ya * width], color, o);
                         break;
                     case AVERAGE:
-                        pixels[xa + ya * width] = blender.average(pixels[xa + ya * width], color);
+                        pixels[xa + ya * width] = blender.average(pixels[xa + ya * width], color, o);
                         break;
                     case ADD:
-                        pixels[xa + ya * width] = blender.add(pixels[xa + ya * width], color);
+                        pixels[xa + ya * width] = blender.add(pixels[xa + ya * width], color, o);
                         break;
                     case SUBTRACT:
-                        pixels[xa + ya * width] = blender.subtract(pixels[xa + ya * width], color);
+                        pixels[xa + ya * width] = blender.subtract(pixels[xa + ya * width], color, o);
                         break;
                     case MULITPLY:
-                        pixels[xa + ya * width] = blender.subtract(pixels[xa + ya * width], color);
+                        pixels[xa + ya * width] = blender.subtract(pixels[xa + ya * width], color, o);
                         break;
                     case DIVIDE:
-                        pixels[xa + ya * width] = blender.divide(pixels[xa + ya * width], color);
+                        pixels[xa + ya * width] = blender.divide(pixels[xa + ya * width], color, o);
                         break;
                     case DIFFERENCE:
-                        pixels[xa + ya * width] = blender.difference(pixels[xa + ya * width], color);
+                        pixels[xa + ya * width] = blender.difference(pixels[xa + ya * width], color, o);
                         break;
                     case DARKENONLY:
-                        pixels[xa + ya * width] = blender.darkenonly(pixels[xa + ya * width], color);
+                        pixels[xa + ya * width] = blender.darkenonly(pixels[xa + ya * width], color, o);
                         break;
                     case LIGHTENONLY:
-                        pixels[xa + ya * width] = blender.lightenonly(pixels[xa + ya * width], color);
+                        pixels[xa + ya * width] = blender.lightenonly(pixels[xa + ya * width], color, o);
                         break;
                     case SCREEN:
-                        pixels[xa + ya * width] = blender.screen(pixels[xa + ya * width], color);
+                        pixels[xa + ya * width] = blender.screen(pixels[xa + ya * width], color, o);
                         break;
                     case OVERLAY:
-                        pixels[xa + ya * width] = blender.overlay(pixels[xa + ya * width], color);
+                        pixels[xa + ya * width] = blender.overlay(pixels[xa + ya * width], color, o);
                         break;
                     case HARDLIGHT:
-                        pixels[xa + ya * width] = blender.hardlight(pixels[xa + ya * width], color);
+                        pixels[xa + ya * width] = blender.hardlight(pixels[xa + ya * width], color, o);
                         break;
                     case SOFTLIGHT:
-                        pixels[xa + ya * width] = blender.softlight(pixels[xa + ya * width], color);
+                        pixels[xa + ya * width] = blender.softlight(pixels[xa + ya * width], color, o);
                         break;
                     case COLORBURN:
-                        pixels[xa + ya * width] = blender.colorburn(pixels[xa + ya * width], color);
+                        pixels[xa + ya * width] = blender.colorburn(pixels[xa + ya * width], color, o);
                         break;
                 }
             }

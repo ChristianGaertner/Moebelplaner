@@ -7,42 +7,42 @@ package io.github.christiangaertner.moebelplaner.graphics.blending;
 public class DefaultColorBlender implements IColorBlender {
 
     @Override
-    public int normal(int a, int b) {
+    public int normal(int a, int b, int o) {
         return b;
     }
 
     @Override
-    public int average(int a, int b) {
+    public int average(int a, int b, int o) {
         return ((a + b) / 2);
     }
 
     @Override
-    public int add(int a, int b) {
+    public int add(int a, int b, int o) {
         return a + b;
     }
 
     @Override
-    public int subtract(int a, int b) {
+    public int subtract(int a, int b, int o) {
         return a - b;
     }
 
     @Override
-    public int multiply(int a, int b) {
+    public int multiply(int a, int b, int o) {
         return a * b;
     }
 
     @Override
-    public int divide(int a, int b) {
+    public int divide(int a, int b, int o) {
         return a / b;
     }
 
     @Override
-    public int difference(int a, int b) {
+    public int difference(int a, int b, int o) {
         return Math.abs(a - b);
     }
 
     @Override
-    public int darkenonly(int a, int b) {
+    public int darkenonly(int a, int b, int o) {
         if (a < b) {
             return a;
         } else {
@@ -51,17 +51,17 @@ public class DefaultColorBlender implements IColorBlender {
     }
 
     @Override
-    public int lightenonly(int a, int b) {
-        return darkenonly(b, a);
+    public int lightenonly(int a, int b, int o) {
+        return darkenonly(b, a, o);
     }
 
     @Override
-    public int screen(int a, int b) {
+    public int screen(int a, int b, int o) {
         return (1 - (1 - a) * (1 - b));
     }
 
     @Override
-    public int overlay(int a, int b) {
+    public int overlay(int a, int b, int o) {
         if (a < 0.5) {
             return (2 * a * b);
         } else {
@@ -70,12 +70,12 @@ public class DefaultColorBlender implements IColorBlender {
     }
 
     @Override
-    public int hardlight(int a, int b) {
-        return overlay(b, a);
+    public int hardlight(int a, int b, int o) {
+        return overlay(b, a, o);
     }
 
     @Override
-    public int softlight(int a, int b) {
+    public int softlight(int a, int b, int o) {
         if (b < 0.5) {
             return (2 * a * b + a * a * (1 - 2 * b));
         } else {
@@ -84,7 +84,7 @@ public class DefaultColorBlender implements IColorBlender {
     }
 
     @Override
-    public int colorburn(int a, int b) {
+    public int colorburn(int a, int b, int o) {
         return (1 - (1 - a) / b);
     }
 }
