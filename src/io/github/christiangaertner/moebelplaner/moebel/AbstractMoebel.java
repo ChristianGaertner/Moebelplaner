@@ -19,6 +19,16 @@ abstract public class AbstractMoebel extends AbstractEntity implements IMoveable
         this(new Sprite(path));
 
     }
+    
+    /**
+     * Erstellt ein neues Möbelstück mit einem Bild
+     *
+     * @param path
+     */
+    public AbstractMoebel(String path, boolean absolute) {
+        this(new Sprite(path, absolute));
+
+    }
 
     /**
      * Erstellt ein Möbelstück mit einer Sprite

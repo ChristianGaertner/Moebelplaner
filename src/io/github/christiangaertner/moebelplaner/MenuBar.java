@@ -6,9 +6,13 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
+import javax.activation.MimetypesFileTypeMap;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -110,12 +114,41 @@ public class MenuBar {
         List<JMenuItem> items = new ArrayList<JMenuItem>();
 
         JMenuItem MoebelMenu = new JMenu("Furniture");
+        JMenuItem CustomMoebel = new JMenuItem("Custom Object");
+        CustomMoebel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+
+                JFrame guiFrame = new JFrame();
+                JFileChooser fileDialog = new JFileChooser();
+
+                if (fileDialog.showOpenDialog(guiFrame) == JFileChooser.APPROVE_OPTION) {
+
+                    File selectedFile = fileDialog.getSelectedFile();
+
+                    String mimetype = new MimetypesFileTypeMap().getContentType(selectedFile);
+
+                    String type = mimetype.split("/")[0];
+
+                    if (type.contains("image")) {
+                        grid.add(new AbstractMoebel(selectedFile.getAbsolutePath(), true) {
+                        });
+                    } else {
+                        Moebelplaner.LOGGER.log(Level.INFO, "Nur Bilder sind unterstützt");
+                    }
+
+
+                }
+
+            }
+        });
 
         for (String s : furnities) {
             MoebelMenu.add(createItem(s));
         }
 
         items.add(MoebelMenu);
+        items.add(CustomMoebel);
 
         return items;
     }

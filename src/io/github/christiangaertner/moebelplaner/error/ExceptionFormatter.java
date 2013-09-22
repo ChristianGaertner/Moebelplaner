@@ -16,7 +16,13 @@ public class ExceptionFormatter extends Formatter {
         sb.append(lr.getLevel().getLocalizedName())
                 .append(": ");
         
-        String exMsg = lr.getThrown().getMessage();
+        String exMsg;
+        
+        if (lr.getThrown() != null) {
+            exMsg = lr.getThrown().getMessage();
+        } else {
+            exMsg = null;
+        }
         
         if (lr.getMessage() == null && exMsg != null) {
             sb.append(exMsg);

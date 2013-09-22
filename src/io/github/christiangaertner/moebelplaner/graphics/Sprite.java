@@ -1,9 +1,8 @@
 package io.github.christiangaertner.moebelplaner.graphics;
 
 import io.github.christiangaertner.moebelplaner.Moebelplaner;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.awt.image.WritableRaster;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import javax.imageio.ImageIO;
@@ -41,7 +40,15 @@ public class Sprite {
      */
     public Sprite(String path) {
         this.path = path;
-        loadImage(path);
+        loadImage(path, false);
+    }
+    
+    /**
+     * Neue Sprite von Bild
+     */
+    public Sprite(String path, boolean absolute) {
+        this.path = path;
+        loadImage(path, absolute);
     }
 
     /**
@@ -119,15 +126,10 @@ public class Sprite {
 
         image.getRGB(0, 0, w, h, pixels, 0, w); //translate image into pixels array
     }
-
-    /**
-     * Lädt das Bild vom relativen Pfad
-     *
-     * @param String Weg zum Pfad (relativ)
-     */
-    private void loadImage(String path) {
+    
+    private void loadImage(String path, boolean absolute) {
         try {
-            BufferedImage image = getImage(path);
+            BufferedImage image = getImage(path, absolute);
 
             loadImage(image);
 
@@ -136,7 +138,11 @@ public class Sprite {
         }
     }
 
-    private BufferedImage getImage(String path) throws IOException {
-        return ImageIO.read(Sprite.class.getResource(path));
+    private BufferedImage getImage(String path, boolean absolute) throws IOException {
+        if (absolute) {
+            return ImageIO.read(new File(path));
+        } else {
+            return ImageIO.read(Sprite.class.getResource(path));
+        }
     }
 }
