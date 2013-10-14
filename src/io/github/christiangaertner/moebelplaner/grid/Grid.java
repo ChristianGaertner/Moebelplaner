@@ -370,7 +370,11 @@ public class Grid implements IRenderable, IUpdateable {
             highlight(e, Highlight.Type.ALERT);
         }
     }
-
+    
+    /**
+     * Berechnet, ob sich zwei Entitys überlappen
+     * Zur Zeit wird jeder Shape zu einem Rechteck runter-gerechnet
+     */ 
     private boolean colliding(AbstractEntity e1, AbstractEntity e2) {
         Rectangle bounds1 = e1.getBoundaries().getBounds();
         Rectangle bounds2 = e2.getBoundaries().getBounds();
@@ -383,22 +387,29 @@ public class Grid implements IRenderable, IUpdateable {
     }
 
     private void highlight(AbstractEntity e, Highlight.Type type) {
+        // Eine neue Highlight Entity erstellen
         Highlight h = new Highlight(type, e.x(), e.y(), (int) e.getBoundaries().getBounds().getWidth(), (int) e.getBoundaries().getBounds().getHeight());
+        // Eine HashMap für den Key erstellen
         Map<AbstractEntity, Highlight.Type> key = new HashMap<AbstractEntity, Highlight.Type>();
         key.put(e, type);
+        // Und der Haupt-Liste hinzufügen
         highlights.put(key, h);
     }
 
     private void unhighlight(AbstractEntity e, Highlight.Type type) {
+        // Erstmal wieder wrappen
         Map<AbstractEntity, Highlight.Type> key = new HashMap<AbstractEntity, Highlight.Type>();
         key.put(e, type);
+        
+        // Und dann entfernen
         highlights.remove(key);
     }
 
     private Highlight getHighlight(AbstractEntity e, Highlight.Type type) {
+        // In HashMap wrappen
         Map<AbstractEntity, Highlight.Type> key = new HashMap<AbstractEntity, Highlight.Type>();
         key.put(e, type);
-
+        // und anfordern
         return highlights.get(key);
     }
 
