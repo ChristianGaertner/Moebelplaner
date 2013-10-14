@@ -126,7 +126,7 @@ public class Grid implements IRenderable, IUpdateable {
             AbstractEntity e = it.next();
             renderer.render(e);
         }
-        for (Iterator<Map.Entry<Map<AbstractEntity, Highlight.Type>,Highlight>> it = highlights.entrySet().iterator(); it.hasNext();) {
+        for (Iterator<Map.Entry<Map<AbstractEntity, Highlight.Type>, Highlight>> it = highlights.entrySet().iterator(); it.hasNext();) {
             Highlight h = it.next().getValue();
             renderer.render(BlendingMode.AVERAGE, h, 50);
         }
@@ -228,7 +228,7 @@ public class Grid implements IRenderable, IUpdateable {
     public int focusCount() {
         return focus.size();
     }
-    
+
     /**
      * Die Anzahl aller fokussierten Entities
      *
@@ -244,9 +244,13 @@ public class Grid implements IRenderable, IUpdateable {
      * @param e
      */
     private void focus(AbstractEntity e) {
+        // Wenn sie schon fokussiert ist, müssen wir nichts machen
         if (!focus.contains(e)) {
+            // Der Entity mitteilen, dass sie fokussiert wird
             e.focus();
+            // Zur Focus Liste hinzufügen
             focus.add(e);
+            // und ein Highlight Entity hinzufügen
             highlight(e, Highlight.Type.FOCUS);
         }
     }
@@ -257,9 +261,13 @@ public class Grid implements IRenderable, IUpdateable {
      * @param e
      */
     private void unFocus(AbstractEntity e) {
+        // Wir wollen nur etwas machen, wenn die Entity überhaupt fokussiert ist
         if (focus.contains(e)) {
+            // Aus der focus Liste entfernen
             focus.remove(e);
+            // Der Entity mitteilen, dass sie nicht mehr fokussiert ist
             e.unFocus();
+            // un das Highlight entfernen
             unhighlight(e, Highlight.Type.FOCUS);
         }
     }
@@ -300,6 +308,10 @@ public class Grid implements IRenderable, IUpdateable {
         return null;
     }
 
+    /**
+     * Die fokussierten Entity bewegen
+     * (und deren Highlights)
+     */ 
     private void moveFocused(int x, int y) {
         IMoveable m;
         for (Iterator<AbstractEntity> it = focus.iterator(); it.hasNext();) {
@@ -308,22 +320,39 @@ public class Grid implements IRenderable, IUpdateable {
                 m = (IMoveable) e;
                 m.move(x, y);
                 getHighlight((AbstractEntity) m, Highlight.Type.FOCUS).move(x, y);
-//                getHighlight((AbstractEntity) m, Highlight.Type.ALERT).move(x, y);
             }
         }
     }
-
+    
+    /**
+     * Berechnen von Kollision (überlappungen)
+     */
     private void calculateCollisions() {
+        
+        // Grund-Liste, hier packen wir alle Entity rein, die sich irgendwie überlappen
         List<AbstractEntity> colliding = new ArrayList<AbstractEntity>();
+        
+        // Durch alle Entities iterieren
         for (Iterator<AbstractEntity> it = entities.iterator(); it.hasNext();) {
+            
+            // Eine "bekommen"
             AbstractEntity e1 = it.next();
+            
+            // Erstmal un alerten und highlight entfernen (geht nicht anders bzw. nicht so schnell)
             e1.unAlert();
             unhighlight(e1, Highlight.Type.ALERT);
+            
+            // Jetzt nochmal, da wir ja Kollision von und zu jeder analysieren müssen
             for (Iterator<AbstractEntity> i = entities.iterator(); i.hasNext();) {
+                
+                // jetzt wieder das gleiche wie oben
                 AbstractEntity e2 = i.next();
                 e2.unAlert();
                 unhighlight(e2, Highlight.Type.ALERT);
+                
+                // Und jetzt gucken, ob sich die beiden überlappen und es nicht die gleiche ist
                 if (colliding(e1, e2) && !e2.equals(e1)) {
+                    // Wenn die Entities noch nicht in der colliding Liste ist hinzufügen
                     if (!colliding.contains(e1)) {
                         colliding.add(e1);
                     }
@@ -333,13 +362,12 @@ public class Grid implements IRenderable, IUpdateable {
                 }
             }
         }
-
-        for (Iterator<AbstractEntity> it = entities.iterator(); it.hasNext();) {
+        
+        // Jetzt wieder Highlights hinzufügen
+        for (Iterator<AbstractEntity> it = colliding.iterator(); it.hasNext();) {
             AbstractEntity e = it.next();
-            if (colliding.contains(e)) {
-                e.alert();
-                highlight(e, Highlight.Type.ALERT);
-            }
+            e.alert();
+            highlight(e, Highlight.Type.ALERT);
         }
     }
 
@@ -366,12 +394,12 @@ public class Grid implements IRenderable, IUpdateable {
         key.put(e, type);
         highlights.remove(key);
     }
-    
+
     private Highlight getHighlight(AbstractEntity e, Highlight.Type type) {
         Map<AbstractEntity, Highlight.Type> key = new HashMap<AbstractEntity, Highlight.Type>();
         key.put(e, type);
-        
-        return highlights.get(key);  
+
+        return highlights.get(key);
     }
 
     @Override
