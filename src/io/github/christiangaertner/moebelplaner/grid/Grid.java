@@ -59,7 +59,14 @@ public class Grid implements IRenderable, IUpdateable {
      * Die gerade "markierten" Entities
      */
     protected List<AbstractEntity> focus = new ArrayList<AbstractEntity>();
+    /**
+     * Gibt an, ob gerade Entities bewegt werden
+     */
     protected boolean translatingEntity = false;
+    /**
+     * Render Regeln für die Grid
+     */
+    protected HashMap<String, Boolean> render = new HashMap<String, Boolean>();
 
     public Grid(Moebelplaner planer, Mouse mouse, Keyboard key) {
         this();
@@ -72,6 +79,15 @@ public class Grid implements IRenderable, IUpdateable {
         x = 0;
         y = 0;
         sprite = new Sprite("/images/grid.png");
+
+        // Erstmal alles erlaubern zu rendern
+        render.put("Background", true);
+        render.put("Entity", true);
+        render.put("Highlight", true);
+    }
+
+    public void renderSettings(String key, boolean value) {
+        render.put(key, value);
     }
 
     /**
@@ -125,15 +141,22 @@ public class Grid implements IRenderable, IUpdateable {
      */
     public void render(Renderer renderer) {
         // Erstmal die Grid selber rendern
-        renderer.render(this);
-        for (Iterator<AbstractEntity> it = entities.iterator(); it.hasNext();) {
-            AbstractEntity e = it.next();
-            renderer.render(e);
+        if (render.get("Background")) {
+            renderer.render(this);
         }
-        for (Iterator<Map.Entry<Map<AbstractEntity, Highlight.Type>, Highlight>> it = highlights.entrySet().iterator(); it.hasNext();) {
-            Highlight h = it.next().getValue();
-            renderer.render(BlendingMode.AVERAGE, h, 50);
+        if (render.get("Entity")) {
+            for (Iterator<AbstractEntity> it = entities.iterator(); it.hasNext();) {
+                AbstractEntity e = it.next();
+                renderer.render(e);
+            }
         }
+        if (render.get("Highlight")) {
+            for (Iterator<Map.Entry<Map<AbstractEntity, Highlight.Type>, Highlight>> it = highlights.entrySet().iterator(); it.hasNext();) {
+                Highlight h = it.next().getValue();
+                renderer.render(BlendingMode.AVERAGE, h, 50);
+            }
+        }
+
     }
 
     @Override
@@ -377,7 +400,7 @@ public class Grid implements IRenderable, IUpdateable {
                 e.unAlert();
             }
         }
-        
+
         for (Iterator<AbstractEntity> it = new_colliding.iterator(); it.hasNext();) {
             AbstractEntity e = it.next();
             e.alert();
