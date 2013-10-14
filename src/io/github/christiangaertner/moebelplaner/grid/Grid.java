@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *
@@ -54,7 +55,7 @@ public class Grid implements IRenderable, IUpdateable {
     /**
      * Alle Highlights für entites
      */
-    protected HashMap<Map<AbstractEntity, Highlight.Type>, Highlight> highlights = new HashMap<Map<AbstractEntity, Highlight.Type>, Highlight>();
+    protected ConcurrentHashMap<Map<AbstractEntity, Highlight.Type>, Highlight> highlights = new ConcurrentHashMap<Map<AbstractEntity, Highlight.Type>, Highlight>();
     /**
      * Die gerade "markierten" Entities
      */
@@ -305,7 +306,7 @@ public class Grid implements IRenderable, IUpdateable {
      * Entfernt alle Entities aus der focus list und ruft "unFocus()" bei den Objekten auf
      */
     private void unFocus() {
-        for (Iterator<AbstractEntity> it = focus.iterator(); it.hasNext();) {
+        for (Iterator<AbstractEntity   > it = focus.iterator(); it.hasNext();) {
             AbstractEntity e = it.next();
             it.remove();
             e.unFocus();
