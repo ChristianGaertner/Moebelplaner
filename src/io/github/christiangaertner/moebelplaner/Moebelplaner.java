@@ -1,7 +1,9 @@
 package io.github.christiangaertner.moebelplaner;
 
 import io.github.christiangaertner.moebelplaner.error.ExceptionHandler;
+import io.github.christiangaertner.moebelplaner.graphics.DebugHud;
 import io.github.christiangaertner.moebelplaner.graphics.Renderer;
+import io.github.christiangaertner.moebelplaner.graphics.blending.BlendingMode;
 import io.github.christiangaertner.moebelplaner.graphics.blending.DefaultColorBlender;
 import io.github.christiangaertner.moebelplaner.grid.Grid;
 import io.github.christiangaertner.moebelplaner.input.Keyboard;
@@ -12,7 +14,6 @@ import io.github.christiangaertner.moebelplaner.moebel.Bett;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -73,6 +74,10 @@ public final class Moebelplaner extends Canvas implements Runnable {
      */
     private Keyboard key;
     /**
+     * DebugHud Screen
+     */
+    private DebugHud debugHud;
+    /**
      * Fenster Breite
      */
     public static final int WIDTH = 1280,
@@ -124,8 +129,10 @@ public final class Moebelplaner extends Canvas implements Runnable {
         frame = new JFrame();
         mouse = new Mouse();
         key = new Keyboard();
-
+        
         grid = new Grid(this, mouse, key);
+        
+        debugHud = new DebugHud(this);
 
         addKeyListener(key);
         addMouseListener(mouse);
@@ -287,7 +294,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
 
         // Wir renderen unserer Grid
         grid.render(renderer);
-
+        
 
         // Wir nehmen jetzt den int[] den der Renderer
         // verwaltet hat und kopieren ihn in das BufferdImage
@@ -303,46 +310,27 @@ public final class Moebelplaner extends Canvas implements Runnable {
         // Jetzt füllen wir unserern canvas mit dem BufferedImage
         g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 
-
+        // und unseren DebugHud
         if (showDebugHud) {
-            int fontSize = 20;
-            g.setColor(Color.RED);
-            g.setFont(new Font("Verdana", 0, fontSize));
-
-            g.drawString("DEBUG MODE", 0, fontSize);
-            g.drawString("Entities: " + grid.entityCount(), 0, fontSize * 2);
-            g.drawString("Focused: " + grid.focusCount(), 0, fontSize * 3);
-            g.drawString("Highlights: " + grid.highlightCount(), 0, fontSize * 4);
-
-            g.drawString("Mouse: X: " + mouse.x() + "; Y: " + mouse.y() + "; preX: " + mouse.preX() + "; preY: " + mouse.preY(), 0, fontSize * 5);
-            g.drawString("Drag: " + (mouse.x() - mouse.preX()) + " / " + (mouse.y() - mouse.preY()), 0, fontSize * 6);
-
-            String display;
-
-            switch (mouse.hold()) {
-                case 1:
-                    display = "LEFT HOLD";
-                    break;
-                case 2:
-                    display = "MIDDLE HOLD";
-                    break;
-                case 3:
-                    display = "RIGHT HOLD";
-                    break;
-                default:
-                    display = "OTHER BUTTON. ID: " + mouse.hold();
-            }
-
-            if (mouse.hold() != -1) {
-                g.drawString(display, 0, fontSize * 7);
-            }
+            debugHud.render(g);
         }
-
-
+        
         // Jetzt das GraphicsObject "packen"
         g.dispose();
         // Und das Bild zeigen.
         bs.show();
+    }
+    
+    public Mouse getMouse() {
+        return mouse;
+    }
+    
+    public Keyboard getKeyboard() {
+        return key;
+    }
+    
+    public Grid getGrid() {
+        return grid;
     }
     
     public boolean debug() {

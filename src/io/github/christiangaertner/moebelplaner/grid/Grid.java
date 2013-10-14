@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
  *
@@ -203,8 +204,8 @@ public class Grid implements IRenderable, IUpdateable {
     }
 
     /**
-     * Löscht alle Entities. In folgenden Listen: entities, focus und alle highlights
-     * Wirft eigentlich immer java.util.ConcurrentModificationException
+     * Löscht alle Entities. In folgenden Listen: entities, focus und alle highlights Wirft eigentlich immer java.util.ConcurrentModificationException
+     *
      * @deprecated
      */
     public void clearAll() {
@@ -311,9 +312,8 @@ public class Grid implements IRenderable, IUpdateable {
     }
 
     /**
-     * Die fokussierten Entity bewegen
-     * (und deren Highlights)
-     */ 
+     * Die fokussierten Entity bewegen (und deren Highlights)
+     */
     private void moveFocused(int x, int y) {
         IMoveable m;
         for (Iterator<AbstractEntity> it = focus.iterator(); it.hasNext();) {
@@ -325,33 +325,33 @@ public class Grid implements IRenderable, IUpdateable {
             }
         }
     }
-    
+
     /**
      * Berechnen von Kollision (überlappungen)
      */
     private void calculateCollisions() {
-        
+
         // Grund-Liste, hier packen wir alle Entity rein, die sich irgendwie überlappen
         List<AbstractEntity> colliding = new ArrayList<AbstractEntity>();
-        
+
         // Durch alle Entities iterieren
         for (Iterator<AbstractEntity> it = entities.iterator(); it.hasNext();) {
-            
+
             // Eine "bekommen"
             AbstractEntity e1 = it.next();
-            
+
             // Erstmal un alerten und highlight entfernen (geht nicht anders bzw. nicht so schnell)
             e1.unAlert();
             unhighlight(e1, Highlight.Type.ALERT);
-            
+
             // Jetzt nochmal, da wir ja Kollision von und zu jeder analysieren müssen
             for (Iterator<AbstractEntity> i = entities.iterator(); i.hasNext();) {
-                
+
                 // jetzt wieder das gleiche wie oben
                 AbstractEntity e2 = i.next();
                 e2.unAlert();
                 unhighlight(e2, Highlight.Type.ALERT);
-                
+
                 // Und jetzt gucken, ob sich die beiden überlappen und es nicht die gleiche ist
                 if (colliding(e1, e2) && !e2.equals(e1)) {
                     // Wenn die Entities noch nicht in der colliding Liste ist hinzufügen
@@ -364,7 +364,7 @@ public class Grid implements IRenderable, IUpdateable {
                 }
             }
         }
-        
+
         // Jetzt wieder Highlights hinzufügen
         for (Iterator<AbstractEntity> it = colliding.iterator(); it.hasNext();) {
             AbstractEntity e = it.next();
@@ -372,11 +372,10 @@ public class Grid implements IRenderable, IUpdateable {
             highlight(e, Highlight.Type.ALERT);
         }
     }
-    
+
     /**
-     * Berechnet, ob sich zwei Entitys überlappen
-     * Zur Zeit wird jeder Shape zu einem Rechteck runter-gerechnet
-     */ 
+     * Berechnet, ob sich zwei Entitys überlappen Zur Zeit wird jeder Shape zu einem Rechteck runter-gerechnet
+     */
     private boolean colliding(AbstractEntity e1, AbstractEntity e2) {
         Rectangle bounds1 = e1.getBoundaries().getBounds();
         Rectangle bounds2 = e2.getBoundaries().getBounds();
@@ -402,7 +401,7 @@ public class Grid implements IRenderable, IUpdateable {
         // Erstmal wieder wrappen
         Map<AbstractEntity, Highlight.Type> key = new HashMap<AbstractEntity, Highlight.Type>();
         key.put(e, type);
-        
+
         // Und dann entfernen
         highlights.remove(key);
     }
