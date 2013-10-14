@@ -110,6 +110,7 @@ public class Grid implements IRenderable, IUpdateable {
             // Löschen von der Focus Liste
             it.remove();
             unhighlight(e, Highlight.Type.FOCUS);
+            unhighlight(e, Highlight.Type.ALERT);
         }
     }
 
