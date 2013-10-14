@@ -67,6 +67,13 @@ public class Sprite {
         pixels = new int[w * h];
         setColor(color);
     }
+    /**
+     * Erstellt eine neue Sprite von einem Bild
+     * @param image 
+     */
+    public Sprite(BufferedImage image) {
+        loadImage(image);
+    }
 
     public void resize(int xs, int ys) throws IOException {
         BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
