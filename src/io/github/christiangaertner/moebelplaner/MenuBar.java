@@ -22,10 +22,11 @@ import javax.swing.KeyStroke;
  *
  * @author Christian
  */
-public class MenuBar {
+public class MenuBar  extends JMenuBar {
 
     private final Grid grid;
     private final Moebelplaner planer;
+    private final List<JMenu> menus = new ArrayList<JMenu>();
     private final List<String> furnities = new ArrayList<String>();
 
     public MenuBar(Moebelplaner p, Grid g) {
@@ -40,25 +41,12 @@ public class MenuBar {
         furnities.add("Badewanne");
 
     }
-
-    public JMenuBar getMenuBar() {
-
-        JMenuBar menuBar = new JMenuBar();
-
-        for (JMenu menu : getMenus()) {
-            menuBar.add(menu);
-        }
-
-
-
-
-
-        return menuBar;
+    
+    public void prepare() {
+        getMenus();
     }
 
     private List<JMenu> getMenus() {
-
-        List<JMenu> menus = new ArrayList<JMenu>();
 
 
         JMenu edit = new JMenu("Edit");
@@ -75,7 +63,7 @@ public class MenuBar {
 
         menus.add(edit);
         menus.add(add);
-
+        
         return menus;
     }
 

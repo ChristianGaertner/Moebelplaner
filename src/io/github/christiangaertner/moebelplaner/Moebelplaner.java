@@ -34,7 +34,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
     /**
      * Zeigt an ob debug info angezeigt werden soll
      */
-    private final boolean DEBUG;
+    public final boolean DEBUG;
     /**
      * Der Title (für den JFrame)
      */
@@ -125,8 +125,13 @@ public final class Moebelplaner extends Canvas implements Runnable {
         addMouseListener(mouse);
         addMouseMotionListener(mouse);
         requestFocus();
-
-        frame.setJMenuBar(new MenuBar(this, grid).getMenuBar());
+        
+        MenuBar bar = new MenuBar(this, grid);
+        
+        bar.prepare();
+        
+        frame.setJMenuBar(bar);
+        
     }
 
     /**
