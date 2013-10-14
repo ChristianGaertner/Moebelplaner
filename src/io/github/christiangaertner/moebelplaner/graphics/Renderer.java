@@ -2,7 +2,6 @@ package io.github.christiangaertner.moebelplaner.graphics;
 
 import io.github.christiangaertner.moebelplaner.graphics.blending.BlendingMode;
 import io.github.christiangaertner.moebelplaner.graphics.blending.IColorBlender;
-import java.awt.Color;
 
 /**
  *

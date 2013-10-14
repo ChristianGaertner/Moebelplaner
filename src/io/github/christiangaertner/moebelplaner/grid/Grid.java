@@ -128,7 +128,7 @@ public class Grid implements IRenderable, IUpdateable {
         }
         for (Iterator<Map.Entry<Map<AbstractEntity, Highlight.Type>,Highlight>> it = highlights.entrySet().iterator(); it.hasNext();) {
             Highlight h = it.next().getValue();
-            renderer.render(BlendingMode.NORMAL, h, 50);
+            renderer.render(BlendingMode.AVERAGE, h, 50);
         }
     }
 

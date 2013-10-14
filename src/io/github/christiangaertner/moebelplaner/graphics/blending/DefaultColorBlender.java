@@ -1,5 +1,7 @@
 package io.github.christiangaertner.moebelplaner.graphics.blending;
 
+import java.awt.Color;
+
 /**
  *
  * @author Christian
@@ -13,7 +15,13 @@ public class DefaultColorBlender implements IColorBlender {
 
     @Override
     public int average(int a, int b, int o) {
-        return ((a + b) / 2);
+        Color c1 = new Color(a);
+        Color c2 = new Color(b);
+        return new Color(
+                (c1.getRed() * c1.getAlpha() + c2.getRed() * c2.getAlpha()) / (c1.getAlpha() + c2.getAlpha()),
+                (c1.getGreen() * c1.getAlpha() + c2.getGreen() * c2.getAlpha()) / (c1.getAlpha() + c2.getAlpha()),
+                (c1.getBlue() * c1.getAlpha() + c2.getBlue() * c2.getAlpha()) / (c1.getAlpha() + c2.getAlpha()),
+                (c1.getAlpha() + c2.getAlpha()) / 2).getRGB();
     }
 
     @Override

@@ -349,7 +349,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
         }
 
         // Unseren Moebelplaner erstellen
-        Moebelplaner planer = new Moebelplaner();
+        Moebelplaner planer = new Moebelplaner(true);
 
         // Sonst wird es schwieriger mit den Graphiken
         planer.frame.setResizable(false);
