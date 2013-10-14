@@ -203,7 +203,9 @@ public class Grid implements IRenderable, IUpdateable {
     }
 
     /**
-     * Löscht alle Entities. In folgenden Listen: entities, focus
+     * Löscht alle Entities. In folgenden Listen: entities, focus und alle highlights
+     * Wirft eigentlich immer java.util.ConcurrentModificationException
+     * @deprecated
      */
     public void clearAll() {
         entities.clear();

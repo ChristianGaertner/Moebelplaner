@@ -6,6 +6,7 @@ import io.github.christiangaertner.moebelplaner.graphics.blending.DefaultColorBl
 import io.github.christiangaertner.moebelplaner.grid.Grid;
 import io.github.christiangaertner.moebelplaner.input.Keyboard;
 import io.github.christiangaertner.moebelplaner.input.Mouse;
+import io.github.christiangaertner.moebelplaner.menu.MenuBar;
 import io.github.christiangaertner.moebelplaner.moebel.Badewanne;
 import io.github.christiangaertner.moebelplaner.moebel.Bett;
 import java.awt.Canvas;
@@ -34,7 +35,11 @@ public final class Moebelplaner extends Canvas implements Runnable {
     /**
      * Zeigt an ob debug info angezeigt werden soll
      */
-    public final boolean DEBUG;
+    private final boolean DEBUG;
+    /**
+     * Zeigt an ob der Debug Text auf dem Screen angfezeigt werden soll
+     */
+    private boolean showDebugHud;
     /**
      * Der Title (für den JFrame)
      */
@@ -102,6 +107,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
      */
     public Moebelplaner(boolean debug) {
         DEBUG = debug;
+        showDebugHud = DEBUG;
         
         if (DEBUG) {
             LOGGER.setLevel(Level.FINEST);
@@ -125,12 +131,8 @@ public final class Moebelplaner extends Canvas implements Runnable {
         addMouseListener(mouse);
         addMouseMotionListener(mouse);
         requestFocus();
-        
-        MenuBar bar = new MenuBar(this, grid);
-        
-        bar.prepare();
-        
-        frame.setJMenuBar(bar);
+                
+        frame.setJMenuBar(new MenuBar(this, grid));
         
     }
 
@@ -302,7 +304,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
         g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 
 
-        if (DEBUG) {
+        if (showDebugHud) {
             int fontSize = 20;
             g.setColor(Color.RED);
             g.setFont(new Font("Verdana", 0, fontSize));
@@ -341,6 +343,15 @@ public final class Moebelplaner extends Canvas implements Runnable {
         g.dispose();
         // Und das Bild zeigen.
         bs.show();
+    }
+    
+    public boolean debug() {
+        return DEBUG;
+    }
+    
+    
+    public void toogleHud() {
+        showDebugHud = !showDebugHud;
     }
 
     /**
