@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.logging.Level;
 
 /**
  *
@@ -48,6 +47,10 @@ public class Grid implements IRenderable, IUpdateable {
      * Alle Entities
      */
     protected List<AbstractEntity> entities = new ArrayList<AbstractEntity>();
+    /**
+     * Entities die zur Zeit kollidieren
+     */
+    protected List<AbstractEntity> colliding = new ArrayList<AbstractEntity>();
     /**
      * Alle Highlights für entites
      */
@@ -332,7 +335,7 @@ public class Grid implements IRenderable, IUpdateable {
     private void calculateCollisions() {
 
         // Grund-Liste, hier packen wir alle Entity rein, die sich irgendwie überlappen
-        List<AbstractEntity> colliding = new ArrayList<AbstractEntity>();
+        List<AbstractEntity> new_colliding = new ArrayList<AbstractEntity>();
 
         // Durch alle Entities iterieren
         for (Iterator<AbstractEntity> it = entities.iterator(); it.hasNext();) {
@@ -340,26 +343,20 @@ public class Grid implements IRenderable, IUpdateable {
             // Eine "bekommen"
             AbstractEntity e1 = it.next();
 
-            // Erstmal un alerten und highlight entfernen (geht nicht anders bzw. nicht so schnell)
-            e1.unAlert();
-            unhighlight(e1, Highlight.Type.ALERT);
-
             // Jetzt nochmal, da wir ja Kollision von und zu jeder analysieren müssen
             for (Iterator<AbstractEntity> i = entities.iterator(); i.hasNext();) {
 
                 // jetzt wieder das gleiche wie oben
                 AbstractEntity e2 = i.next();
-                e2.unAlert();
-                unhighlight(e2, Highlight.Type.ALERT);
 
                 // Und jetzt gucken, ob sich die beiden überlappen und es nicht die gleiche ist
                 if (colliding(e1, e2) && !e2.equals(e1)) {
                     // Wenn die Entities noch nicht in der colliding Liste ist hinzufügen
-                    if (!colliding.contains(e1)) {
-                        colliding.add(e1);
+                    if (!new_colliding.contains(e1)) {
+                        new_colliding.add(e1);
                     }
-                    if (!colliding.contains(e2)) {
-                        colliding.add(e2);
+                    if (!new_colliding.contains(e2)) {
+                        new_colliding.add(e2);
                     }
                 }
             }
@@ -368,8 +365,24 @@ public class Grid implements IRenderable, IUpdateable {
         // Jetzt wieder Highlights hinzufügen
         for (Iterator<AbstractEntity> it = colliding.iterator(); it.hasNext();) {
             AbstractEntity e = it.next();
+
+            if (new_colliding.contains(e)) {
+                getHighlight(e, Highlight.Type.ALERT).moveTo(e.x(), e.y());
+                new_colliding.remove(e);
+
+            } else {
+                new_colliding.remove(e);
+                it.remove();
+                this.unhighlight(e, Highlight.Type.ALERT);
+                e.unAlert();
+            }
+        }
+        
+        for (Iterator<AbstractEntity> it = new_colliding.iterator(); it.hasNext();) {
+            AbstractEntity e = it.next();
             e.alert();
             highlight(e, Highlight.Type.ALERT);
+            colliding.add(e);
         }
     }
 
