@@ -2,6 +2,7 @@ package io.github.christiangaertner.moebelplaner.grid;
 
 import io.github.christiangaertner.moebelplaner.graphics.IRenderable;
 import io.github.christiangaertner.moebelplaner.graphics.Sprite;
+import io.github.christiangaertner.moebelplaner.graphics.blending.BlendingMode;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
@@ -27,6 +28,14 @@ abstract public class AbstractEntity implements IRenderable, IUpdateable, IFocus
      * Die X-Y Koordinate auf der Grid
      */
     protected int x, y;
+    
+    /**
+     * Gibt den bevorzugten RenderMode dieser Entity wieder
+     * @return 
+     */
+    public BlendingMode getRenderMode() {
+        return BlendingMode.NORMAL;
+    }
 
     @Override
     public Sprite getSprite() {
