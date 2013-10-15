@@ -115,46 +115,46 @@ public class Renderer {
                     default:
                     /* Falls through */
                     case NORMAL:
-                        pixels[xa + ya * width] = blender.normal(pixels[xa + ya * width], color, o);
+                        pixels[xa + ya * width] = blender.normal(pixels[xa + ya * width], color);
                         break;
                     case AVERAGE:
-                        pixels[xa + ya * width] = blender.average(pixels[xa + ya * width], color, o);
+                        pixels[xa + ya * width] = blender.average(pixels[xa + ya * width], color);
                         break;
                     case ADD:
-                        pixels[xa + ya * width] = blender.add(pixels[xa + ya * width], color, o);
+                        pixels[xa + ya * width] = blender.add(pixels[xa + ya * width], color);
                         break;
                     case SUBTRACT:
-                        pixels[xa + ya * width] = blender.subtract(pixels[xa + ya * width], color, o);
+                        pixels[xa + ya * width] = blender.subtract(pixels[xa + ya * width], color);
                         break;
                     case MULITPLY:
-                        pixels[xa + ya * width] = blender.subtract(pixels[xa + ya * width], color, o);
+                        pixels[xa + ya * width] = blender.multiply(pixels[xa + ya * width], color);
                         break;
                     case DIVIDE:
-                        pixels[xa + ya * width] = blender.divide(pixels[xa + ya * width], color, o);
+                        pixels[xa + ya * width] = blender.divide(pixels[xa + ya * width], color);
                         break;
                     case DIFFERENCE:
-                        pixels[xa + ya * width] = blender.difference(pixels[xa + ya * width], color, o);
+                        pixels[xa + ya * width] = blender.difference(pixels[xa + ya * width], color);
                         break;
                     case DARKENONLY:
-                        pixels[xa + ya * width] = blender.darkenonly(pixels[xa + ya * width], color, o);
+                        pixels[xa + ya * width] = blender.darkenonly(pixels[xa + ya * width], color);
                         break;
                     case LIGHTENONLY:
-                        pixels[xa + ya * width] = blender.lightenonly(pixels[xa + ya * width], color, o);
+                        pixels[xa + ya * width] = blender.lightenonly(pixels[xa + ya * width], color);
                         break;
                     case SCREEN:
-                        pixels[xa + ya * width] = blender.screen(pixels[xa + ya * width], color, o);
+                        pixels[xa + ya * width] = blender.screen(pixels[xa + ya * width], color);
                         break;
                     case OVERLAY:
-                        pixels[xa + ya * width] = blender.overlay(pixels[xa + ya * width], color, o);
+                        pixels[xa + ya * width] = blender.overlay(pixels[xa + ya * width], color);
                         break;
                     case HARDLIGHT:
-                        pixels[xa + ya * width] = blender.hardlight(pixels[xa + ya * width], color, o);
+                        pixels[xa + ya * width] = blender.hardlight(pixels[xa + ya * width], color);
                         break;
                     case SOFTLIGHT:
-                        pixels[xa + ya * width] = blender.softlight(pixels[xa + ya * width], color, o);
+                        pixels[xa + ya * width] = blender.softlight(pixels[xa + ya * width], color);
                         break;
                     case COLORBURN:
-                        pixels[xa + ya * width] = blender.colorburn(pixels[xa + ya * width], color, o);
+                        pixels[xa + ya * width] = blender.colorburn(pixels[xa + ya * width], color);
                         break;
                 }
             }
