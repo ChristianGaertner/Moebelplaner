@@ -36,7 +36,13 @@ public class DefaultColorBlender implements IColorBlender {
 
     @Override
     public int multiply(int a, int b) {
-        return a * b;
+        Color c1 = new Color(a);
+        Color c2 = new Color(b);
+        return new Color(
+                (c1.getRed() * c2.getRed() / 0xff),
+                (c1.getGreen() * c2.getGreen() / 0xff),
+                (c1.getBlue() * c2.getBlue() / 0xff),
+                (c1.getAlpha() + c2.getAlpha()) / 2).getRGB();
     }
 
     @Override
