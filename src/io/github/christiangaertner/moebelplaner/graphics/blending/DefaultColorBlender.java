@@ -8,6 +8,10 @@ import java.awt.Color;
  */
 public class DefaultColorBlender implements IColorBlender {
 
+    protected static double normalize(int c) {
+        return c / 255.0f;
+    }
+
     @Override
     public int normal(int a, int b) {
         return b;
@@ -99,6 +103,21 @@ public class DefaultColorBlender implements IColorBlender {
 
     @Override
     public int colorburn(int a, int b) {
-        return (1 - (1 - a) / b);
+        Color c1 = new Color(a);
+        Color c2 = new Color(b);
+        return new Color(
+                (channelColorBurn(c1.getRed(), c2.getRed())),
+                (channelColorBurn(c1.getGreen(), c2.getGreen())),
+                (channelColorBurn(c1.getBlue(), c2.getBlue())),
+                (c1.getAlpha() + c2.getAlpha()) / 2).getRGB();
+    }
+
+    protected int channelColorBurn(int a, int b) {
+        if (b == 0) {
+            return 0;
+        }
+
+        int color = (int) (255 * (1 - (1 - normalize(a)) / normalize(b)));
+        return (color < 0) ? 0 : color;
     }
 }
