@@ -35,7 +35,22 @@ public class DefaultColorBlender implements IColorBlender {
 
     @Override
     public int subtract(int a, int b) {
-        return a - b;
+        Color c1 = new Color(a);
+        Color c2 = new Color(b);
+        return new Color(
+                (channelSubtract(c1.getRed(), c2.getRed())),
+                (channelSubtract(c1.getGreen(), c2.getGreen())),
+                (channelSubtract(c1.getBlue(), c2.getBlue())),
+                (c1.getAlpha() + c2.getAlpha()) / 2).getRGB();
+    }
+
+    protected int channelSubtract(int a, int b) {
+        int re = b - a;
+        if (re <= 0) {
+            return 0;
+        }
+
+        return re;
     }
 
     @Override
@@ -51,16 +66,49 @@ public class DefaultColorBlender implements IColorBlender {
 
     @Override
     public int divide(int a, int b) {
-        return a / b;
+        Color c1 = new Color(a);
+        Color c2 = new Color(b);
+        return new Color(
+                (channelDivide(c1.getRed(), c2.getRed())),
+                (channelDivide(c1.getGreen(), c2.getGreen())),
+                (channelDivide(c1.getBlue(), c2.getBlue())),
+                (c1.getAlpha() + c2.getAlpha()) / 2).getRGB();
+    }
+
+    protected int channelDivide(int a, int b) {
+        if (b >= 0) {
+            return 0;
+        }
+        return Math.abs(a / b);
     }
 
     @Override
     public int difference(int a, int b) {
-        return Math.abs(a - b);
+        Color c1 = new Color(a);
+        Color c2 = new Color(b);
+        return new Color(
+                (channelDifference(c1.getRed(), c2.getRed())),
+                (channelDifference(c1.getGreen(), c2.getGreen())),
+                (channelDifference(c1.getBlue(), c2.getBlue())),
+                (c1.getAlpha() + c2.getAlpha()) / 2).getRGB();
+    }
+
+    protected int channelDifference(int a, int b) {
+        return Math.abs(b - a);
     }
 
     @Override
     public int darkenonly(int a, int b) {
+        Color c1 = new Color(a);
+        Color c2 = new Color(b);
+        return new Color(
+                (channelDarkenonly(c1.getRed(), c2.getRed())),
+                (channelDarkenonly(c1.getGreen(), c2.getGreen())),
+                (channelDarkenonly(c1.getBlue(), c2.getBlue())),
+                (c1.getAlpha() + c2.getAlpha()) / 2).getRGB();
+    }
+
+    protected int channelDarkenonly(int a, int b) {
         if (a < b) {
             return a;
         } else {
@@ -115,11 +163,20 @@ public class DefaultColorBlender implements IColorBlender {
 
     @Override
     public int softlight(int a, int b) {
-        if (b < 0.5) {
-            return (2 * a * b + a * a * (1 - 2 * b));
-        } else {
-            return (int) (2 * a * (1 - b) + Math.sqrt(a) * (2 * b - 1));
-        }
+        Color c1 = new Color(a);
+        Color c2 = new Color(b);
+        return new Color(
+                (channelSoftlight(c1.getRed(), c2.getRed())),
+                (channelSoftlight(c1.getGreen(), c2.getGreen())),
+                (channelSoftlight(c1.getBlue(), c2.getBlue())),
+                (c1.getAlpha() + c2.getAlpha()) / 2).getRGB();
+    }
+
+    protected int channelSoftlight(int a, int b) {
+        double ad = normalize(a);
+        double bd = normalize(b);
+
+        return (int) (Math.round(255 * ((1 - bd) * bd * ad + bd * (1 - (1 - bd) * (1 - ad)))));
     }
 
     @Override
