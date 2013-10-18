@@ -83,17 +83,28 @@ public class DefaultColorBlender implements IColorBlender {
                 (channelScreen(c1.getBlue(), c2.getBlue())),
                 (c1.getAlpha() + c2.getAlpha()) / 2).getRGB();
     }
-    
+
     protected int channelScreen(int a, int b) {
         return (int) Math.round(255 * (1 - ((1 - normalize(a)) * (1 - normalize(b)))));
     }
 
     @Override
     public int overlay(int a, int b) {
-        if (a < 0.5) {
-            return (2 * a * b);
+        Color c1 = new Color(a);
+        Color c2 = new Color(b);
+        return new Color(
+                (channelOverlay(c1.getRed(), c2.getRed())),
+                (channelOverlay(c1.getGreen(), c2.getGreen())),
+                (channelOverlay(c1.getBlue(), c2.getBlue())),
+                (c1.getAlpha() + c2.getAlpha()) / 2).getRGB();
+    }
+
+    protected int channelOverlay(int a, int b) {
+
+        if (normalize(a) < 0.5) {
+            return ((2 * a * b) / 255);
         } else {
-            return (1 - 2 * (1 - a) * (1 - b));
+            return (int) (0xff * (1 - 2 * (1 - normalize(a)) * (1 - normalize(b))));
         }
     }
 
