@@ -82,9 +82,9 @@ public class Grid implements IRenderable, IUpdateable {
         sprite = new Sprite("/images/grid.png");
 
         // Erstmal alles erlaubern zu rendern
-        render.put("Background", false);
+        render.put("Background", true);
         render.put("Entity", true);
-        render.put("Highlight", false);
+        render.put("Highlight", true);
     }
 
     public void renderSettings(String key, boolean value) {
