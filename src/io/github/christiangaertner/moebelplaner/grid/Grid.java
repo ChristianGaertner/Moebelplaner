@@ -82,9 +82,9 @@ public class Grid implements IRenderable, IUpdateable {
         sprite = new Sprite("/images/grid.png");
 
         // Erstmal alles erlaubern zu rendern
-        render.put("Background", true);
+        render.put("Background", false);
         render.put("Entity", true);
-        render.put("Highlight", true);
+        render.put("Highlight", false);
     }
 
     public void renderSettings(String key, boolean value) {
@@ -148,7 +148,11 @@ public class Grid implements IRenderable, IUpdateable {
         if (render.get("Entity")) {
             for (Iterator<AbstractEntity> it = entities.iterator(); it.hasNext();) {
                 AbstractEntity e = it.next();
-                renderer.render(e);
+                if (e.getRenderMode() == null) {
+                    renderer.render(e);
+                } else {
+                    renderer.render(e.getRenderMode(), e);
+                }
             }
         }
         if (render.get("Highlight")) {
@@ -306,7 +310,7 @@ public class Grid implements IRenderable, IUpdateable {
      * Entfernt alle Entities aus der focus list und ruft "unFocus()" bei den Objekten auf
      */
     private void unFocus() {
-        for (Iterator<AbstractEntity   > it = focus.iterator(); it.hasNext();) {
+        for (Iterator<AbstractEntity> it = focus.iterator(); it.hasNext();) {
             AbstractEntity e = it.next();
             it.remove();
             e.unFocus();

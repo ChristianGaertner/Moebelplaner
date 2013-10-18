@@ -126,7 +126,7 @@ public class Renderer {
                     case SUBTRACT:
                         pixels[xa + ya * width] = blender.subtract(pixels[xa + ya * width], color);
                         break;
-                    case MULITPLY:
+                    case MULTIPLY:
                         pixels[xa + ya * width] = blender.multiply(pixels[xa + ya * width], color);
                         break;
                     case DIVIDE:

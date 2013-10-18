@@ -10,7 +10,7 @@ public enum BlendingMode {
     AVERAGE,
     ADD,
     SUBTRACT,
-    MULITPLY,
+    MULTIPLY,
     DIVIDE,
     DIFFERENCE,
     DARKENONLY,

@@ -3,12 +3,14 @@ package io.github.christiangaertner.moebelplaner;
 import io.github.christiangaertner.moebelplaner.error.ExceptionHandler;
 import io.github.christiangaertner.moebelplaner.graphics.DebugHud;
 import io.github.christiangaertner.moebelplaner.graphics.Renderer;
+import io.github.christiangaertner.moebelplaner.graphics.Sprite;
 import io.github.christiangaertner.moebelplaner.graphics.blending.BlendingMode;
 import io.github.christiangaertner.moebelplaner.graphics.blending.DefaultColorBlender;
 import io.github.christiangaertner.moebelplaner.grid.Grid;
 import io.github.christiangaertner.moebelplaner.input.Keyboard;
 import io.github.christiangaertner.moebelplaner.input.Mouse;
 import io.github.christiangaertner.moebelplaner.menu.MenuBar;
+import io.github.christiangaertner.moebelplaner.moebel.AbstractMoebel;
 import io.github.christiangaertner.moebelplaner.moebel.Badewanne;
 import io.github.christiangaertner.moebelplaner.moebel.Bett;
 import java.awt.Canvas;
@@ -32,7 +34,6 @@ public final class Moebelplaner extends Canvas implements Runnable {
      * Der Logger dieses Programmes
      */
     public final static Logger LOGGER = Logger.getLogger(Moebelplaner.class.getName());
-    
     /**
      * Zeigt an ob debug info angezeigt werden soll
      */
@@ -113,13 +114,13 @@ public final class Moebelplaner extends Canvas implements Runnable {
     public Moebelplaner(boolean debug) {
         DEBUG = debug;
         showDebugHud = DEBUG;
-        
+
         if (DEBUG) {
             LOGGER.setLevel(Level.FINEST);
         } else {
             LOGGER.setLevel(Level.INFO);
         }
-        
+
         LOGGER.addHandler(new ExceptionHandler());
 
         // Für den Canvas
@@ -129,18 +130,18 @@ public final class Moebelplaner extends Canvas implements Runnable {
         frame = new JFrame();
         mouse = new Mouse();
         key = new Keyboard();
-        
+
         grid = new Grid(this, mouse, key);
-        
+
         debugHud = new DebugHud(this);
 
         addKeyListener(key);
         addMouseListener(mouse);
         addMouseMotionListener(mouse);
         requestFocus();
-                
+
         frame.setJMenuBar(new MenuBar(this, grid));
-        
+
     }
 
     /**
@@ -259,9 +260,20 @@ public final class Moebelplaner extends Canvas implements Runnable {
 
         if (DEBUG) {
             if (mouse.click() == 3) {
-                grid.add(new Badewanne(mouse.x(), mouse.y()));
+                grid.add(new AbstractMoebel(new Sprite("/Users/Christian/Desktop/bg.png", true)) {
+
+                    @Override
+                    public BlendingMode getRenderMode() {
+                        return BlendingMode.NORMAL;
+                    }
+                });
             } else if (mouse.click() == 2) {
-                grid.add(new Bett(mouse.x(), mouse.y()));
+                grid.add(new AbstractMoebel(new Sprite("/Users/Christian/Desktop/top.png", true)) {
+                    @Override
+                    public BlendingMode getRenderMode() {
+                        return BlendingMode.SCREEN;
+                    }
+                });
             }
         }
 
@@ -294,7 +306,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
 
         // Wir renderen unserer Grid
         grid.render(renderer);
-        
+
 
         // Wir nehmen jetzt den int[] den der Renderer
         // verwaltet hat und kopieren ihn in das BufferdImage
@@ -314,30 +326,29 @@ public final class Moebelplaner extends Canvas implements Runnable {
         if (showDebugHud) {
             debugHud.render(g);
         }
-        
+
         // Jetzt das GraphicsObject "packen"
         g.dispose();
         // Und das Bild zeigen.
         bs.show();
     }
-    
+
     public Mouse getMouse() {
         return mouse;
     }
-    
+
     public Keyboard getKeyboard() {
         return key;
     }
-    
+
     public Grid getGrid() {
         return grid;
     }
-    
+
     public boolean debug() {
         return DEBUG;
     }
-    
-    
+
     public void toogleHud() {
         showDebugHud = !showDebugHud;
     }
@@ -353,7 +364,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
         }
 
         // Unseren Moebelplaner erstellen
-        Moebelplaner planer = new Moebelplaner();
+        Moebelplaner planer = new Moebelplaner(true);
 
         // Sonst wird es schwieriger mit den Graphiken
         planer.frame.setResizable(false);
