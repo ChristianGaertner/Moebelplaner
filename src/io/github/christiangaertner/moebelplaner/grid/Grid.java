@@ -68,7 +68,7 @@ public class Grid implements IRenderable, IUpdateable {
      * Render Regeln für die Grid
      */
     protected HashMap<String, Boolean> render = new HashMap<String, Boolean>();
-
+    
     public Grid(Moebelplaner planer, Mouse mouse, Keyboard key) {
         this();
         this.mouse = mouse;
@@ -85,6 +85,10 @@ public class Grid implements IRenderable, IUpdateable {
         render.put("Background", true);
         render.put("Entity", true);
         render.put("Highlight", true);
+    }
+
+    public boolean renderSettings(String key) {
+        return render.get(key);
     }
 
     public void renderSettings(String key, boolean value) {
