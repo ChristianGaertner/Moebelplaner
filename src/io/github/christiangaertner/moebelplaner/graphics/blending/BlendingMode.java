@@ -19,5 +19,9 @@ public enum BlendingMode {
     OVERLAY,
     HARDLIGHT,
     SOFTLIGHT,
-    COLORBURN
+    COLORBURN,
+    EXCLUSION,
+    HARDMIX,
+    VIVIDLIGHT,
+    COLORDOGE
 }

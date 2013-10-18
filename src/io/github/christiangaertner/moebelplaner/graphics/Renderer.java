@@ -156,6 +156,18 @@ public class Renderer {
                     case COLORBURN:
                         pixels[xa + ya * width] = blender.colorburn(pixels[xa + ya * width], color);
                         break;
+                    case EXCLUSION:
+                        pixels[xa + ya * width] = blender.exclusion(pixels[xa + ya * width], color);
+                        break;
+                    case HARDMIX:
+                        pixels[xa + ya * width] = blender.hardmix(pixels[xa + ya * width], color);
+                        break;
+                    case VIVIDLIGHT:
+                        pixels[xa + ya * width] = blender.vividlight(pixels[xa + ya * width], color);
+                        break;
+                    case COLORDOGE:
+                        pixels[xa + ya * width] = blender.colordoge(pixels[xa + ya * width], color);
+                        break;
                 }
             }
         }

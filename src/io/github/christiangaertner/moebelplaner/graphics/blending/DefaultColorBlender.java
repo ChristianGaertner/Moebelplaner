@@ -184,18 +184,86 @@ public class DefaultColorBlender implements IColorBlender {
         Color c1 = new Color(a);
         Color c2 = new Color(b);
         return new Color(
-                (channelColorBurn(c1.getRed(), c2.getRed())),
-                (channelColorBurn(c1.getGreen(), c2.getGreen())),
-                (channelColorBurn(c1.getBlue(), c2.getBlue())),
+                (channelColorburn(c1.getRed(), c2.getRed())),
+                (channelColorburn(c1.getGreen(), c2.getGreen())),
+                (channelColorburn(c1.getBlue(), c2.getBlue())),
                 (c1.getAlpha() + c2.getAlpha()) / 2).getRGB();
     }
 
-    protected int channelColorBurn(int a, int b) {
+    protected int channelColorburn(int a, int b) {
         if (b == 0) {
             return 0;
         }
 
         int color = (int) (255 * (1 - (1 - normalize(a)) / normalize(b)));
         return (color < 0) ? 0 : color;
+    }
+
+    @Override
+    public int exclusion(int a, int b) {
+        Color c1 = new Color(a);
+        Color c2 = new Color(b);
+        return new Color(
+                (channelExclusion(c1.getRed(), c2.getRed())),
+                (channelExclusion(c1.getGreen(), c2.getGreen())),
+                (channelExclusion(c1.getBlue(), c2.getBlue())),
+                (c1.getAlpha() + c2.getAlpha()) / 2).getRGB();
+    }
+
+    public int channelExclusion(int a, int b) {
+        return (int) Math.round(b + a - 2 * b * a / 255.0);
+    }
+
+    @Override
+    public int hardmix(int a, int b) {
+        Color c1 = new Color(a);
+        Color c2 = new Color(b);
+        return new Color(
+                (channelHardmix(c1.getRed(), c2.getRed())),
+                (channelHardmix(c1.getGreen(), c2.getGreen())),
+                (channelHardmix(c1.getBlue(), c2.getBlue())),
+                (c1.getAlpha() + c2.getAlpha()) / 2).getRGB();
+    }
+
+    protected int channelHardmix(int a, int b) {
+        return (b < 255 - a) ? 0 : 255;
+    }
+
+    @Override
+    public int vividlight(int a, int b) {
+        Color c1 = new Color(a);
+        Color c2 = new Color(b);
+        return new Color(
+                (channelExclusion(c1.getRed(), c2.getRed())),
+                (channelExclusion(c1.getGreen(), c2.getGreen())),
+                (channelExclusion(c1.getBlue(), c2.getBlue())),
+                (c1.getAlpha() + c2.getAlpha()) / 2).getRGB();
+    }
+
+    protected int channelVividlight(int a, int b) {
+        if (normalize(b) < 0.5) {
+            return channelColorburn(2 * b, a);
+        } else {
+            return channelColordoge(2 * (255 * (int) (normalize(a) - 0.5)), b);
+        }
+    }
+
+    @Override
+    public int colordoge(int a, int b) {
+        Color c1 = new Color(a);
+        Color c2 = new Color(b);
+        return new Color(
+                (channelColordoge(c1.getRed(), c2.getRed())),
+                (channelColordoge(c1.getGreen(), c2.getGreen())),
+                (channelColordoge(c1.getBlue(), c2.getBlue())),
+                (c1.getAlpha() + c2.getAlpha()) / 2).getRGB();
+    }
+
+    protected int channelColordoge(int a, int b) {
+        if (b == 0xff) {
+            return 0xff;
+        }
+        int color = (int) Math.round((normalize(a) / (1 - normalize(b))) * 255);
+        return (color > 0xff) ? 0xff : color;
     }
 }

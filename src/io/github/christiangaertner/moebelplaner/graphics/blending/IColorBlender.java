@@ -33,4 +33,12 @@ public interface IColorBlender {
     public int softlight(int a, int b);
     
     public int colorburn(int a, int b);
+    
+    public int exclusion(int a, int b);
+    
+    public int hardmix(int a, int b);
+    
+    public int vividlight(int a, int b);
+    
+    public int colordoge(int a, int b);
 }
