@@ -260,7 +260,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
 
         if (DEBUG) {
             if (mouse.click() == 3) {
-                grid.add(new AbstractMoebel(new Sprite("/Users/Christian/Desktop/bg.png", true)) {
+                grid.add(new AbstractMoebel(new Sprite("/images/debug/bg.png")) {
 
                     @Override
                     public BlendingMode getRenderMode() {
@@ -268,10 +268,10 @@ public final class Moebelplaner extends Canvas implements Runnable {
                     }
                 });
             } else if (mouse.click() == 2) {
-                grid.add(new AbstractMoebel(new Sprite("/Users/Christian/Desktop/top.png", true)) {
+                grid.add(new AbstractMoebel(new Sprite("/images/debug/top.png")) {
                     @Override
                     public BlendingMode getRenderMode() {
-                        return BlendingMode.SCREEN;
+                        return BlendingMode.HARDMIX;
                     }
                 });
             }
