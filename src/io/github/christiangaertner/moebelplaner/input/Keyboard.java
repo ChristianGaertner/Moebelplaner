@@ -256,6 +256,7 @@ public class Keyboard implements KeyListener, IUpdateable {
         initKeys();
     }
     
+    @Override
     public void update() {
         lastKey = null;
     }
@@ -305,6 +306,7 @@ public class Keyboard implements KeyListener, IUpdateable {
         addKey("escape", KeyEvent.VK_ESCAPE);
         addKey("shift", KeyEvent.VK_SHIFT);
         addKey("control", KeyEvent.VK_CONTROL);
+        addKey("alt", KeyEvent.ALT_MASK);
 
         keyNames = new String[maxKeyCount];
 

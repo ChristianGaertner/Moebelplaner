@@ -13,9 +13,7 @@ public class Toilette extends AbstractMoebel {
      * @param y Die Y-Koordinate
      */
     public Toilette(int x, int y) {
-        super("/images/moebel/toilette.png");
-        this.x = x;
-        this.y = y;
+        super(x, y, "/images/moebel/toilette.png");
     }
 
     /**

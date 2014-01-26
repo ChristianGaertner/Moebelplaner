@@ -37,7 +37,7 @@ public class Custom extends JMenuItem {
                     String type = mimetype.split("/")[0];
 
                     if (type.contains("image")) {
-                        grid.add(new AbstractMoebel(selectedFile.getAbsolutePath(), true) {
+                        grid.add(new AbstractMoebel(0, 0, selectedFile.getAbsolutePath(), true) {
                         });
                     } else {
                         Moebelplaner.LOGGER.log(Level.INFO, "Nur Bilder sind unterstützt");

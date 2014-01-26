@@ -3,6 +3,7 @@ package io.github.christiangaertner.moebelplaner.grid;
 import io.github.christiangaertner.moebelplaner.graphics.IRenderable;
 import io.github.christiangaertner.moebelplaner.graphics.Sprite;
 import io.github.christiangaertner.moebelplaner.graphics.blending.BlendingMode;
+import io.github.christiangaertner.moebelplaner.util.Vector2f;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
@@ -10,7 +11,7 @@ import java.awt.geom.Rectangle2D;
  *
  * @author Christian
  */
-abstract public class AbstractEntity implements IRenderable, IUpdateable, IFocusable, IAlertable {
+abstract public class AbstractEntity implements IRenderable, IUpdateable, IFocusable, IAlertable, IMoveable {
 
     /**
      * Die Sprite für diese Entity
@@ -27,7 +28,7 @@ abstract public class AbstractEntity implements IRenderable, IUpdateable, IFocus
     /**
      * Die X-Y Koordinate auf der Grid
      */
-    protected int x, y;
+    protected Vector2f position;
     
     /**
      * Gibt den bevorzugten RenderMode dieser Entity wieder
@@ -44,17 +45,21 @@ abstract public class AbstractEntity implements IRenderable, IUpdateable, IFocus
 
     @Override
     public int x() {
-        return x;
+        return (int) position.getX();
     }
 
     @Override
     public int y() {
-        return y;
+        return (int) position.getY();
+    }
+    
+    public Vector2f getPosition() {
+        return position;
     }
 
     @Override
     public Shape getBoundaries() {
-        return new Rectangle2D.Double(x, y, sprite.getWidth(), sprite.getHeight());
+        return new Rectangle2D.Double(position.getX(), position.getY(), sprite.getWidth(), sprite.getHeight());
     }
 
     @Override
@@ -89,5 +94,15 @@ abstract public class AbstractEntity implements IRenderable, IUpdateable, IFocus
     @Override
     public boolean isAlerted() {
         return alerted;
+    }
+    
+    @Override
+    public void move(int x, int y) {
+        position.add(x, y);
+    }
+
+    @Override
+    public void moveTo(int x, int y) {
+        position.set(x, y);
     }
 }

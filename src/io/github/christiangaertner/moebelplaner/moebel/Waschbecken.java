@@ -13,9 +13,7 @@ public class Waschbecken extends AbstractMoebel {
      * @param y Die Y-Koordinate
      */
     public Waschbecken(int x, int y) {
-        super("/images/moebel/waschbecken.png");
-        this.x = x;
-        this.y = y;
+        super(x, y, "/images/moebel/waschbecken.png");
     }
 
     /**

@@ -1,12 +1,13 @@
 package io.github.christiangaertner.moebelplaner.grid;
 
 import io.github.christiangaertner.moebelplaner.graphics.Sprite;
+import io.github.christiangaertner.moebelplaner.util.Vector2f;
 
 /**
  *
  * @author Christian
  */
-class Highlight extends AbstractEntity implements IMoveable {   
+class Highlight extends AbstractEntity {   
 
     public enum Type {
 
@@ -15,8 +16,7 @@ class Highlight extends AbstractEntity implements IMoveable {
     private Type type;
 
     public Highlight(Type type, int x, int y, int xs, int ys) {
-        this.x = x;
-        this.y = y;
+        this.position = Vector2f.make(x, y);
         this.type = type;
         this.sprite = getSpriteForType(type, xs, ys);
     }
@@ -46,17 +46,5 @@ class Highlight extends AbstractEntity implements IMoveable {
                 break;
         }
         return s;
-    }
-    
-    @Override
-    public void move(int x, int y) {
-        this.x += x;
-        this.y += y;
-    }
-
-    @Override
-    public void moveTo(int x, int y) {
-        this.x = x;
-        this.y = y;
     }
 }

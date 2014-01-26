@@ -3,51 +3,28 @@ package io.github.christiangaertner.moebelplaner.moebel;
 import io.github.christiangaertner.moebelplaner.graphics.Sprite;
 import io.github.christiangaertner.moebelplaner.grid.AbstractEntity;
 import io.github.christiangaertner.moebelplaner.grid.IMoveable;
+import io.github.christiangaertner.moebelplaner.util.Vector2f;
 
 /**
  *
  * @author Christian
  */
 abstract public class AbstractMoebel extends AbstractEntity implements IMoveable {
-
-    /**
-     * Erstellt ein neues Möbelstück mit einem Bild
-     *
-     * @param path
-     */
-    public AbstractMoebel(String path) {
-        this(new Sprite(path));
-
+    
+    public AbstractMoebel(int x, int y, String path, boolean absolute) {
+        this(x, y, new Sprite(path, absolute));
     }
     
-    /**
-     * Erstellt ein neues Möbelstück mit einem Bild
-     *
-     * @param path
-     */
-    public AbstractMoebel(String path, boolean absolute) {
-        this(new Sprite(path, absolute));
-
+    public AbstractMoebel(int x, int y, String path) {
+        this(x, y, new Sprite(path));
     }
-
-    /**
-     * Erstellt ein Möbelstück mit einer Sprite
-     *
-     * @param s
-     */
-    public AbstractMoebel(Sprite s) {
+    
+    public AbstractMoebel(int x, int y, Sprite s) {
         sprite = s;
+        this.position = Vector2f.make(x, y);
     }
-
-    @Override
-    public void move(int x, int y) {
-        this.x += x;
-        this.y += y;
-    }
-
-    @Override
-    public void moveTo(int x, int y) {
-        this.x = x;
-        this.y = y;
+    
+    public AbstractMoebel(Sprite s) {
+        this(0, 0, s);
     }
 }

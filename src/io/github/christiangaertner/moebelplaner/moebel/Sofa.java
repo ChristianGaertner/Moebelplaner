@@ -13,9 +13,7 @@ public class Sofa extends AbstractMoebel {
      * @param y Die Y-Koordinate
      */
     public Sofa(int x, int y) {
-        super("/images/moebel/sofa.png");
-        this.x = x;
-        this.y = y;
+        super(x, y, "/images/moebel/sofa.png");
     }
     
     /**

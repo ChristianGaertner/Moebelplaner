@@ -11,8 +11,6 @@ import io.github.christiangaertner.moebelplaner.input.Keyboard;
 import io.github.christiangaertner.moebelplaner.input.Mouse;
 import io.github.christiangaertner.moebelplaner.menu.MenuBar;
 import io.github.christiangaertner.moebelplaner.moebel.AbstractMoebel;
-import io.github.christiangaertner.moebelplaner.moebel.Badewanne;
-import io.github.christiangaertner.moebelplaner.moebel.Bett;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -37,7 +35,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
     /**
      * Zeigt an ob debug info angezeigt werden soll
      */
-    private final boolean DEBUG;
+    private boolean DEBUG;
     /**
      * Zeigt an ob der Debug Text auf dem Screen angfezeigt werden soll
      */
@@ -140,7 +138,7 @@ public final class Moebelplaner extends Canvas implements Runnable {
         addMouseMotionListener(mouse);
         requestFocus();
 
-        frame.setJMenuBar(new MenuBar(this, grid));
+        setMenuBar();
 
     }
 
@@ -261,7 +259,6 @@ public final class Moebelplaner extends Canvas implements Runnable {
         if (DEBUG) {
             if (mouse.click() == 3) {
                 grid.add(new AbstractMoebel(new Sprite("/images/debug/bg.png")) {
-
                     @Override
                     public BlendingMode getRenderMode() {
                         return BlendingMode.NORMAL;
@@ -287,6 +284,11 @@ public final class Moebelplaner extends Canvas implements Runnable {
      * Rendered den Canvas
      */
     public void render() {
+        // Evtl. Debug Mode aktivieren...
+        if (key.isKeyDown("alt")) {
+            System.out.println("Called");
+        }
+
         // Buffered einfach die Bilder
         BufferStrategy bs = getBufferStrategy();
 
@@ -349,8 +351,17 @@ public final class Moebelplaner extends Canvas implements Runnable {
         return DEBUG;
     }
 
+    public void debug(boolean set) {
+        DEBUG = set;
+        setMenuBar();
+    }
+
     public void toogleHud() {
         showDebugHud = !showDebugHud;
+    }
+
+    protected void setMenuBar() {
+        frame.setJMenuBar(new MenuBar(this, grid));
     }
 
     /**

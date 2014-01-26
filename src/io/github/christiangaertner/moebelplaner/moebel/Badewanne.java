@@ -13,9 +13,7 @@ public class Badewanne extends AbstractMoebel {
      * @param y Die Y-Koordinate
      */
     public Badewanne(int x, int y) {
-        super("/images/moebel/badewanne.png");
-        this.x = x;
-        this.y = y;
+        super(x, y, "/images/moebel/badewanne.png");
     }
 
     /**

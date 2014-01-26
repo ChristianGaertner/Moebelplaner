@@ -13,9 +13,7 @@ public class Schreibtisch extends AbstractMoebel {
      * @param y Die Y-Koordinate
      */
     public Schreibtisch(int x, int y) {
-        super("/images/moebel/schreibtisch.png");
-        this.x = x;
-        this.y = y;
+        super(x, y, "/images/moebel/schreibtisch.png");
     }
 
     /**

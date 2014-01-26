@@ -13,9 +13,7 @@ public class Bett extends AbstractMoebel {
      * @param y Die Y-Koordinate
      */
     public Bett(int x, int y) {
-        super("/images/moebel/bett.png");
-        this.x = x;
-        this.y = y;
+        super(x, y, "/images/moebel/bett.png");
     }
 
     /**
